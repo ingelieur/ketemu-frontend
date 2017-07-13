@@ -11,6 +11,7 @@
 		"native-base": "^2.2.1",
 		"react": "16.0.0-alpha.12",
 		"react-native": "0.46.2",
+		"react-native-google-places-autocomplete": "^1.2.12",
 		"react-native-maps": "^0.15.3",
 		"react-redux": "^5.0.5",
 		"redux": "^3.7.2",

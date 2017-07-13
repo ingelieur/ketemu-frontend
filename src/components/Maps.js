@@ -24,6 +24,7 @@ export default class Maps extends React.Component {
 
   /* GET CURRENT POSITION */
   /* ==================== */
+
   componentDidMount() {
     navigator.geolocation.getCurrentPosition((position) => {
       this.setState({
@@ -39,7 +40,7 @@ export default class Maps extends React.Component {
 
   /* WATCH POSITION */
   /* ==================== */
-  /*
+    /*
   componentDidMount() {
     navigator.geolocation.getCurrentPosition((position) => {
       this.setState({
@@ -49,20 +50,20 @@ export default class Maps extends React.Component {
       })
     },
       (error) => this.setState({error: error.message}),
-      { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 },
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
     )
-
-    this.watchId = navigator.geolocation.watchPosition((position) => {
-      this.setstate({
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude,
-        error: null,
-      },
-        (error) => this.setState({error: error.message}),
-        { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000, distanceFilter: 10 }
-      )
-    })
   }
+
+  watchId = navigator.geolocation.watchPosition((position) => {
+    this.setstate({
+      latitude: position.coords.latitude,
+      longitude: position.coords.longitude,
+      error: null,
+    },
+      (error) => this.setState({error: error.message}),
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, distanceFilter: 10 }
+    )
+  })
 
   componentWillUnmount() {
     navigator.geolocation.clearWatch(this.watchId)
