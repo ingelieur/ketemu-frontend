@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { Container, Content, Card, CardItem, Icon, Right, Button, Text } from 'native-base';
+import { Container, Content, Card, CardItem, Icon, Right, Button, Text, Image } from 'native-base';
 import { connect } from 'react-redux'
 
 class Profile extends Component {
@@ -12,27 +12,27 @@ class Profile extends Component {
           <Content>
               <Card>
                 <CardItem>
-                  <Icon active name="logo-googleplus" />
+                  <Icon active name="contact" />
                   <Text>{ this.props.users.first_name} {this.props.users.last_name} </Text>
                 </CardItem>
                 <CardItem style={{paddingTop:-5}}>
-                   <Icon active name="logo-googleplus" />
+                   <Icon active name="mail" />
                    <Text>{ this.props.users.email }</Text>
                 </CardItem>
                 <CardItem style={{paddingTop:-5}}>
-                  <Icon active name="logo-googleplus" />
-                  <Text>{ this.props.users.first_name }</Text>
+                  <Icon active name="home" />
+                  <Text>{ this.props.users.home }</Text>
                 </CardItem>
                 <CardItem style={{paddingTop:-5}}>
-                  <Icon active name="logo-googleplus" />
-                  <Text>{ this.props.users.first_name }</Text>
+                  <Icon active name="desktop" />
+                  <Text>{ this.props.users.office }</Text>
                 </CardItem>
                </Card>
           </Content>
         </View>
 
         <View style={styles.logoutView}>
-          <Button full info>
+          <Button full info onPress={this.logOut}>
             <Text>Log Out</Text>
           </Button>
         </View>
@@ -42,7 +42,7 @@ class Profile extends Component {
   }
 
   logOut(){
-
+    alert('Are You Sure')
   }
 }
 

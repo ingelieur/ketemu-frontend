@@ -1,43 +1,134 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { Container, Content, Card, CardItem, Icon, Right, Button, Text } from 'native-base';
+import { Container, Content, Card, CardItem, Text, Body, Button, Icon, Fab } from 'native-base';
 import { connect } from 'react-redux'
 
 class UpcomingScreen extends Component {
+  constructor() {
+    super()
+    this.state = {
+      active: 'true'
+    };
+  }
   render() {
     return (
       <View style={styles.parentView}>
-        <Container>
-         <Content>
-           <Card>
-             <CardItem>
-               <Icon active name="logo-googleplus" />
-               <Text>Google Plus</Text>
-               <Right>
-                 <Icon name="arrow-forward" />
-               </Right>
-              </CardItem>
-            </Card>
-         </Content>
-       </Container>
+        <Container style={styles.upcomingData}>
+          <Content>
+            { this.props.meetings.map((meeting) => {
+              if(meeting.status == 'tunda'){
+                return(
+                  <Card>
+                    <CardItem style={{backgroundColor:'gainsboro'}} key={meeting.id}>
+                      <Body>
+                        <View style={{flex:1, flexDirection:'row'}}>
+                          <Icon active name="calendar" />
+                          <Text style={styles.marginText}>
+                            {meeting.date}
+                          </Text>
+                        </View>
+
+                        <View
+                          style={{
+                            borderBottomWidth: 2,
+                            borderBottomColor: 'black',
+                            width: 370,
+                            marginTop:2
+                          }}
+                        />
+
+                        <View style={{flex:1, flexDirection:'row', marginTop:5}}>
+                          <Text>
+                            {meeting.title}
+                          </Text>
+                        </View>
+
+                        <View style={{flex:1, flexDirection:'row', marginTop:5}}>
+                          <Icon active name="pin" />
+                          <Text style={styles.marginText}>
+                            {meeting.place}
+                          </Text>
+                        </View>
+                      </Body>
+                    </CardItem>
+                  </Card>
+                )
+              }
+
+              else{
+                return(
+                  <Card>
+                    <CardItem key={meeting.id}>
+                      <Body>
+                        <View style={{flex:1, flexDirection:'row'}}>
+                          <Icon active name="calendar" />
+                          <Text style={styles.marginText}>
+                            {meeting.date}
+                          </Text>
+                        </View>
+
+                        <View
+                          style={{
+                            borderBottomWidth: 2,
+                            borderBottomColor: 'black',
+                            width: 370,
+                            marginTop:2
+                          }}
+                        />
+
+                        <View style={{flex:1, flexDirection:'row', marginTop:5}}>
+                          <Text>
+                            {meeting.title}
+                          </Text>
+                        </View>
+
+                        <View style={{flex:1, flexDirection:'row', marginTop:5}}>
+                          <Icon active name="pin" />
+                          <Text style={styles.marginText}>
+                            {meeting.place}
+                          </Text>
+                        </View>
+                      </Body>
+                    </CardItem>
+                  </Card>
+                )
+              }
+
+            }
+          )}
+          </Content>
+
+          <Fab
+            containerStyle={{ }}
+            style={{ backgroundColor: 'deepskyblue' }}
+            position="bottomRight"
+            onPress={() => {}}>
+            <Icon name="add" />
+          </Fab>
+
+        </Container>
       </View>
     );
   }
 
-  logOut(){
-
-  }
 }
 
 const styles = {
   parentView:{
     flex:1,
   },
+  upcomingData:{
+    flex:40
+  },
+  marginText:{
+    paddingTop:2,
+    paddingLeft:8
+  }
 };
 
 const mapStateToProps = (state)=>{
   return{
-    users:state.users
+    meetings:state.meetings
   }
 }
 
