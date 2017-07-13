@@ -1,104 +1,88 @@
 import React from 'react'
 import {
   StyleSheet,
+  Dimensions,
   View,
   Text,
 } from 'react-native'
 import MapView from 'react-native-maps'
 
-export default class Maps extends React.Component {
-  constructor (props) {
-    super (props)
+const {width, height} = Dimensions.get('window')
+const ASPECT_RATIO = width / height
+const LATITUDE_DELTA = 0.0922
+const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO
+
+export default class ReactNativeMap extends React.Component {
+  constructor(props) {
+    super(props)
+
     this.state = {
-      latitude: null,
-      longitude: null,
-      error: null,
       region: {
-        latitude: -6.260441,
-        longitude: 106.781648,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
+        latitude: 0,
+        longitude: 0,
+        latitudeDelta: LATITUDE_DELTA,
+        longitudeDelta: LONGITUDE_DELTA,
       },
+      markerPosition: {
+        latitude: 0,
+        longitude: 0,
+      }
     }
   }
 
-  /* GET CURRENT POSITION */
-  /* ==================== */
+  watchID: ?number = null
 
   componentDidMount() {
-    navigator.geolocation.getCurrentPosition((position) => {
+    navigator.geolocation.getCurrentPosition(position => {
+      let latlng = {
+        latitude: parseFloat(position.coords.latitude),
+        longitude: parseFloat(position.coords.longitude),
+      }
       this.setState({
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude,
-        error: null,
+        region: {...this.state.region, ...latlng},
+        markerPosition: {...latlng},
       })
     },
-      (error) => this.setState({error: error.message}),
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
-    )
-  }
+      (error) => alert(JSON.stringify(error)),
+      {enableHighAccuracy: true, timeout: 20000, maximumAge: 10000})
 
-  /* WATCH POSITION */
-  /* ==================== */
-    /*
-  componentDidMount() {
-    navigator.geolocation.getCurrentPosition((position) => {
+    this.watchID = navigator.geolocation.watchPosition(position => {
+      let latlng = {
+        latitude: parseFloat(position.coords.latitude),
+        longitude: parseFloat(position.coords.longitude),
+      }
+
       this.setState({
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude,
-        error: null,
+        region: {...this.state.region, ...latlng},
+        markerPosition: {...this.state.markerPosition, ...latlng}
       })
-    },
-      (error) => this.setState({error: error.message}),
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
-    )
+    })
   }
-
-  watchId = navigator.geolocation.watchPosition((position) => {
-    this.setstate({
-      latitude: position.coords.latitude,
-      longitude: position.coords.longitude,
-      error: null,
-    },
-      (error) => this.setState({error: error.message}),
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, distanceFilter: 10 }
-    )
-  })
 
   componentWillUnmount() {
-    navigator.geolocation.clearWatch(this.watchId)
+    navigator.geolocation.clearWatch(this.watchID)
   }
-  */
 
   render() {
     return (
-      <View style={ styles.container }>
+      <View style={styles.container}>
         <Text>
-          {this.state.latitude}, {this.state.longitude}
+          {JSON.stringify(this.state.markerPosition)}
         </Text>
         <MapView
-          style={ styles.container }
-          initialRegion={{
-            latitude: this.state.latitude || -6.260441,
-            longitude: this.state.longitude || 106.781648,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-          }}>
+          style = {styles.container}
+          region={this.state.region}>
           <MapView.Marker
-            coordinate={{
-              latitude: this.state.latitude || -6.260441,
-              longitude: this.state.longitude || 106.781648,
-            }}
-            title="Location"
-            description="Hacktiv8" />
+            coordinate={this.state.markerPosition}>
+          </MapView.Marker>
         </MapView>
       </View>
-    )
+    );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
+  }
 })
