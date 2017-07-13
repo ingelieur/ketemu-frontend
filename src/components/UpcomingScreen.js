@@ -4,12 +4,6 @@ import { Container, Content, Card, CardItem, Text, Body, Button, Icon, Fab } fro
 import { connect } from 'react-redux'
 
 class UpcomingScreen extends Component {
-  constructor() {
-    super()
-    this.state = {
-      active: 'true'
-    };
-  }
   render() {
     return (
       <View style={styles.parentView}>
@@ -102,13 +96,17 @@ class UpcomingScreen extends Component {
             containerStyle={{ }}
             style={{ backgroundColor: 'deepskyblue' }}
             position="bottomRight"
-            onPress={() => {}}>
+            onPress={this.addMeeting}>
             <Icon name="add" />
           </Fab>
 
         </Container>
       </View>
     );
+  }
+
+  addMeeting(){
+    alert('oke')
   }
 
 }

@@ -54,7 +54,7 @@ class HistoryScreen extends Component {
             containerStyle={{ }}
             style={{ backgroundColor: 'deepskyblue' }}
             position="bottomRight"
-            onPress={() => {}}>
+            onPress={this.addMeeting}>
             <Icon name="add" />
           </Fab>
 
@@ -64,8 +64,8 @@ class HistoryScreen extends Component {
     );
   }
 
-  logOut(){
-
+  addMeeting(){
+    alert('oke')
   }
 }
 
