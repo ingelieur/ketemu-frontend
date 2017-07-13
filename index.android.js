@@ -1,5 +1,5 @@
-import { AppRegistry, } from 'react-native';
+import { AppRegistry, } from 'react-native'
 
 import App from './src/App'
 
-AppRegistry.registerComponent('ketemuFrontEnd', () => App);
+AppRegistry.registerComponent('ketemuFrontEnd', () => App)
