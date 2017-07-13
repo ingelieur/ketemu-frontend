@@ -12,8 +12,8 @@ class UpcomingScreen extends Component {
             { this.props.meetings.map((meeting) => {
               if(meeting.status == 'tunda'){
                 return(
-                  <Card>
-                    <CardItem style={{backgroundColor:'gainsboro'}} key={meeting.id}>
+                  <Card key={meeting.id}>
+                    <CardItem style={{backgroundColor:'gainsboro'}} >
                       <Body>
                         <View style={{flex:1, flexDirection:'row'}}>
                           <Icon active name="calendar" />
@@ -51,8 +51,8 @@ class UpcomingScreen extends Component {
 
               else{
                 return(
-                  <Card>
-                    <CardItem key={meeting.id}>
+                  <Card key={meeting.id}>
+                    <CardItem>
                       <Body>
                         <View style={{flex:1, flexDirection:'row'}}>
                           <Icon active name="calendar" />

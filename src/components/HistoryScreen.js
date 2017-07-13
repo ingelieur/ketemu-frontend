@@ -11,8 +11,8 @@ class HistoryScreen extends Component {
           <Content>
             { this.props.meetings.map((meeting) => {
               return(
-                <Card>
-                  <CardItem key={meeting.id}>
+                <Card key={meeting.id}>
+                  <CardItem >
                     <Body>
                       <View style={{flex:1, flexDirection:'row'}}>
                         <Icon active name="calendar" />
