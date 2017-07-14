@@ -62,32 +62,32 @@ export default class Maps extends React.Component {
   //  navigator.geolocation.clearWatch(this.watchID)
   //}
 
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text>
-          {JSON.stringify(this.state.markerPosition)}
-        </Text>
-        <MapView
-          style = {styles.container}
-          region={ this.state.region.latitude!==0 && this.state.region.longitude!==0 ? this.state.region : this.state.region}>
-          <MapView.Marker
-            coordinate={this.state.markerPosition.latitude!==0 && this.state.markerPosition.longitude!==0 ? this.state.markerPosition : this.state.markerPosition}
-            title="You are here"
-          />
-        </MapView>
-      </View>
-    )
-  }
   //render() {
   //  return (
   //    <View style={styles.container}>
   //      <Text>
-  //        INI MAPS LOH! BENERAN!
+  //        {JSON.stringify(this.state.markerPosition)}
   //      </Text>
-  //  </View>
+  //      <MapView
+  //        style = {styles.container}
+  //        region={ this.state.region.latitude!==0 && this.state.region.longitude!==0 ? this.state.region : this.state.region}>
+  //        <MapView.Marker
+  //          coordinate={this.state.markerPosition.latitude!==0 && this.state.markerPosition.longitude!==0 ? this.state.markerPosition : this.state.markerPosition}
+  //          title="You are here"
+  //        />
+  //      </MapView>
+  //    </View>
   //  )
   //}
+  render() {
+    return (
+      <View style={styles.container}>
+        <Text>
+          INI MAPS LOH! BENERAN!
+        </Text>
+    </View>
+    )
+  }
 }
 
 const styles = StyleSheet.create({

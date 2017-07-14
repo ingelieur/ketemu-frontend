@@ -17,7 +17,7 @@ export const Screens = StackNavigator({
   LandingPage: { screen : LandingPage },
   CreateMeeting: { screen : CreateMeeting },
   MeetingDetails: { screen : MeetingDetails },
-})
+}, { headerMode: 'none' })
 
 export default class App extends React.Component {
   render() {
