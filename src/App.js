@@ -1,21 +1,29 @@
 import React from 'react'
-import { TabNavigator } from 'react-navigation'
+import { StackNavigator } from 'react-navigation'
 import { Provider } from 'react-redux'
 
-import { UpcomingScreen, HistoryScreen, Profile } from './components'
+import {
+  LoginRegister,
+  Personalization,
+  LandingPage,
+  CreateMeeting,
+  MeetingDetails,
+} from './screens'
 import store from './store/configureStore'
 
-export const Tabs = TabNavigator({
-  Upcoming: { screen : UpcomingScreen },
-  History: { screen : HistoryScreen },
-  Profile: { screen : Profile },
+export const Screens = StackNavigator({
+  LoginRegister: { screen : LoginRegister },
+  Personalization: { screen : Personalization },
+  LandingPage: { screen : LandingPage },
+  CreateMeeting: { screen : CreateMeeting },
+  MeetingDetails: { screen : MeetingDetails },
 })
 
 export default class App extends React.Component {
   render() {
     return (
       <Provider store={store}>
-        <Tabs />
+        <Screens />
       </Provider>
     );
   }
