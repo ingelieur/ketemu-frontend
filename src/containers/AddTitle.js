@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Container, Content, Card, CardItem, Text, Body, Item, Input, Button } from 'native-base';
+import Modal from 'react-native-modal'
+import { connect } from 'react-redux'
+import { ModalChoosePlace, Profile } from '../containers'
+import { changeTrueModalPlaces } from '../actions'
 
-export default class AddTitle extends React.Component {
+class AddTitle extends React.Component {
+
   render() {
     const navigasiNext = this.props.navigation.navigate;
     return (
@@ -35,12 +40,23 @@ export default class AddTitle extends React.Component {
                   <Input />
                 </Item>
 
-                <Text style={{marginTop:7}}>
-                  Place Type
-                </Text>
-                <Item regular style={{marginTop:1, height:30}}>
-                  <Input />
-                </Item>
+                { this.props.createMeetUp.placeType == '' ?
+                  (<Text></Text>) : (
+                    <Text style={{marginTop:7}}>
+                    Place Type : {this.props.createMeetUp.placeType}
+                    </Text>
+                  )
+                }
+
+                <Button info style={{height:30, marginTop:20}} onPress={this.props.changeTrueModal}><Text> Choose Place </Text></Button>
+
+
+
+                <Modal isVisible={this.props.valueModal}>
+                  <View style={{ flex: 1 }}>
+                    <ModalChoosePlace />
+                  </View>
+                </Modal>
               </Body>
             </CardItem>
 
@@ -54,3 +70,18 @@ export default class AddTitle extends React.Component {
     )
   }
 }
+
+const mapStateToProps = (state)=>{
+  return{
+    valueModal:state.valueModalPlaces,
+    createMeetUp: state.createMeetUp,
+  }
+}
+
+const mapDispatchToProps = (dispatch) =>{
+  return{
+    changeTrueModal:()=>dispatch(changeTrueModalPlaces())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps) (AddTitle)
