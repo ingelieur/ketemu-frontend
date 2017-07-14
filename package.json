@@ -15,7 +15,7 @@
 		"react-native-maps": "^0.15.3",
 		"react-redux": "^5.0.5",
 		"redux": "^3.7.2",
-		"thunk": "^0.0.1"
+		"redux-thunk": "^2.2.0"
 	},
 	"devDependencies": {
 		"babel-eslint": "^7.2.3",
