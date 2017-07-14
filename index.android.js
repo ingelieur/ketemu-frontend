@@ -1,32 +1,5 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
+import { AppRegistry, } from 'react-native'
 
-import React, { Component } from 'react';
-import { TabNavigator } from 'react-navigation'
-import { AppRegistry, Text,View } from 'react-native';
+import App from './src/App'
 
-import { UpcomingScreen, HistoryScreen, Profile } from './src/components'
-
-import { Provider } from 'react-redux'
-import store from './src/store/configureStore'
-
-export const Tabs = TabNavigator({
-  Upcoming: { screen : UpcomingScreen },
-  History: { screen : HistoryScreen },
-  Profile: { screen : Profile },
-})
-
-export default class ketemuFrontEnd extends Component {
-  render() {
-    return (
-      <Provider store={store}>
-        <Tabs />
-      </Provider>
-    );
-  }
-}
-
-AppRegistry.registerComponent('ketemuFrontEnd', () => ketemuFrontEnd);
+AppRegistry.registerComponent('ketemuFrontEnd', () => App)
