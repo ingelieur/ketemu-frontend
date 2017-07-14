@@ -12,10 +12,9 @@ const ASPECT_RATIO = width / height
 const LATITUDE_DELTA = 0.0922
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO
 
-export default class ReactNativeMap extends React.Component {
+export default class Maps extends React.Component {
   constructor(props) {
     super(props)
-
     this.state = {
       region: {
         latitude: 0,
@@ -30,7 +29,7 @@ export default class ReactNativeMap extends React.Component {
     }
   }
 
-  watchID: ?number = null
+  //watchID: ?number = null
 
   componentDidMount() {
     navigator.geolocation.getCurrentPosition(position => {
@@ -46,22 +45,22 @@ export default class ReactNativeMap extends React.Component {
       (error) => alert(JSON.stringify(error)),
       {enableHighAccuracy: true, timeout: 20000, maximumAge: 10000})
 
-    this.watchID = navigator.geolocation.watchPosition(position => {
-      let latlng = {
-        latitude: parseFloat(position.coords.latitude),
-        longitude: parseFloat(position.coords.longitude),
-      }
+    //this.watchID = navigator.geolocation.watchPosition(position => {
+    //  let latlng = {
+    //    latitude: parseFloat(position.coords.latitude),
+    //    longitude: parseFloat(position.coords.longitude),
+    //  }
 
-      this.setState({
-        region: {...this.state.region, ...latlng},
-        markerPosition: {...this.state.markerPosition, ...latlng}
-      })
-    })
+    //  this.setState({
+    //    region: {...this.state.region, ...latlng},
+    //    markerPosition: {...this.state.markerPosition, ...latlng}
+    //  })
+    //})
   }
 
-  componentWillUnmount() {
-    navigator.geolocation.clearWatch(this.watchID)
-  }
+  //componentWillUnmount() {
+  //  navigator.geolocation.clearWatch(this.watchID)
+  //}
 
   render() {
     return (
@@ -71,13 +70,14 @@ export default class ReactNativeMap extends React.Component {
         </Text>
         <MapView
           style = {styles.container}
-          region={this.state.region}>
+          region={ this.props.region.latitude!==0 && this.props.region.longitude!==0 ? this.props.region : this.state.region}>
           <MapView.Marker
-            coordinate={this.state.markerPosition}>
-          </MapView.Marker>
+            coordinate={this.props.markerPosition.latitude!==0 && this.props.markerPosition.longitude!==0 ? this.props.markerPosition : this.state.markerPosition}
+            title="You are here"
+          />
         </MapView>
       </View>
-    );
+    )
   }
 }
 

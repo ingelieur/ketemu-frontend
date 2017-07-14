@@ -12,5 +12,6 @@
     ],
     "rules": {
       // overrides
+      no-console: ["error", { allow: ["log", "info", "warn", "error"] }]
     }
 }
