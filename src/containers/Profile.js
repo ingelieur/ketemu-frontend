@@ -3,8 +3,28 @@ import { View, StyleSheet } from 'react-native';
 import { Container, Content, Card, CardItem, Icon, Right, Button, Text, Image } from 'native-base';
 import { connect } from 'react-redux'
 
+import { signOut } from '../actions/userAction'
+
+import { NavigationActions } from 'react-navigation'
+
 class Profile extends Component {
+
+  logOut(){
+    console.log('Navigation Logout: ', this.props)
+    console.log('+++: ', this.props)
+    // alert('Are You Sure')
+    this.props.signOutProcess()
+    const goLogin = NavigationActions.reset({
+      index: 0,
+      actions: [
+        NavigationActions.navigate({ routeName: 'LoginRegister'})
+      ]
+    })
+    this.props.screenProps.navigateApp.dispatch(goLogin)
+  }
+
   render() {
+    console.log('^^^^^: ', this.props)
     return (
       <View style={styles.parentView}>
 
@@ -32,7 +52,7 @@ class Profile extends Component {
         </View>
 
         <View style={styles.logoutView}>
-          <Button full info onPress={this.logOut}>
+          <Button full info onPress={() => this.logOut()}>
             <Text>Log Out</Text>
           </Button>
         </View>
@@ -41,9 +61,7 @@ class Profile extends Component {
     );
   }
 
-  logOut(){
-    alert('Are You Sure')
-  }
+
 }
 
 const styles = {
@@ -65,10 +83,18 @@ const styles = {
   }
 };
 
-const mapStateToProps = (state)=>{
-  return{
-    users:state.users
+const mapStateToProps = state => {
+  return {
+    users: state.users
   }
 }
 
-export default connect(mapStateToProps, null) (Profile)
+const mapDispatchToProps = dispatch => {
+  return {
+    signOutProcess: () => {
+      dispatch(signOut())
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps) (Profile)
