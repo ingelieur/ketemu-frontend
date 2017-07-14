@@ -11,15 +11,26 @@
 		"native-base": "^2.2.1",
 		"react": "16.0.0-alpha.12",
 		"react-native": "0.46.2",
+    "react-native-icons": "^0.7.1",
+		"react-native-google-places-autocomplete": "^1.2.12",
 		"react-native-maps": "^0.15.3",
+    "react-native-vector-icons": "^4.2.0",
+    "react-navigation": "^1.0.0-beta.11",
 		"react-redux": "^5.0.5",
 		"redux": "^3.7.2",
-		"thunk": "^0.0.1"
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.2.0"
 	},
 	"devDependencies": {
+		"babel-eslint": "^7.2.3",
 		"babel-jest": "20.0.3",
 		"babel-preset-react-native": "2.1.0",
+		"enzyme": "^2.9.1",
+		"eslint": "^4.2.0",
+		"eslint-plugin-react": "^7.1.0",
 		"jest": "20.0.4",
+		"jsdom": "^11.1.0",
+		"react-addons-test-utils": "^15.6.0",
 		"react-test-renderer": "16.0.0-alpha.12"
 	},
 	"jest": {
