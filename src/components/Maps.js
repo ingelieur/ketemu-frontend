@@ -29,7 +29,7 @@ export default class Maps extends React.Component {
     }
   }
 
-  //watchID: ?number = null
+  watchID: ?number = null
 
   componentDidMount() {
     navigator.geolocation.getCurrentPosition(position => {
@@ -45,22 +45,22 @@ export default class Maps extends React.Component {
       (error) => alert(JSON.stringify(error)),
       {enableHighAccuracy: true, timeout: 20000, maximumAge: 10000})
 
-    //this.watchID = navigator.geolocation.watchPosition(position => {
-    //  let latlng = {
-    //    latitude: parseFloat(position.coords.latitude),
-    //    longitude: parseFloat(position.coords.longitude),
-    //  }
+    this.watchID = navigator.geolocation.watchPosition(position => {
+      let latlng = {
+        latitude: parseFloat(position.coords.latitude),
+        longitude: parseFloat(position.coords.longitude),
+      }
 
-    //  this.setState({
-    //    region: {...this.state.region, ...latlng},
-    //    markerPosition: {...this.state.markerPosition, ...latlng}
-    //  })
-    //})
+      this.setState({
+        region: {...this.state.region, ...latlng},
+        markerPosition: {...this.state.markerPosition, ...latlng}
+      })
+    })
   }
 
-  //componentWillUnmount() {
-  //  navigator.geolocation.clearWatch(this.watchID)
-  //}
+  componentWillUnmount() {
+    navigator.geolocation.clearWatch(this.watchID)
+  }
 
   render() {
     return (
@@ -70,9 +70,9 @@ export default class Maps extends React.Component {
         </Text>
         <MapView
           style = {styles.container}
-          region={ this.props.region.latitude!==0 && this.props.region.longitude!==0 ? this.props.region : this.state.region}>
+          region={ this.state.region.latitude!==0 && this.state.region.longitude!==0 ? this.state.region : this.state.region}>
           <MapView.Marker
-            coordinate={this.props.markerPosition.latitude!==0 && this.props.markerPosition.longitude!==0 ? this.props.markerPosition : this.state.markerPosition}
+            coordinate={this.state.markerPosition.latitude!==0 && this.state.markerPosition.longitude!==0 ? this.state.markerPosition : this.state.markerPosition}
             title="You are here"
           />
         </MapView>
