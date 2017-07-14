@@ -12,8 +12,8 @@ import {
 import store from './store/configureStore'
 
 export const Screens = StackNavigator({
-  LoginRegister: { screen : LoginRegister },
   Personalization: { screen : Personalization },
+  LoginRegister: { screen : LoginRegister },
   LandingPage: { screen : LandingPage },
   CreateMeeting: { screen : CreateMeeting },
   MeetingDetails: { screen : MeetingDetails },
