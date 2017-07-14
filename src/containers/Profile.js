@@ -16,8 +16,8 @@ class Profile extends Component {
                   <Text>{ this.props.users.first_name} {this.props.users.last_name} </Text>
                 </CardItem>
                 <CardItem style={{paddingTop:-5}}>
-                   <Icon active name="mail" />
-                   <Text>{ this.props.users.email }</Text>
+                  <Icon active name="mail" />
+                  <Text>{ this.props.users.email }</Text>
                 </CardItem>
                 <CardItem style={{paddingTop:-5}}>
                   <Icon active name="home" />
@@ -27,7 +27,7 @@ class Profile extends Component {
                   <Icon active name="desktop" />
                   <Text>{ this.props.users.office }</Text>
                 </CardItem>
-               </Card>
+              </Card>
           </Content>
         </View>
 
