@@ -87,7 +87,6 @@ class UpcomingScreen extends Component {
                   </Card>
                 )
               }
-
             }
           )}
           </Content>
@@ -113,7 +112,7 @@ class UpcomingScreen extends Component {
 
 const styles = {
   parentView:{
-    flex:1,
+    flex:1
   },
   upcomingData:{
     flex:40
