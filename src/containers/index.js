@@ -6,5 +6,4 @@ import AddParticipants from './AddParticipants'
 import AddConfirmationDeadline from './AddConfirmationDeadline'
 import ModalChoosePlace from './ModalChoosePlace'
 
-
 export { UpcomingScreen, HistoryScreen, Profile, AddTitle, AddParticipants, AddConfirmationDeadline, ModalChoosePlace  }
