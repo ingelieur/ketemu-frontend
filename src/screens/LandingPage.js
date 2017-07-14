@@ -1,7 +1,7 @@
 import React from 'react'
 import { TabNavigator } from 'react-navigation'
 
-import { UpcomingScreen, HistoryScreen, Profile } from '../components'
+import { UpcomingScreen, HistoryScreen, Profile } from '../containers'
 
 export const Tabs = TabNavigator({
   Upcoming: { screen : UpcomingScreen },
