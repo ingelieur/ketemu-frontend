@@ -11,6 +11,7 @@ import {
   Loading,
   Register,
 } from './screens'
+
 import store from './store/configureStore'
 
 export const Screens = StackNavigator({

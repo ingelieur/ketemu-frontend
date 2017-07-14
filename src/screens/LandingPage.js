@@ -13,6 +13,7 @@ export const Tabs = TabNavigator({
 export default class LandingPage extends React.Component {
 
   render() {
+    console.log(this.props)
     return (
       <Tabs screenProps={{navigateApp: this.props.navigation}}/>
     )
