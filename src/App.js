@@ -1,6 +1,5 @@
 import React from 'react'
 import { TabNavigator } from 'react-navigation'
-import { AppRegistry, Text,View } from 'react-native'
 import { Provider } from 'react-redux'
 
 import { UpcomingScreen, HistoryScreen, Profile } from './components'
