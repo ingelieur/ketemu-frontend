@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Container, Content, Card, CardItem, Text, Body, Button, Icon, Fab } from 'native-base';
+import { ButtonAddMeeting } from '../components'
 import { connect } from 'react-redux'
 
 class HistoryScreen extends Component {
@@ -50,13 +51,7 @@ class HistoryScreen extends Component {
           )}
           </Content>
 
-          <Fab
-            containerStyle={{ }}
-            style={{ backgroundColor: 'deepskyblue' }}
-            position="bottomRight"
-            onPress={this.addMeeting}>
-            <Icon name="add" />
-          </Fab>
+          <ButtonAddMeeting navigateApp={this.props.screenProps.navigateApp}/>
 
         </Container>
 
