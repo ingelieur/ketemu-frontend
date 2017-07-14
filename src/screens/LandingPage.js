@@ -1,4 +1,5 @@
 import React from 'react'
+import { AsyncStorage } from 'react-native'
 import { TabNavigator } from 'react-navigation'
 
 import { UpcomingScreen, HistoryScreen, Profile } from '../containers'
@@ -10,9 +11,11 @@ export const Tabs = TabNavigator({
 })
 
 export default class LandingPage extends React.Component {
+
   render() {
+    console.log(this.props)
     return (
-      <Tabs />
+      <Tabs screenProps={{navigateApp: this.props.navigation}}/>
     )
   }
 }
