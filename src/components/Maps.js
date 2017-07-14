@@ -1,34 +1,22 @@
 import React from 'react'
 import {
   StyleSheet,
-  Dimensions,
   View,
   Text,
 } from 'react-native'
-import MapView from 'react-native-maps'
+//import MapView from 'react-native-maps'
 
-const {width, height} = Dimensions.get('window')
-const ASPECT_RATIO = width / height
-const LATITUDE_DELTA = 0.0922
-const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO
+//const {width, height} = Dimensions.get('window')
+//const ASPECT_RATIO = width / height
+//const LATITUDE_DELTA = 0.0922
+//const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO
 
 export default class Maps extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      region: {
-        latitude: 0,
-        longitude: 0,
-        latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA,
-      },
-      markerPosition: {
-        latitude: 0,
-        longitude: 0,
-      }
-    }
   }
 
+    /*
   watchID: ?number = null
 
   componentDidMount() {
@@ -61,22 +49,31 @@ export default class Maps extends React.Component {
   componentWillUnmount() {
     navigator.geolocation.clearWatch(this.watchID)
   }
-
+  */
+  //render() {
+  //  return (
+  //    <View style={styles.container}>
+  //      <Text>
+  //        {JSON.stringify(this.state.markerPosition)}
+  //      </Text>
+  //      <MapView
+  //        style = {styles.container}
+  //        region={ this.state.region.latitude!==0 && this.state.region.longitude!==0 ? this.state.region : this.state.region}>
+  //        <MapView.Marker
+  //          coordinate={this.state.markerPosition.latitude!==0 && this.state.markerPosition.longitude!==0 ? this.state.markerPosition : this.state.markerPosition}
+  //          title="You are here"
+  //        />
+  //      </MapView>
+  //    </View>
+  //  )
+  //}
   render() {
     return (
       <View style={styles.container}>
         <Text>
-          {JSON.stringify(this.state.markerPosition)}
+          INI MAPS LOH! BENERAN!
         </Text>
-        <MapView
-          style = {styles.container}
-          region={ this.state.region.latitude!==0 && this.state.region.longitude!==0 ? this.state.region : this.state.region}>
-          <MapView.Marker
-            coordinate={this.state.markerPosition.latitude!==0 && this.state.markerPosition.longitude!==0 ? this.state.markerPosition : this.state.markerPosition}
-            title="You are here"
-          />
-        </MapView>
-      </View>
+    </View>
     )
   }
 }
