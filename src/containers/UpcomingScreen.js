@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Container, Content, Card, CardItem, Text, Body, Button, Icon, Fab } from 'native-base';
+import { ButtonAddMeeting } from '../components'
 import { connect } from 'react-redux'
 
 class UpcomingScreen extends Component {
   render() {
+    console.log('lalalala', this.props.screenProps.navigateApp)
     return (
       <View style={styles.parentView}>
         <Container style={styles.upcomingData}>
@@ -87,18 +89,11 @@ class UpcomingScreen extends Component {
                   </Card>
                 )
               }
-
             }
           )}
           </Content>
 
-          <Fab
-            containerStyle={{ }}
-            style={{ backgroundColor: 'deepskyblue' }}
-            position="bottomRight"
-            onPress={this.addMeeting}>
-            <Icon name="add" />
-          </Fab>
+          <ButtonAddMeeting navigateApp={this.props.screenProps.navigateApp}/>
 
         </Container>
       </View>
@@ -113,7 +108,7 @@ class UpcomingScreen extends Component {
 
 const styles = {
   parentView:{
-    flex:1,
+    flex:1
   },
   upcomingData:{
     flex:40

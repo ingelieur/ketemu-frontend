@@ -8,11 +8,10 @@ import { signIn } from '../actions/userAction'
 
 import { NavigationActions } from 'react-navigation'
 
+import Register from './Register'
+
 // create a component
 class Login extends React.Component {
-  static navigationOptions = {
-    title: 'Login'
-  }
 
   constructor() {
     super()
@@ -43,19 +42,8 @@ class Login extends React.Component {
         ]
       })
 
-      this.props.navigation.dispatch(goLandingPage)
+      this.props.navigateToLogin.dispatch(goLandingPage)
     }
-  }
-
-  renderRegister() {
-    // const goRegisterPage = NavigationActions.reset({
-    //   index: 0,
-    //   actions: [
-    //     NavigationActions.navigate({ routeName: 'Register'})
-    //   ]
-    // })
-
-    this.props.navigation.navigate('Register')
   }
 
     render() {
@@ -85,9 +73,6 @@ class Login extends React.Component {
                   color="#841584"
                   accessibilityLabel="Login"
                 />
-              </View>
-              <View>
-                <Text onPress={() => this.renderRegister()}>Create a new account!</Text>
               </View>
             </View>
         );

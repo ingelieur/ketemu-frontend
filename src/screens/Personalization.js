@@ -5,12 +5,15 @@ import {
   Text,
 } from 'react-native'
 
+import Maps from '../components/Maps'
+
 export default class Personalization extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+        <Maps />
         <Text>
-          PERSONALIZATION U YEAH!!
+          HOLA!
         </Text>
       </View>
     )

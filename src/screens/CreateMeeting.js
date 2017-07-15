@@ -4,15 +4,20 @@ import {
   View,
   Text,
 } from 'react-native'
+import { StackNavigator } from 'react-navigation'
+import { AddTitle, AddParticipants, AddConfirmationDeadline } from '../containers'
 
-export default class LoginRegister extends React.Component {
+
+export const ScreensAddMeeting = StackNavigator({
+  AddTitle: { screen : AddTitle },
+  AddParticipants: { screen : AddParticipants },
+  AddConfirmationDeadline: { screen : AddConfirmationDeadline },
+})
+
+export default class CreateMeeting extends React.Component {
   render() {
     return (
-      <View style={styles.container}>
-        <Text>
-          WOW! Buat Meeting!!
-        </Text>
-      </View>
+      <ScreensAddMeeting />
     )
   }
 }
