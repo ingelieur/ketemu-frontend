@@ -53,21 +53,24 @@ class Maps extends React.Component {
     })
   }
 
+  getLocation() {
+    navigator.geolocation.getCurrentPosition(position => {
+      let latlng = {
+        latitude: parseFloat(position.coords.latitude),
+        longitude: parseFloat(position.coords.longitude),
+      }
+      this.setState({
+        region: {...this.state.region, ...latlng},
+        markerPosition: {...latlng},
+      })
+    },
+      (error) => alert(JSON.stringify(error)),
+      {enableHighAccuracy: true, timeout: 20000, maximumAge: 10000})
+  }
+
   //watchID: ?number = null
 
   //componentDidMount() {
-  //  navigator.geolocation.getCurrentPosition(position => {
-  //    let latlng = {
-  //      latitude: parseFloat(position.coords.latitude),
-  //      longitude: parseFloat(position.coords.longitude),
-  //    }
-  //    this.setState({
-  //      region: {...this.state.region, ...latlng},
-  //      markerPosition: {...latlng},
-  //    })
-  //  },
-  //    (error) => alert(JSON.stringify(error)),
-  //    {enableHighAccuracy: true, timeout: 20000, maximumAge: 10000})
 
   //this.watchID = navigator.geolocation.watchPosition(position => {
   //  let latlng = {

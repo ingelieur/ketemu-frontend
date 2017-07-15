@@ -5,13 +5,13 @@ import {
   Text,
 } from 'react-native'
 
-import Maps from '../components/Maps'
+import TrackingPosition from '../components/TrackingPosition'
 
 export default class Personalization extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Maps />
+        <TrackingPosition/>
         <Text>
           HOLA!
         </Text>
