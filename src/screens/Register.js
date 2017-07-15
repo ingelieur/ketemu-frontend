@@ -43,14 +43,7 @@ class Register extends React.Component {
 
       this.props.signUpData(dataRegister)
 
-      // const goLoginPage = NavigationActions.reset({
-      //   index: 0,
-      //   actions: [
-      //     NavigationActions.navigate({ routeName: 'LoginRegister'})
-      //   ]
-      // })
-
-      this.props.navigation.navigate('LoginRegister')
+      this.props.navigation.navigate('Login')
     }
   }
 

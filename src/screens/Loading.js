@@ -24,7 +24,7 @@ class Loading extends React.Component {
         const goLogin = NavigationActions.reset({
           index: 0,
           actions: [
-            NavigationActions.navigate({ routeName: 'LoginRegister'})
+            NavigationActions.navigate({ routeName: 'Login'})
           ]
         })
         this.props.navigation.dispatch(goLogin)
