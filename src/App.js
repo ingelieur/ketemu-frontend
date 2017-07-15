@@ -11,6 +11,7 @@ import {
   Loading,
   Register,
 } from './screens'
+
 import store from './store/configureStore'
 
 export const Screens = StackNavigator({
@@ -21,7 +22,7 @@ export const Screens = StackNavigator({
   LandingPage: { screen : LandingPage },
   CreateMeeting: { screen : CreateMeeting },
   MeetingDetails: { screen : MeetingDetails },
-})
+}, { headerMode: 'none' })
 
 export default class App extends React.Component {
   render() {
