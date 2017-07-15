@@ -3,7 +3,7 @@ import { StackNavigator } from 'react-navigation'
 import { Provider } from 'react-redux'
 
 import {
-  LoginRegister,
+  Login,
   Personalization,
   LandingPage,
   CreateMeeting,
@@ -15,9 +15,9 @@ import {
 import store from './store/configureStore'
 
 export const Screens = StackNavigator({
-  //Loading: { screen : Loading },
-  //LoginRegister: { screen : LoginRegister },
-  //Register: { screen : Register },
+  Loading: { screen : Loading },
+  Login: { screen : Login },
+  Register: { screen : Register },
   Personalization: { screen : Personalization },
   LandingPage: { screen : LandingPage },
   CreateMeeting: { screen : CreateMeeting },

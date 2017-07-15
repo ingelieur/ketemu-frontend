@@ -8,6 +8,7 @@ import { connect, } from 'react-redux'
 
 import FindAddress from '../components/FindAddress'
 import { getCurrentLocation, } from '../actions'
+import ImagePicker from '../containers/ImagePicker'
 
 class Personalization extends React.Component {
   constructor(props) {
@@ -15,20 +16,28 @@ class Personalization extends React.Component {
   }
 
   componentWillMount() {
-    console.log('Personalization: cdm')
     this.props.getCurrentLocation()
   }
-
+  
   render() {
     return (
       <View style={styles.container}>
-        <FindAddress style={styles.container} addressType='Office'/>
-        <Text>
-          HOLA!
-        </Text>
+        <ImagePicker />
       </View>
     )
   }
+
+  //render() {
+  //  return (
+  //    <View style={styles.container}>
+  //      <FindAddress style={styles.container} addressType='Office'/>
+  //      <Text>
+  //        HOLA!
+  //      </Text>
+  //    </View>
+  //  )
+  //}
+ 
 }
 
 const mapDispatchToProps = (dispatch) => {

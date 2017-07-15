@@ -10,8 +10,8 @@ import { NavigationActions } from 'react-navigation'
 class Profile extends Component {
 
   logOut(){
-    console.log('Navigation Logout: ', this.props)
-    console.log('+++: ', this.props)
+    // console.log('Navigation Logout: ', this.props)
+    // console.log('+++: ', this.props)
     // alert('Are You Sure')
     this.props.signOutProcess()
     const goLogin = NavigationActions.reset({
@@ -24,7 +24,7 @@ class Profile extends Component {
   }
 
   render() {
-    console.log('^^^^^: ', this.props)
+    // console.log('^^^^^: ', this.props)
     return (
       <View style={styles.parentView}>
 

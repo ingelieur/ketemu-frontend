@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
 import { View, Text, Button} from 'react-native'
 import axios from 'axios'
+import geolib from 'geolib'
+import outliers from 'outliers'
 
 import MapView from 'react-native-maps';
 
@@ -8,6 +10,7 @@ class SetPlace extends Component {
   constructor(){
     super()
     this.state = {
+      meetupId:'596a45fa6ce69d356f3a3264',
       region: {
         latitude: -6.2656832,
         longitude: 106.7810439,
@@ -16,15 +19,66 @@ class SetPlace extends Component {
       },
       markers:[],
       radius:500,
-      venueType:'coffee+shop'
+      venueType:'warung'
     }
     this.onRegionChange = this.onRegionChange.bind(this)
+    this.getCenter = this.getCenter.bind(this)
     this.getVenue = this.getVenue.bind(this)
     this.regionAdjustment = this.regionAdjustment.bind(this)
   }
 
   onRegionChange(region) {
     this.setState({ region });
+  }
+
+  getCenter(coordinates){
+    var geoArray = coordinates.map(a=>( {'latitude':a[0],'longitude':a[1]} ))
+
+    var centerCoordinate = geolib.getCenter(geoArray);
+
+    var distanceArray = coordinates.map(a=> geolib.getDistance({latitude: a[0], longitude: a[1]},centerCoordinate) )
+
+    var OutliersDistanceArray=outliers(distanceArray)
+
+    var OutlierIndex = []
+    distanceArray.forEach((val,index)=>{
+      OutliersDistanceArray.forEach((a)=>{
+        if(a==val){
+          OutlierIndex.push(index)
+        }
+      })
+    })
+
+    var newGeoArray = []
+    geoArray.forEach((val,index)=>{
+      OutlierIndex.forEach((a)=>{
+        if(a!=index){
+          newGeoArray.push(val)
+        }
+      })
+    })
+
+    if(newGeoArray.length>0){
+      this.setState({
+        region:{
+          latitude: parseFloat(geolib.getCenter(newGeoArray).latitude),
+          longitude: parseFloat(geolib.getCenter(newGeoArray).longitude),
+          latitudeDelta: 0.02,
+          longitudeDelta: 0.02,
+        }
+      })
+      this.getVenue()
+    } else {
+      this.setState({
+        region:{
+          latitude: parseFloat(geolib.getCenter(geoArray).latitude),
+          longitude: parseFloat(geolib.getCenter(geoArray).longitude),
+          latitudeDelta: 0.02,
+          longitudeDelta: 0.02,
+        }
+      })
+      this.getVenue()
+    }
   }
 
   getVenue(){
@@ -71,7 +125,32 @@ class SetPlace extends Component {
   }
 
   componentWillMount(){
-    this.getVenue()
+    axios.get(`http://dev-env.gtgwzsbszw.us-west-2.elasticbeanstalk.com/detailmeetup/${this.state.meetupId}`)
+    .then(response=>{
+      this.setState({'venueType':response.data.results.typePlaces})
+      let coordinates = [response.data.results.creator.officeAddressGeolocation]
+      response.data.results.participants.forEach(participant=>{
+        coordinates.push(participant.user.officeAddressGeolocation)
+      })
+      // let coordinates = [
+      //   [-6.354285,106.713924],
+      //   [-6.2607187,106.7816162],
+      //   [-6.3705916,106.8406042],
+      //   // [-6.393757,107.435728],
+      //   [-6.922998,107.622495]
+      // ]
+      this.getCenter(coordinates)
+    })
+    .catch(err=>{
+      let coordinates = [
+        [-6.354285,106.713924],
+        [-6.2607187,106.7816162],
+        [-6.3705916,106.8406042],
+        [-6.393757,107.435728],
+        [-6.922998,107.622495]
+      ]
+      this.getCenter(coordinates)
+    })
   }
 
   render() {
