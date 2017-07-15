@@ -11,7 +11,7 @@ import screenReducer from './screenReducer'
 export default combineReducers({
   users: usersReducer,
   meetings: meetingsReducer,
-  positions: positionReducer,
+  position: positionReducer,
   screen: screenReducer,
   typeofPlaces:typeofPlacesReducer,
   valueModalPlaces: modalPlacesReducer,

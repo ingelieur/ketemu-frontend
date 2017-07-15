@@ -1,5 +1,4 @@
 import * as ActionTypes from './actionTypes'
-import currentPosition from '../helpers/geolocation'
 
 export const changeFalseModalPlaces = () =>{
   return {
@@ -22,13 +21,31 @@ export const chooseMeetPlace = (place) =>{
 
 export const getCurrentLocation = () => {
   return (dispatch) => {
-    currentPosition((position) => {
-      position.error ? console.log('error getting current location: ', position.error) : (
-        dispatch({
-          type: ActionTypes.GET_CURRENT_LOCATION,
-          payload: position
-        })
-      )
-    })
+    console.log('action/index.js')
+    navigator.geolocation.getCurrentPosition(position => {
+      console.log('aaaaaaa', position)
+      let sendPosition = {
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+        error: null,
+      }
+      dispatch({
+        type: ActionTypes.GET_CURRENT_LOCATION,
+        payload: sendPosition,
+      })
+    }
+      //,
+      //(error) => {
+      //  let sendPosition = {
+      //    latitude: 0,
+      //    longitude: 0,
+      //    error,
+      //  }
+      //  dispatch({
+      //    type: ActionTypes.GET_CURRENT_LOCATION,
+      //    payload: sendPosition
+      //  })
+      //}, { enableHighAccuracy: true, timeout: 20000, maximumAge: 10000}
+    )
   }
 }
