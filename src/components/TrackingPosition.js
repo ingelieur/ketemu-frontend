@@ -11,18 +11,24 @@ import Maps from './Maps'
 import { getCurrentLocation, } from '../actions'
 
 class TrackingPosition extends React.Component {
+  constructor(props) {
+    super(props)
+  }
 
-  com
-  render () {
+  componentDidMount() {
+    setInterval(this.props.getCurrentLocation(), 100000)
+  }
+
+  render() {
     return (
-      <Maps />
+      <Maps latitude={this.props.position.latitude} longitude={this.props.position.longitude} />
     )
   }
 }
 
 const mapStateToProps = (state) => {
   return {
-    positions: state.positions,
+    position: state.position,
   }
 }
 
@@ -33,9 +39,3 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TrackingPosition)
-
-const style = StyleSheet.create({
-  container: {
-    flex: 1,
-  }
-})

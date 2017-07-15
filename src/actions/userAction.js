@@ -1,8 +1,6 @@
-import { HAS_LOGGED_IN, HAS_LOGGED_OUT, HAS_SIGNED_UP } from './actionType'
+import { HAS_LOGGED_IN, HAS_LOGGED_OUT, HAS_SIGNED_UP } from './actionTypes'
 
 import { AsyncStorage } from 'react-native';
-
-import { NavigationActions } from 'react-navigation'
 
 import axios from 'axios'
 
@@ -45,9 +43,10 @@ export const signIn = data => {
 
 export const signOut = () => {
   return dispatch => {
-    AsyncStorage.removeItem('token', (err, result) => {
-      AsyncStorage.removeItem('user')
-      dispatch(hasLoggedOut())
+    AsyncStorage.removeItem('token', () => {
+      AsyncStorage.removeItem('user', () => {
+        dispatch(hasLoggedOut())
+      })
     })
   }
 }
@@ -56,12 +55,12 @@ export const signUp = data => {
   console.log('SIGNUP: !!!! ', data)
   return dispatch => {
     axios.post('http://dev-env.gtgwzsbszw.us-west-2.elasticbeanstalk.com/signup', data)
-    .then(response => {
+      .then(response => {
         console.log('data register: ', response.data)
         dispatch(hasSignedUp(response.data))
-    })
-    .catch(error => {
+      })
+      .catch(error => {
         console.log(`opps, signUp error like this: ${error}`)
-    })
+      })
   }
 }

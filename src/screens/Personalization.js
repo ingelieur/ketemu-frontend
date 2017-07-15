@@ -4,14 +4,25 @@ import {
   View,
   Text,
 } from 'react-native'
+import { connect, } from 'react-redux'
 
-import TrackingPosition from '../components/TrackingPosition'
+import FindAddress from '../components/FindAddress'
+import { getCurrentLocation, } from '../actions'
 
-export default class Personalization extends React.Component {
+class Personalization extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+
+  componentWillMount() {
+    console.log('Personalization: cdm')
+    this.props.getCurrentLocation()
+  }
+
   render() {
     return (
       <View style={styles.container}>
-        <TrackingPosition/>
+        <FindAddress style={styles.container} addressType='Office'/>
         <Text>
           HOLA!
         </Text>
@@ -19,6 +30,14 @@ export default class Personalization extends React.Component {
     )
   }
 }
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getCurrentLocation: () => dispatch(getCurrentLocation())
+  }
+}
+
+export default connect(null, mapDispatchToProps)(Personalization)
 
 const styles = StyleSheet.create({
   container: {

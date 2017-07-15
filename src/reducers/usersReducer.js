@@ -1,4 +1,4 @@
-import { HAS_LOGGED_IN, HAS_LOGGED_OUT, HAS_SIGNED_UP } from '../actions/actionType'
+import { HAS_LOGGED_IN, HAS_LOGGED_OUT, HAS_SIGNED_UP } from '../actions/actionTypes'
 
 const initialState = {
   first_name: '',
