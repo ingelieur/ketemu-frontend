@@ -5,16 +5,13 @@ import {
   Text,
 } from 'react-native'
 
-import Maps from '../components/Maps'
+import ImagePicker from '../containers/ImagePicker'
 
 export default class Personalization extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Maps />
-        <Text>
-          HOLA!
-        </Text>
+        <ImagePicker />
       </View>
     )
   }

@@ -26,35 +26,26 @@ class Login extends React.Component {
   _doSignIn() {
     console.log('username: ', this.state.username)
     console.log('password: ', this.state.password)
-    if (this.state.username.length === 0 && this.state.password.length === 0) {
-      alert('Please input all field!')
+    if (this.state.username.length === 0) {
+      alert('Please input field username!')
+    } else if (this.state.password.length === 0) {
+      alert('Please input field password!')
+    } else if (this.state.username.length < 5) {
+      alert('Username Minimal must 5 characters')
+    } else if (this.state.password.length < 5) {
+      alert('Password Minimal must 5 characters')
     } else {
       let dataLogin = {
         username: this.state.username,
         password: this.state.password,
+        navigateLogin: this.props.navigation
       }
 
       this.props.loginData(dataLogin)
-
-      const goLandingPage = NavigationActions.reset({
-        index: 0,
-        actions: [
-          NavigationActions.navigate({ routeName: 'LandingPage'})
-        ]
-      })
-
-      this.props.navigation.dispatch(goLandingPage)
     }
   }
 
   renderRegister() {
-    // const goRegisterPage = NavigationActions.reset({
-    //   index: 0,
-    //   actions: [
-    //     NavigationActions.navigate({ routeName: 'Register'})
-    //   ]
-    // })
-
     this.props.navigation.navigate('Register')
   }
 

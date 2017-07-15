@@ -20,6 +20,7 @@ class Register extends React.Component {
       lastname: '',
       username: '',
       password: '',
+      re_password: '',
       email: ''
     }
   }
@@ -27,12 +28,15 @@ class Register extends React.Component {
   _doSignUp() {
     console.log('firstname: ', this.state.firstname)
     console.log('lastname: ', this.state.lastname)
+    console.log('email: ', this.state.email)
     console.log('username: ', this.state.username)
     console.log('password: ', this.state.password)
-    console.log('email: ', this.state.email)
+    console.log('re_password: ', this.state.re_password)
 
-    if (this.state.firstname.length === 0 && this.state.lastname.length === 0 && this.state.username.length === 0 && this.state.password.length && this.state.email.length) {
+    if (this.state.firstname.length === 0 && this.state.lastname.length === 0 && this.state.username.length === 0 && this.state.password.length && this.state.re_password.length && this.state.email.length) {
       alert('Please input all field!')
+    } else if (this.state.password !== this.state.re_password) {
+      alert('Password and Confirm Password dont match')
     } else {
       let dataRegister = {
         name: this.state.firstname+' '+this.state.lastname,
@@ -83,6 +87,13 @@ class Register extends React.Component {
                     style={{ width: 300 }}
                     secureTextEntry={true}
                     placeholder='input your password'
+                  />
+                  <TextInput
+                    onChangeText={(text) => this.setState({ re_password: text })}
+                    value={ this.state.re_password }
+                    style={{ width: 300 }}
+                    secureTextEntry={true}
+                    placeholder=' confirm password'
                   />
               </View>
               <View style={{ marginBottom: 50}}>

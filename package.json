@@ -7,12 +7,18 @@
 		"test": "jest"
 	},
 	"dependencies": {
+		"aws-sdk": "^2.85.0",
 		"axios": "^0.16.2",
+		"dotenv": "^4.0.0",
+		"fs": "^0.0.1-security",
 		"native-base": "^2.2.1",
 		"react": "16.0.0-alpha.12",
 		"react-native": "0.46.2",
+		"react-native-aws3": "^0.0.8",
+		"react-native-camera": "https://github.com/lwansbrough/react-native-camera.git",
 		"react-native-google-places-autocomplete": "^1.2.12",
 		"react-native-icons": "^0.7.1",
+		"react-native-image-picker": "^0.26.3",
 		"react-native-maps": "^0.15.3",
 		"react-native-modal": "^2.4.0",
 		"react-native-modal-datetime-picker": "^4.8.0",
