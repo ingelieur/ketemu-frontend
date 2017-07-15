@@ -8,7 +8,9 @@
 	},
 	"dependencies": {
 		"axios": "^0.16.2",
+		"geolib": "^2.0.22",
 		"native-base": "^2.2.1",
+		"outliers": "^0.0.3",
 		"react": "16.0.0-alpha.12",
 		"react-native": "0.46.2",
 		"react-native-google-places-autocomplete": "^1.2.12",
