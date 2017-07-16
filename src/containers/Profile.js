@@ -17,7 +17,7 @@ class Profile extends Component {
     const goLogin = NavigationActions.reset({
       index: 0,
       actions: [
-        NavigationActions.navigate({ routeName: 'LoginRegister'})
+        NavigationActions.navigate({ routeName: 'Login'})
       ]
     })
     this.props.screenProps.navigateApp.dispatch(goLogin)

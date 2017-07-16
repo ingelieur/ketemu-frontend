@@ -3,6 +3,8 @@ import axios from 'axios'
 
 import { HAS_LOGGED_IN, HAS_LOGGED_OUT, HAS_SIGNED_UP, HAS_UPDATE_AVATAR, FETCH_USER } from './actionTypes'
 
+import { NavigationActions } from 'react-navigation'
+
 export const hasLoggedIn = data => {
     return {
         type: HAS_LOGGED_IN,
