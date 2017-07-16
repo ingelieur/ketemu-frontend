@@ -8,7 +8,7 @@ export default class AddParticipants extends React.Component {
     return (
       <Container>
         <Content>
-          <Card>
+          <Card style={{marginLeft:4, marginRight:4}}>
             <CardItem header>
               <Text>Add Ur Friend To Meeting</Text>
             </CardItem>

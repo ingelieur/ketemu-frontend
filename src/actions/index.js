@@ -12,10 +12,38 @@ export const changeTrueModalPlaces = () =>{
   }
 }
 
+export const inputTitleMeetUp = (title) =>{
+  return {
+    type: 'INPUT_TITLE_MEETUP',
+    payload:title,
+  }
+}
+
+export const inputDescriptionMeetUp = (description) =>{
+  return {
+    type: 'INPUT_DESCRIPTION_MEETUP',
+    payload:description,
+  }
+}
+
+export const inputDateMeetUp = (date) =>{
+  return {
+    type: 'INPUT_DATE_MEETUP',
+    payload:date,
+  }
+}
+
 export const chooseMeetPlace = (place) =>{
   return {
     type:'CHANGE_PLACE',
     payload:place,
+  }
+}
+
+export const inputDateDeadlineMeetUp = (date) =>{
+  return {
+    type: 'INPUT_DATE_DEADLINE_MEETUP',
+    payload:date,
   }
 }
 
