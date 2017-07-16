@@ -6,6 +6,6 @@ import AddParticipants from './AddParticipants'
 import AddConfirmationDeadline from './AddConfirmationDeadline'
 import ModalChoosePlace from './ModalChoosePlace'
 import ImagePicker from './ImagePicker'
-import UploadImage from './UploadImage'
+import FormPersonalization from './FormPersonalization'
 
-export { UpcomingScreen, HistoryScreen, Profile, AddTitle, AddParticipants, AddConfirmationDeadline, ModalChoosePlace, ImagePicker, UploadImage }
+export { UpcomingScreen, HistoryScreen, Profile, AddTitle, AddParticipants, AddConfirmationDeadline, ModalChoosePlace, ImagePicker, FormPersonalization }
