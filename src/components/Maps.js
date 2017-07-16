@@ -25,13 +25,17 @@ export default function Maps(props) {
     <MapView
       style={styles.container}
       region={region}
-      onRegionChangeComplete={() => myMarker.showCallout()}
-      onCalloutPress={() => alert(`Hi! I'm clickable!`)}
+      onRegionChangeComplete={() => {
+        console.log('myMarker: ', myMarker)
+        props.markerDesc.length > 0 ? myMarker.showCallout() : myMarker.hideCallout()}
+      }
+      onCalloutPress={ props.onCalloutPress && props.markerDesc.length > 0 ? () => {props.onCalloutPress()} : () => {}}
     >
       <MapView.Marker
         coordinate={markerPosition}
         ref={ref => {myMarker = ref}}
-        title={props.markerTitle || 'You are here'}
+        title={props.markerTitle ? `Set as ${props.markerTitle}` : `You are here`}
+        description={props.markerDesc || ''}
       />
     </MapView>
   )
