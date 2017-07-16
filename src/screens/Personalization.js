@@ -1,14 +1,18 @@
 import React from 'react'
+
 import {
   StyleSheet,
   View,
   Text,
 } from 'react-native'
-import { connect, } from 'react-redux'
+
+import { connect } from 'react-redux'
 
 import FindAddress from '../components/FindAddress'
+
 import { getCurrentLocation, } from '../actions'
-import ImagePicker from '../containers/ImagePicker'
+
+import { ImagePicker, FormPersonalization } from '../containers'
 
 class Personalization extends React.Component {
   constructor(props) {
@@ -18,11 +22,12 @@ class Personalization extends React.Component {
   componentWillMount() {
     this.props.getCurrentLocation()
   }
-  
+
   render() {
     return (
-      <View style={styles.container}>
-        <ImagePicker />
+      <View style={styles.parentView}>
+        <ImagePicker style={styles.imagePickerView} />
+        <FormPersonalization style={styles.formPersonalizationView} />
       </View>
     )
   }
@@ -37,8 +42,20 @@ class Personalization extends React.Component {
   //    </View>
   //  )
   //}
- 
+
 }
+
+const styles = StyleSheet.create({
+  parentView: {
+    flex: 1,
+  },
+  imagePickerView: {
+    flex: 1,
+  },
+  formPersonalizationView: {
+    flex: 4,
+  }
+})
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -47,9 +64,3 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default connect(null, mapDispatchToProps)(Personalization)
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  }
-})

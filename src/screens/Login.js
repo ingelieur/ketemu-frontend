@@ -24,8 +24,8 @@ class Login extends React.Component {
   }
 
   _doSignIn() {
-    console.log('username: ', this.state.username)
-    console.log('password: ', this.state.password)
+    // console.log('username: ', this.state.username)
+    // console.log('password: ', this.state.password)
     if (this.state.username.length === 0) {
       alert('Please input field username!')
     } else if (this.state.password.length === 0) {
