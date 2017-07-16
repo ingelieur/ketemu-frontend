@@ -1,43 +1,38 @@
 const initialState = [{
   id:1,
-  type:'Coworking',
+  type:'coworking_space',
   name:'Coworking Space',
 },
 {
   id:2,
-  type:'Library',
+  type:'library',
   name:'Library',
 },
 {
   id:3,
-  type:'Bar',
+  type:'bar',
   name:'Bar',
 },
 {
   id:4,
-  type:'Coffe',
+  type:'cafe',
   name:'Coffe Shop',
 },
 {
   id:5,
-  type:'Mall',
+  type:'shopping_mall',
   name:'Shopping Mall',
 },
 {
   id:6,
-  type:'Restaurant',
+  type:'restaurant',
   name:'Restaurant',
 },
 {
   id:7,
-  type:'Park',
+  type:'park',
   name:'Park',
-},
-{
-  id:8,
-  type:'Hotel',
-  name:'Hotel',
-}]
+},]
 
 export default(state = initialState, action) =>{
   return state;

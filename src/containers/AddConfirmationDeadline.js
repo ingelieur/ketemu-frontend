@@ -1,34 +1,149 @@
 import React, { Component } from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
-import  TimePickerAndroid from 'react-native-modal-datetime-picker';
+import { TouchableOpacity, View, AsyncStorage } from 'react-native';
+import { Container, Content, Card, CardItem, Text, Body, Item, Input, Button, Icon } from 'native-base';
+import { inputDateDeadlineMeetUp } from '../actions'
+import { createMeetUp } from '../actions/createMeetUp'
+import { connect } from 'react-redux'
+import DateTimePicker from 'react-native-modal-datetime-picker';
+import axios from 'axios'
 
-export default class AddConfirmationDeadline extends Component {
+class AddConfirmationDeadline extends Component {
   state = {
     isDateTimePickerVisible: false,
+    idUser:''
   };
 
   _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
-
   _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
 
   _handleDatePicked = (date) => {
-    console.log('A date has been picked: ', date);
-    this._hideDateTimePicker();
+    if(date.getTime()-Date.now() < 60*60*1000){
+      alert('Waktu tidak boleh kurang dari sejam dari dari saat ini')
+      this._hideDateTimePicker();
+    }
+    else if(this.props.createMeetUp.dateMeetUp.getTime() - date.getTime() < 60*60*2*1000 ){
+      alert('Waktu tidak boleh kurang dari 2 jam dari pertemuan')
+      this._hideDateTimePicker();
+    }
+    else {
+      this.props.input_DateDeadline(date)
+      this._hideDateTimePicker();
+    }
   };
+
+  componentDidMount(){
+    AsyncStorage.getItem('id',  (err, id) => {
+      if(id){
+        this.setState({idUser:id})
+      }
+    })
+  }
+
+  createMeetUp(){
+    const obj = {
+      dataMeetup:{
+        title:this.props.createMeetUp.title,
+        description:this.props.createMeetUp.description,
+        typePlaces:this.props.createMeetUp.placeType,
+        meetingTime:this.props.createMeetUp.dateMeetUp,
+        creator:this.state.idUser,
+        participants:this.props.createMeetUp.participants,
+        confirmationTime:this.props.createMeetUp.dateDeadlineMeetUp,
+      },
+      // navigateLandingPage:this.props, ARAH NAVIGASI MASIH BINGUNG
+    }
+    if(this.props.createMeetUp.title == '' || this.props.createMeetUp.description=='' || this.props.createMeetUp.dateMeetUp == '' || this.props.createMeetUp.placeType == '' || this.props.createMeetUp.dateDeadlineMeetUp == ''){
+      alert('Data is not complete')
+    } else {
+      console.log(obj);
+      this.props.create_MeetUp(obj)
+    }
+  }
 
   render () {
     return (
-      <View style={{ flex: 1 }}>
-        <TouchableOpacity onPress={this._showDateTimePicker}>
-          <Text>Show TimePicker</Text>
-        </TouchableOpacity>
-        <TimePickerAndroid
+      <Container>
+        <Content>
+          <Card style={{marginLeft:4, marginRight:4}}>
+            <CardItem header>
+              <Text>Set confirmation deadline</Text>
+            </CardItem>
+            <CardItem>
+              <Body>
+                <View style={{marginTop:7, flex:1, flexDirection:'row'}}>
+                  <Text style={{flex:1}}>
+                    Time
+                  </Text>
+
+                  <Text style={{flex:1, marginLeft:3}}>
+                    Date
+                  </Text>
+                </View>
+
+                <View style={{flex:1, flexDirection:'row'}}>
+                  <View style={{flex:1, flexDirection:'row'}}>
+                    <Button info style={{height:30}} onPress={this._showDateTimePicker}><Icon style={{width:17}} active name="calendar" /></Button>
+                    <Item regular style={{flex:12, height:30, marginLeft:3}}>
+                      { this.props.createMeetUp.dateDeadlineMeetUp == '' ?
+                        (<Text></Text>) : (
+                          <Text style={{marginLeft:4}}>
+                            {
+                              `${this.props.createMeetUp.dateDeadlineMeetUp.getHours()}:${this.props.createMeetUp.dateDeadlineMeetUp.getMinutes()}`
+                            }
+                          </Text>
+                        )
+                      }
+                    </Item>
+                  </View>
+
+                  <View style={{flex:1, flexDirection:'row'}}>
+                  <Item regular style={{flex:12, height:30, marginLeft:3}}>
+                    { this.props.createMeetUp.dateDeadlineMeetUp == '' ?
+                      (<Text></Text>) : (
+                        <Text style={{marginLeft:4}}>
+                          {
+                            `${this.props.createMeetUp.dateDeadlineMeetUp.getDate()}/${this.props.createMeetUp.dateDeadlineMeetUp.getMonth()+1}/${this.props.createMeetUp.dateDeadlineMeetUp.getFullYear()}`
+                          }
+                        </Text>
+                      )
+                    }
+                  </Item>
+                  </View>
+                </View>
+
+              </Body>
+            </CardItem>
+         </Card>
+        </Content>
+
+        <Button full onPress={()=> this.createMeetUp() }>
+          <Text>Create</Text>
+        </Button>
+
+        <DateTimePicker
+          mode='datetime'
           isVisible={this.state.isDateTimePickerVisible}
           onConfirm={this._handleDatePicked}
           onCancel={this._hideDateTimePicker}
         />
-      </View>
+
+
+      </Container>
     );
   }
-
 }
+
+const mapStateToProps = (state)=>{
+  return{
+    createMeetUp: state.createMeetUp,
+  }
+}
+
+const mapDispatchToProps = (dispatch) =>{
+  return{
+    create_MeetUp:(obj)=>dispatch(createMeetUp(obj)),
+    input_DateDeadline:(date)=>dispatch(inputDateDeadlineMeetUp(date)),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps) (AddConfirmationDeadline)
