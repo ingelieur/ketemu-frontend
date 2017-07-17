@@ -27,7 +27,7 @@ export default class ParticipantDetailsTBA extends React.Component {
         <Text>Place: TBA </Text>
         <Text>So, are you coming? </Text>
         <Text onPress={() => this.handleRSVP('yes')} style={this.state.RSVP === 'yes' ? {fontWeight: 'bold'} : {}}>Yes</Text>
-        <Text>No</Text>
+        <Text onPress={() => this.handleRSVP('no')} >No</Text>
       </View>
     )
   }

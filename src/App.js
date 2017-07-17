@@ -20,7 +20,7 @@ export const Screens = StackNavigator({
   //Register: { screen : Register },
   //Personalization: { screen : Personalization },
   //LandingPage: { screen : LandingPage },
-  CreateMeeting: { screen : CreateMeeting },
+  //CreateMeeting: { screen : CreateMeeting },
   MeetingDetails: { screen : MeetingDetails },
 }, { headerMode: 'none' })
 
