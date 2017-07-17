@@ -1,7 +1,7 @@
 //import liraries
 import React from 'react';
 import { View, StyleSheet, TextInput, Button, AsyncStorage } from 'react-native';
-import { Container, Content, Card, CardItem, Text, Body, Button, Icon, Fab } from 'native-base';
+import { Container, Content, Card, CardItem, Text, Body, Icon, Fab } from 'native-base';
 import { connect } from 'react-redux'
 
 import { signIn } from '../actions/userAction'
@@ -52,8 +52,7 @@ class Login extends React.Component {
     render() {
       // console.log('Navigasi: ', this.props)
         return (
-          <Container>
-            <Content>
+
               <View style={styles.container}>
                   <Text>Login</Text>
                   <View>
@@ -83,8 +82,7 @@ class Login extends React.Component {
                   <Text onPress={() => this.renderRegister()}>Create a new account!</Text>
                 </View>
               </View>
-            </Content>
-          </Container>    
+          
         );
     }
 }

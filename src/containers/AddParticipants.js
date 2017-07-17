@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, } from 'react-native';
 import { Container, Content, Card, CardItem, Text, Body, Item, Input, Button, ListItem, } from 'native-base';
+import { inputParticipantsMeetUp } from '../actions/createMeetUp'
+import { connect } from 'react-redux'
 import Axios from 'axios'
 
-export default class AddParticipants extends React.Component {
-  constructor() {
-    super()
+class AddParticipants extends React.Component {
+  constructor(props) {
+    super(props)
     this.state =  {
       searchUser: '',
       possibleUsers: [],
-      users: [],
+      users: this.props.createMeetUp.participants,
     }
   }
 
@@ -49,8 +51,18 @@ export default class AddParticipants extends React.Component {
     }
   }
 
-  render() {
+  createParticipants(){
+    // console.log('oke');
     const navigasiNext = this.props.navigation.navigate;
+    if(this.state.users.length<1){
+      alert('wrong participants')
+    } else {
+      this.props.create_Participants(this.state.users)
+      navigasiNext('AddConfirmationDeadline')
+    }
+  }
+
+  render() {
     return (
       <Container>
         <Content>
@@ -86,10 +98,24 @@ export default class AddParticipants extends React.Component {
          </Card>
         </Content>
 
-        <Button full onPress={()=> navigasiNext('AddConfirmationDeadline')}>
+        <Button full onPress={()=> this.createParticipants()}>
           <Text>Next</Text>
         </Button>
       </Container>
     )
   }
 }
+
+const mapStateToProps = (state)=>{
+  return{
+    createMeetUp: state.createMeetUp,
+  }
+}
+
+const mapDispatchToProps = (dispatch) =>{
+  return{
+    create_Participants:(users)=>dispatch(inputParticipantsMeetUp(users)),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps) (AddParticipants)

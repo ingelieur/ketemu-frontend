@@ -15,11 +15,11 @@ import {
 import store from './store/configureStore'
 
 export const Screens = StackNavigator({
-  //Loading: { screen : Loading },
-  //Login: { screen : Login },
-  //Register: { screen : Register },
-  //Personalization: { screen : Personalization },
-  //LandingPage: { screen : LandingPage },
+  // Loading: { screen : Loading },
+  // Login: { screen : Login },
+  // Register: { screen : Register },
+  // Personalization: { screen : Personalization },
+  LandingPage: { screen : LandingPage },
   CreateMeeting: { screen : CreateMeeting },
   MeetingDetails: { screen : MeetingDetails },
 }, { headerMode: 'none' })

@@ -47,6 +47,15 @@ export const inputDateDeadlineMeetUp = (date) =>{
   }
 }
 
+export const getAllMeetUps = (data) =>{
+  return {
+    type: 'GET_ALL_MEETUPS',
+    payload:data,
+  }
+}
+
+
+
 export const getCurrentLocation = () => {
   return (dispatch) => {
     console.log('action/index.js')
