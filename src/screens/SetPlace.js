@@ -177,8 +177,10 @@ export default class SetPlace extends Component {
   }
 
   retrieveData(){
+    console.log('aaaaaaaa', this.state.meetupId)
     axios.get(`http://otw-env.cjqaqzzhwf.us-west-2.elasticbeanstalk.com/detailmeetup/${this.state.meetupId}`)
     .then(response=>{
+      console.log('RESPONSE', response)
       let bussinessHour = moment(response.data.meetingTime).isWorkingTime()
       let coordinates = []
       if(bussinessHour){
@@ -262,7 +264,7 @@ export default class SetPlace extends Component {
   }
 
   componentWillMount(){
-    this.setState({"meetupId":this.props.meetupId})
+    //this.setState({"meetupId":this.props.meetupId})
     this.retrieveData()
   }
 

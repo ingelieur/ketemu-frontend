@@ -5,6 +5,7 @@ import {connect} from 'react-redux'
 
 import { UpcomingScreen, HistoryScreen, Profile } from '../containers'
 import { getAllMeetUps } from '../actions'
+import axios from 'axios'
 
 export const Tabs = TabNavigator({
   Upcoming: { screen : UpcomingScreen },
@@ -14,8 +15,10 @@ export const Tabs = TabNavigator({
 
 class LandingPage extends React.Component {
   componentDidMount(){
+    console.log('IIIIDDDDDDDDDD', this.props.users.id)
     axios.get(`http://otw-env.cjqaqzzhwf.us-west-2.elasticbeanstalk.com/getmeetingsbyparticipant/${this.props.users.id}`)
     .then((meetup)=>{
+      console.log('hasil meetupnya = ', meetup.data);
       this.props.getAllMeetUps(meetup.data)
     })
   }
@@ -29,6 +32,7 @@ class LandingPage extends React.Component {
 
 const mapStateToProps = (state)=>{
   return{
+
     users:state.users
   }
 }

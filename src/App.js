@@ -10,15 +10,16 @@ import {
   MeetingDetails,
   Loading,
   Register,
+  SetPlace,
 } from './screens'
 
 import store from './store/configureStore'
-
 export const Screens = StackNavigator({
-  // Loading: { screen : Loading },
-  // Login: { screen : Login },
-  // Register: { screen : Register },
-  // Personalization: { screen : Personalization },
+  Loading: { screen : Loading },
+  Login: { screen : Login },
+  Register: { screen : Register },
+  Personalization: { screen : Personalization },
+  SetPlace: { screen : SetPlace },
   LandingPage: { screen : LandingPage },
   CreateMeeting: { screen : CreateMeeting },
   MeetingDetails: { screen : MeetingDetails },

@@ -1,43 +1,54 @@
 import React from 'react'
-import { View, StyleSheet } from 'react-native';
-import { Container, Content, Card, CardItem, Text, Body, Button, Icon, Fab } from 'native-base';
+import { View, StyleSheet, TouchableHighlight } from 'react-native';
+import { Container, Content, Card, CardItem, Text, Body, Button, Icon, Fab, Badge } from 'native-base';
 
-const CardUpcomingAndHistory= () => {
+export default function CardUpcomingAndHistory (props) {
   return (
-    <Card>
-      <CardItem style={{backgroundColor:'gainsboro'}} >
-        <Body>
-          <View style={{flex:1, flexDirection:'row'}}>
-            <Icon active name="calendar" />
-            <Text style={styles.marginText}>
-              Oke
-            </Text>
-          </View>
+    <TouchableHighlight style={{flex: 1}} onPress={()=>props.detailMeetUp()}>
+      <Card>
+        <CardItem style={{backgroundColor:'gainsboro'}} >
+          <Body>
+            <View style={{flex:1, flexDirection:'row'}}>
+              <Icon active name="calendar" />
+              <Text style={styles.marginText}>
+                {props.meetupData.meetingTime}
+              </Text>
+                {
+                  props.meetupData.status === 'TBA' ?
+                  (
+                    <Badge success>
+                      <Text>2</Text>
+                    </Badge>
+                  ) : (<View></View>)
+                }
+            </View>
 
-          <View
-            style={{
-              borderBottomWidth: 2,
-              borderBottomColor: 'black',
-              width: 370,
-              marginTop:2
-            }}
-          />
+            <View
+              style={{
+                borderBottomWidth: 2,
+                borderBottomColor: 'black',
+                width: 370,
+                marginTop:2
+              }}
+            />
 
-          <View style={{flex:1, flexDirection:'row', marginTop:5}}>
-            <Text>
-              Judul
-            </Text>
-          </View>
+            <View style={{flex:1, flexDirection:'row', marginTop:5}}>
+              <Text>
+                {props.meetupData.title}
+              </Text>
+            </View>
 
-          <View style={{flex:1, flexDirection:'row', marginTop:5}}>
-            <Icon active name="pin" />
-            <Text style={styles.marginText}>
-              Tempat
-            </Text>
-          </View>
-        </Body>
-      </CardItem>
-    </Card>
+            <View style={{flex:1, flexDirection:'row', marginTop:5}}>
+              <Icon active name="pin" />
+              <Text style={styles.marginText}>
+                {props.meetupData.placeAddressName}
+              </Text>
+            </View>
+          </Body>
+        </CardItem>
+      </Card>
+    </TouchableHighlight>
+
   )
 }
 
@@ -47,5 +58,3 @@ const styles = {
     paddingLeft:8
   }
 };
-
-export default CardUpcomingAndHistory

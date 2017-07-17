@@ -54,6 +54,12 @@ export const getAllMeetUps = (data) =>{
   }
 }
 
+export const deleteMeetingsWhenLogOut = () =>{
+  return {
+    type: 'DELETE_MEETINGS_WHEN_LOGOUT',
+  }
+}
+
 
 
 export const getCurrentLocation = () => {

@@ -7,66 +7,51 @@ import { connect } from 'react-redux'
 
 
 class UpcomingScreen extends Component {
+
+  detailMeetUp(id){
+    console.log(id);
+    alert(`oke, ${id}`)
+  }
+
   render() {
-    console.log('lalalala', this.props.screenProps.navigateApp)
-    return (
-      <View style={styles.parentView}>
-        <Container style={styles.upcomingData}>
-          <Content>
-            { this.props.meetings.map((meeting) => {
-              // if(meeting.status == 'tunda'){
+    console.log('UPCOMING SCREEN', this.props)
+    if(this.props.meetings.length == 0){
+      return(
+        <View>
+          <Text>Kosong </Text>
+        </View>
+      )
+    } else {
+      return (
+        <View style={styles.parentView}>
+          <Container style={styles.upcomingData}>
+            <Content>
+            { this.props.meetings.filter((meeting)=> {
+                return new Date(meeting.meetingTime) > new Date() && meeting.status === 'TBA'
+              }).map((meeting) => {
+                var a = 'xxx'
                 return(
-                  <CardUpcomingAndHistory />
+                  <CardUpcomingAndHistory detailMeetUp={()=>this.detailMeetUp(meeting._id)} meetupData={meeting}/>
                 )
-              // }
-
-              // else{
-              //   return(
-              //     <Card key={meeting.id}>
-              //       <CardItem>
-              //         <Body>
-              //           <View style={{flex:1, flexDirection:'row'}}>
-              //             <Icon active name="calendar" />
-              //             <Text style={styles.marginText}>
-              //               {meeting.date}
-              //             </Text>
-              //           </View>
-              //
-              //           <View
-              //             style={{
-              //               borderBottomWidth: 2,
-              //               borderBottomColor: 'black',
-              //               width: 370,
-              //               marginTop:2
-              //             }}
-              //           />
-              //
-              //           <View style={{flex:1, flexDirection:'row', marginTop:5}}>
-              //             <Text>
-              //               {meeting.title}
-              //             </Text>
-              //           </View>
-              //
-              //           <View style={{flex:1, flexDirection:'row', marginTop:5}}>
-              //             <Icon active name="pin" />
-              //             <Text style={styles.marginText}>
-              //               {meeting.place}
-              //             </Text>
-              //           </View>
-              //         </Body>
-              //       </CardItem>
-              //     </Card>
-              //   )
-              // }
+              })
             }
-          )}
-          </Content>
+            { this.props.meetings.filter((meeting)=> {
+                return new Date(meeting.meetingTime) > new Date() && meeting.status === 'upcoming'
+              }).map((meeting) => {
+                return(
+                  <CardUpcomingAndHistory detailMeetUp={()=>this.detailMeetUp(meeting._id)} meetupData={meeting}/>
+                )
+              })
+            }
+            </Content>
 
-          <ButtonAddMeeting navigateApp={this.props.screenProps.navigateApp}/>
+            <ButtonAddMeeting navigateApp={this.props.screenProps.navigateApp}/>
 
-        </Container>
-      </View>
-    );
+          </Container>
+        </View>
+      );
+    }
+
   }
 
   addMeeting(){

@@ -35,7 +35,7 @@ const signIn = (state, data) => {
 
   let newState = {
     ...state,
-    id: idUser,
+    id: data._id,
     loginStatus: true,
     token: data.token,
     username: data.username,
@@ -48,7 +48,6 @@ const signIn = (state, data) => {
 const signOut = state => {
   let newState = {
     ...state,
-    id: idUser,
     loginStatus: false
   }
   return newState

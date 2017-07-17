@@ -1,54 +1,28 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Container, Content, Card, CardItem, Text, Body, Button, Icon, Fab } from 'native-base';
-import { ButtonAddMeeting } from '../components'
+import { ButtonAddMeeting, CardUpcomingAndHistory } from '../components'
 import { connect } from 'react-redux'
 
 class HistoryScreen extends Component {
+  detailMeetUp(id){
+    console.log(id);
+    alert(`oke, ${id}`)
+  }
+
   render() {
     return (
       <View style={styles.parentView}>
         <Container style={styles.historyData}>
           <Content>
-            { this.props.meetings.map((meeting) => {
-              return(
-                <Card key={meeting.id}>
-                  <CardItem >
-                    <Body>
-                      <View style={{flex:1, flexDirection:'row'}}>
-                        <Icon active name="calendar" />
-                        <Text style={styles.marginText}>
-                          {meeting.date}
-                        </Text>
-                      </View>
-
-                      <View
-                        style={{
-                          borderBottomWidth: 2,
-                          borderBottomColor: 'black',
-                          width: 370,
-                          marginTop:2
-                        }}
-                      />
-
-                      <View style={{flex:1, flexDirection:'row', marginTop:5}}>
-                        <Text>
-                          {meeting.title}
-                        </Text>
-                      </View>
-
-                      <View style={{flex:1, flexDirection:'row', marginTop:5}}>
-                        <Icon active name="pin" />
-                        <Text style={styles.marginText}>
-                          {meeting.place}
-                        </Text>
-                      </View>
-                    </Body>
-                  </CardItem>
-                </Card>
-              )
+            { this.props.meetings.filter((meeting)=> {
+                return new Date(meeting.meetingTime) < new Date()
+              }).map((meeting) => {
+                return(
+                  <CardUpcomingAndHistory detailMeetUp={()=>this.detailMeetUp(meeting._id)} meetupData={meeting}/>
+                )
+              })
             }
-          )}
           </Content>
 
           <ButtonAddMeeting navigateApp={this.props.screenProps.navigateApp}/>
