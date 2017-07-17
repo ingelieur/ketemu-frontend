@@ -7,8 +7,11 @@
 		"test": "jest"
 	},
 	"dependencies": {
+		"art": "^0.10.1",
 		"aws-sdk": "^2.85.0",
 		"axios": "^0.16.2",
+		"d3": "^4.10.0",
+		"d3-shape": "^1.2.0",
 		"dotenv": "^4.0.0",
 		"fs": "^0.0.1-security",
 		"geolib": "^2.0.22",
