@@ -41,7 +41,7 @@ export default function CardUpcomingAndHistory (props) {
             <View style={{flex:1, flexDirection:'row', marginTop:5}}>
               <Icon active name="pin" />
               <Text style={styles.marginText}>
-                {props.meetupData.placeAddressName}
+                { props.meetupData.status ==='TBA' ? props.meetupData.status : props.meetupData.placeAddressName }
               </Text>
             </View>
           </Body>

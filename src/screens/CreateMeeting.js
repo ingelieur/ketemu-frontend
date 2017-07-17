@@ -12,7 +12,7 @@ export const ScreensAddMeeting = StackNavigator({
   AddTitle: { screen : AddTitle },
   AddParticipants: { screen : AddParticipants },
   AddConfirmationDeadline: { screen : AddConfirmationDeadline },
-})
+}, { headerMode: 'none' })
 
 export default class CreateMeeting extends React.Component {
   render() {

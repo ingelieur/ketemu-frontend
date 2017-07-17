@@ -15,15 +15,12 @@ export const Tabs = TabNavigator({
 
 class LandingPage extends React.Component {
   componentDidMount(){
-    console.log('IIIIDDDDDDDDDD', this.props.users.id)
     axios.get(`http://otw-env.cjqaqzzhwf.us-west-2.elasticbeanstalk.com/getmeetingsbyparticipant/${this.props.users.id}`)
     .then((meetup)=>{
-      console.log('hasil meetupnya = ', meetup.data);
       this.props.getAllMeetUps(meetup.data)
     })
   }
   render() {
-    console.log(this.props)
     return (
       <Tabs screenProps={{navigateApp: this.props.navigation}}/>
     )
@@ -32,7 +29,6 @@ class LandingPage extends React.Component {
 
 const mapStateToProps = (state)=>{
   return{
-
     users:state.users
   }
 }

@@ -6,8 +6,7 @@ import { connect } from 'react-redux'
 
 class HistoryScreen extends Component {
   detailMeetUp(id){
-    console.log(id);
-    alert(`oke, ${id}`)
+    this.props.screenProps.navigateApp.navigate('MeetingDetails', {id})
   }
 
   render() {
@@ -31,10 +30,6 @@ class HistoryScreen extends Component {
 
       </View>
     );
-  }
-
-  addMeeting(){
-    alert('oke')
   }
 }
 

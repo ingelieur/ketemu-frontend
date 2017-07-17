@@ -4,13 +4,9 @@ import { Container, Content, Card, CardItem, Text, Body, Button, Icon, Fab } fro
 import { ButtonAddMeeting, CardUpcomingAndHistory } from '../components'
 import { connect } from 'react-redux'
 
-
-
 class UpcomingScreen extends Component {
-
   detailMeetUp(id){
-    console.log(id);
-    alert(`oke, ${id}`)
+    this.props.screenProps.navigateApp.navigate('MeetingDetails', {id})
   }
 
   render() {
