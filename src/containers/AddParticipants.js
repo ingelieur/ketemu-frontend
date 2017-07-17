@@ -7,39 +7,43 @@ export default class AddParticipants extends React.Component {
   constructor() {
     super()
     this.state =  {
+      searchUser: '',
       possibleUsers: [],
       users: [],
-
     }
   }
 
   handleUsernameSearch = (text) => {
-    console.log('adadandjkadnjkandakj ', text)
+    this.setState({
+      searchUser: text,
+    })
     Axios.get(`http://otw-env.cjqaqzzhwf.us-west-2.elasticbeanstalk.com/searchuser/${text}`)
       .then ((response) => {
-        console.log(response)
         this.setState({
           possibleUsers: response.data,
         })
       })
       .catch ((error) => {
+        this.setState({
+          possibleUsers: [],
+        })
         console.log(error)
         console.log('axios error cuy')
       })
   }
 
   handleUsernameSelect = (user) => {
-    console.log('handleUsernameselect: ', user)
-    if(this.state.users.find((existedUser) => existedUser._id === user._id)) {
-      console.log('ketemuuuu')
+    if(this.state.users.find((existedUser) => existedUser._id === user.id)) {
       this.setState({
         possibleUsers: [],
+        searchUser: '',
       })
     }
     else {
       let stateUser = {id: user._id, username: user.username}
       this.setState({
         users: [...this.state.users, stateUser],
+        searchUser:'',
         possibleUsers: [],
       })
     }
@@ -56,23 +60,23 @@ export default class AddParticipants extends React.Component {
             </CardItem>
             <CardItem>
               <Body>
+                {this.state.users.map((user) => {
+                  return (
+                    <ListItem style={{backgroundColor: 'red'}} key={`users.${user._id}`}>
+                      <Text>{user.username}</Text>
+                    </ListItem>
+                  )})
+                }
                 <Text>
                   Add His/Her Username
                 </Text>
                 <Item regular regular style={{marginTop:1, height:30}}>
-                  <Input onChangeText={(text) => this.handleUsernameSearch(text)}/>
+                  <Input placeholder='tralala' value={this.state.searchUser} onChangeText={(text) => this.handleUsernameSearch(text)}/>
                 </Item>
                 { this.state.possibleUsers.map((user) => {
                   return (
                     <ListItem key={`possUsers.${user._id}`}>
                       <Text onPress={() => this.handleUsernameSelect(user)}>{user.username}</Text>
-                    </ListItem>
-                  )})
-                }
-                {this.state.users.map((user) => {
-                  return (
-                    <ListItem key={`users.${user._id}`}>
-                      <Text>{user.username}</Text>
                     </ListItem>
                   )})
                 }
