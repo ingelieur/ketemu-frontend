@@ -7,13 +7,9 @@ import {
 import Axios from 'axios'
 
 class ParticipantDetailsTBA extends React.Component {
-  constructor() {
-    super()
-    let participant = this.props.participants.find((participant) => {
-      return participant.user === this.props.users.id
-    })
+  constructor(props) {
+    super(props)
     this.state = {
-      RSVP: participant.status,
     }
   }
 
@@ -38,8 +34,9 @@ class ParticipantDetailsTBA extends React.Component {
         <Text>Place: TBA </Text>
         <Text>{`\n`}</Text>
         <Text>So, are you coming? </Text>
-        <Text onPress={() => this.handleRSVP('yes')} style={this.state.RSVP === 'yes' ? {fontWeight: 'bold'} : {}}>Yes</Text>
-        <Text onPress={() => this.handleRSVP('no')} >No</Text>
+        <Text>{JSON.stringify(this.props.meeting)}</Text>
+        {/*<Text onPress={() => this.handleRSVP('yes')} style={this.state.RSVP === 'yes' ? {fontWeight: 'bold'} : {}}>Yes</Text>
+        <Text onPress={() => this.handleRSVP('no')} >No</Text>*/}
       </View>
     )
   }
