@@ -262,7 +262,7 @@ export default class SetPlace extends Component {
   }
 
   componentWillMount(){
-    // this.setState({"meetupId":this.props.meetupId})
+    this.setState({"meetupId":this.props.meetupId})
     this.retrieveData()
   }
 
