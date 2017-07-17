@@ -7,6 +7,7 @@ import {
 import { connect } from 'react-redux'
 
 import ParticipantDetailsTBA from '../containers/ParticipantDetailsTBA'
+import TempatPie from '../containers/TempatPie'
 
 class MeetingDetails extends React.Component {
   constructor(props) {
@@ -23,14 +24,20 @@ class MeetingDetails extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <ParticipantDetailsTBA participants={this.state.meeting.participants}/>
-        <Text>
-          The devil is in the details
-        </Text>
-      </View>
+      <TempatPie style={{flex: 1}}/>
     )
   }
+
+  //  render() {
+  //    return (
+  //      <View style={styles.container}>
+  //        <ParticipantDetailsTBA participants={this.state.meeting.participants}/>
+  //        <Text>
+  //          The devil is in the details
+  //        </Text>
+  //      </View>
+  //    )
+  //  }
 }
 
 const styles = StyleSheet.create({
