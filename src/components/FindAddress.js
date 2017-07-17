@@ -54,7 +54,7 @@ class FindAddress extends React.Component {
             fetchDetails
             listViewDisplayed='auto'
             query={{
-              key: 'AIzaSyCnuZIr08cpL0ypqUlSX6ZfxZPfHWX_TrA',
+              key: 'AIzaSyBSqtoH3yauB9VCrI0o3GOuNTpvwbixyic',
               language: 'en',
               types: [ "address", "geocode", "establishment" ],
             }}
