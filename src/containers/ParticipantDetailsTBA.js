@@ -20,12 +20,16 @@ export default class ParticipantDetailsTBA extends React.Component {
   }
 
   render() {
-    <View style={styles.container}>
-      <Text>PIEChart</Text>
-      <Text>Are you going? </Text>
-      <Text onPress={() => this.handleRSVP('yes')} styles={this.state.RSVP === 'yes' ? {fontWeight: 'bold'} : {}}>Yes</Text>
-      <Text>No</Text>
-    </View>
+    return (
+      <View style={styles.container}>
+        <Text>PIEChart</Text>
+        <Text>Time</Text>
+        <Text>Place: TBA </Text>
+        <Text>So, are you coming? </Text>
+        <Text onPress={() => this.handleRSVP('yes')} style={this.state.RSVP === 'yes' ? {fontWeight: 'bold'} : {}}>Yes</Text>
+        <Text>No</Text>
+      </View>
+    )
   }
 }
 
