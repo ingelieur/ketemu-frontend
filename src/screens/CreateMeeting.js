@@ -9,7 +9,7 @@ import { AddTitle, AddParticipants, AddConfirmationDeadline } from '../container
 
 
 export const ScreensAddMeeting = StackNavigator({
-  AddTitle: { screen : AddTitle },
+  //AddTitle: { screen : AddTitle },
   AddParticipants: { screen : AddParticipants },
   AddConfirmationDeadline: { screen : AddConfirmationDeadline },
 })
