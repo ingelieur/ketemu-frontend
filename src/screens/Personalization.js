@@ -54,7 +54,7 @@ class Personalization extends React.Component {
       <View style={styles.parentView}>
         <ImagePicker style={styles.imagePickerView} />
         <FormPersonalization style={styles.formPersonalizationView} />
-        <Text
+        {/*<Text
           onPress={() => {this.handleAddressForm('home')}}
           style={this.state.homeAddressName.length > 0 ? {} : {color: 'lightgray'}}
         >
@@ -76,7 +76,7 @@ class Personalization extends React.Component {
           <View style={styles.container}>
             <FindAddress style={styles.container} onCalloutPress={this.onCalloutPress} addressType={this.state.addressType}/>
           </View>
-        </Modal>
+        </Modal>*/}
       </View>
     )
   }
