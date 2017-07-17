@@ -33,7 +33,7 @@ export default class AddParticipants extends React.Component {
   }
 
   handleUsernameSelect = (user) => {
-    if(this.state.users.find((existedUser) => existedUser._id === user.id)) {
+    if(this.state.users.find((existedUser) => existedUser.id === user._id)) {
       this.setState({
         possibleUsers: [],
         searchUser: '',
@@ -62,7 +62,7 @@ export default class AddParticipants extends React.Component {
               <Body>
                 {this.state.users.map((user) => {
                   return (
-                    <ListItem style={{backgroundColor: 'red'}} key={`users.${user._id}`}>
+                    <ListItem style={{backgroundColor: 'red'}} key={`users.${user.id}`}>
                       <Text>{user.username}</Text>
                     </ListItem>
                   )})
