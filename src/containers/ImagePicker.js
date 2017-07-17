@@ -122,7 +122,8 @@ class AvatarPicker extends React.Component {
                   />
                 )}
               </TouchableOpacity>
-              <Text >Change Profile Photo</Text>
+
+              <Text>You must change the profile photo.</Text>
 
             </View>
         )
