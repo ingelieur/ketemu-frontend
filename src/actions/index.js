@@ -50,7 +50,7 @@ export const inputDateDeadlineMeetUp = (date) =>{
 export const getCurrentLocation = () => {
   return (dispatch) => {
     console.log('action/index.js')
-    navigator.geolocation.getCurrentPosition(position => {
+    navigator.geolocation.watchPosition(position => {
       console.log('aaaaaaa', position)
       let sendPosition = {
         latitude: position.coords.latitude,
