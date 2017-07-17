@@ -1,16 +1,18 @@
 import React, {Component} from 'react'
-import { View, Text, Button} from 'react-native'
+import { View, Text, Button, Image} from 'react-native'
+import { Container, Content, List, ListItem, Spinner } from 'native-base';
 import axios from 'axios'
 import geolib from 'geolib'
 import outliers from 'outliers'
-
+import moment from 'moment-business-time'
+import { NavigationActions } from 'react-navigation'
 import MapView from 'react-native-maps';
 
-class SetPlace extends Component {
+export default class SetPlace extends Component {
   constructor(){
     super()
     this.state = {
-      meetupId:'596a45fa6ce69d356f3a3264',
+      meetupId:'596b6f8420cfac2781f312a7',
       region: {
         latitude: -6.2656832,
         longitude: 106.7810439,
@@ -19,12 +21,57 @@ class SetPlace extends Component {
       },
       markers:[],
       radius:500,
-      venueType:'warung'
+      loadingMessage: 'Getting meetup places...',
+      venueType:'restaurant',
+      venueQuery:'restaurant',
+      pageLoadedStatus: false,
+      modalStatus: false,
+      placeDetailStatus: false,
+      placeDetail: '',
+      detailImage: '',
+      places:[
+        {
+          id:1,
+          type:'',
+          name:'Coworking Space',
+        },
+        {
+          id:2,
+          type:'library',
+          name:'Library',
+        },
+        {
+          id:3,
+          type:'bar',
+          name:'Bar',
+        },
+        {
+          id:4,
+          type:'cafe',
+          name:'Coffe Shop',
+        },
+        {
+          id:5,
+          type:'shopping_mall',
+          name:'Shopping Mall',
+        },
+        {
+          id:6,
+          type:'restaurant',
+          name:'Restaurant',
+        },
+        {
+          id:7,
+          type:'park',
+          name:'Park',
+        }
+      ]
     }
     this.onRegionChange = this.onRegionChange.bind(this)
     this.getCenter = this.getCenter.bind(this)
     this.getVenue = this.getVenue.bind(this)
     this.regionAdjustment = this.regionAdjustment.bind(this)
+    this.finalizePlace = this.finalizePlace.bind(this)
   }
 
   onRegionChange(region) {
@@ -82,7 +129,7 @@ class SetPlace extends Component {
   }
 
   getVenue(){
-    axios.get(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${this.state.region.latitude},${this.state.region.longitude}&radius=${this.state.radius}&keyword=${this.state.venueType}&key=AIzaSyCnuZIr08cpL0ypqUlSX6ZfxZPfHWX_TrA`)
+    axios.get(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${this.state.region.latitude},${this.state.region.longitude}&radius=${this.state.radius}&keyword=${this.state.venueQuery.split(' ').join('+')}&type=${this.state.venueType}&key=AIzaSyCnuZIr08cpL0ypqUlSX6ZfxZPfHWX_TrA`)
     .then(response=>{
       this.setState({'markers':response.data.results.slice(0,10)})
       if(this.state.markers.length<10){
@@ -93,7 +140,76 @@ class SetPlace extends Component {
       }
       if(this.state.markers.length>0){
         this.regionAdjustment()
+        this.setState({'pageLoadedStatus':true})
+      } else {
+        this.setState({'pageLoadedStatus':true})
       }
+    })
+  }
+
+  changeVenue(){
+    axios.get(`http://otw-env.cjqaqzzhwf.us-west-2.elasticbeanstalk.com/detailmeetup/${this.state.meetupId}`)
+    .then(response=>{
+      let bussinessHour = moment(response.data.meetingTime).isWorkingTime()
+      let coordinates = []
+      if(bussinessHour){
+        coordinates = [response.data.creator.officeAddressGeolocation]
+        response.data.participants.forEach(participant=>{
+          if(participant.status == 'yes'){
+            coordinates.push(participant.user.officeAddressGeolocation)
+          }
+        })
+      } else {
+        coordinates = [response.data.creator.homeAddressGeolocation]
+        response.data.participants.forEach(participant=>{
+          if(participant.status == 'yes'){
+            coordinates.push(participant.user.homeAddressGeolocation)
+          }
+        })
+      }
+    })
+    .catch(err=>{
+      let coordinates = [
+        [0,0]
+      ]
+      this.getCenter(coordinates)
+    })
+  }
+
+  retrieveData(){
+    axios.get(`http://otw-env.cjqaqzzhwf.us-west-2.elasticbeanstalk.com/detailmeetup/${this.state.meetupId}`)
+    .then(response=>{
+      let bussinessHour = moment(response.data.meetingTime).isWorkingTime()
+      let coordinates = []
+      if(bussinessHour){
+        coordinates = [response.data.creator.officeAddressGeolocation]
+        response.data.participants.forEach(participant=>{
+          if(participant.status == 'yes'){
+            coordinates.push(participant.user.officeAddressGeolocation)
+          }
+        })
+      } else {
+        coordinates = [response.data.creator.homeAddressGeolocation]
+        response.data.participants.forEach(participant=>{
+          if(participant.status == 'yes'){
+            coordinates.push(participant.user.homeAddressGeolocation)
+          }
+        })
+      }
+
+      if(response.data.typePlaces == 'coworking_space'){
+        this.setState({'venueType':'','venueQuery':response.data.typePlaces.split('_').join('+')})
+      } else {
+        this.setState({'venueType':response.data.typePlaces,'venueQuery':response.data.typePlaces.split('_').join('+')})
+      }
+      this.getCenter(coordinates)
+    })
+    .catch(err=>{
+      console.log('lala');
+      let coordinates = [
+        [0,0]
+      ]
+      this.getCenter(coordinates)
     })
   }
 
@@ -124,97 +240,183 @@ class SetPlace extends Component {
     });
   }
 
-  componentWillMount(){
-    axios.get(`http://dev-env.gtgwzsbszw.us-west-2.elasticbeanstalk.com/detailmeetup/${this.state.meetupId}`)
-    .then(response=>{
-      this.setState({'venueType':response.data.results.typePlaces})
-      let coordinates = [response.data.results.creator.officeAddressGeolocation]
-      response.data.results.participants.forEach(participant=>{
-        coordinates.push(participant.user.officeAddressGeolocation)
-      })
-      // let coordinates = [
-      //   [-6.354285,106.713924],
-      //   [-6.2607187,106.7816162],
-      //   [-6.3705916,106.8406042],
-      //   // [-6.393757,107.435728],
-      //   [-6.922998,107.622495]
-      // ]
-      this.getCenter(coordinates)
+  finalizePlace(){
+    const goToUpcomingScreen = NavigationActions.reset({
+      index: 0,
+      actions: [
+        NavigationActions.navigate({ routeName: 'LandingPage'})
+      ]
+    })
+    axios.put(`http://otw-env.cjqaqzzhwf.us-west-2.elasticbeanstalk.com/editmeetup/${this.state.meetupId}`,{
+      typePlaces: this.state.venueType,
+      placeAddressName: this.state.placeDetail.name,
+      placeAddressGeolocation: [this.state.placeDetail.geometry.location.lat,this.state.placeDetail.geometry.location.lng],
+      status: 'upcoming'
+    })
+    .then(res=>{
+      this.props.navigation.dispatch(goToUpcomingScreen)
     })
     .catch(err=>{
-      let coordinates = [
-        [-6.354285,106.713924],
-        [-6.2607187,106.7816162],
-        [-6.3705916,106.8406042],
-        [-6.393757,107.435728],
-        [-6.922998,107.622495]
-      ]
-      this.getCenter(coordinates)
+      this.props.navigation.dispatch(goToUpcomingScreen)
     })
+  }
+
+  componentWillMount(){
+    this.setState({"meetupId":this.props.meetupId})
+    this.retrieveData()
   }
 
   render() {
-    return (
-      <View style={{flex:1}}>
-        <View style={{flex:1,backgroundColor:'blue',justifyContent:'center',alignItems:'center'}}>
-          <Text style={{color:'white', fontWeight:'bold',fontSize:20}}>
-            Create Meetup
-          </Text>
-        </View>
-        <View style={{flex:10}}>
-          <MapView
-            style={{flex:7}}
-            region={this.state.region}
-            onRegionChange={this.onRegionChange}
-          >
-          {this.state.markers.map((marker,index) => (
-            <MapView.Marker
-              key={index}
-              coordinate={{latitude:marker.geometry.location.lat,longitude:marker.geometry.location.lng}}
-              title={marker.name}
-              description={marker.vicinity}
-            />
-          ))}
-          </MapView>
-          {this.state.markers.length==0?(
-            <Button
-              onPress={()=>{}}
-              title="No place found, click here to select other type of place"
-              color="#841584"
-              accessibilityLabel="select other type of place"
-              style={{flex:2}}
-            />
-          ):null}
-          {/*this.state.markers.length!==0?(
-            <View style={{flex:1}}>
-              <View style={{flex:1,flexDirection:'row'}}>
-                <Text style={{flex:1}}>
-                  radius: {this.state.radius}
+    if(this.state.pageLoadedStatus){
+      if(this.state.modalStatus){
+        return (
+          <Container style={styles.container}>
+            <Content>
+              <List>
+                { this.state.places.map((place)=> {
+                    return (
+                      <ListItem key={place.id} onPress={() => {
+                        this.setState(
+                          {
+                            'venueType':place.type,
+                            'venueQuery':place.name,
+                            'markers':'',
+                            'radius':500,
+                            'modalStatus':false,
+                            'pageLoadedStatus':false
+                          },
+                          ()=>this.changeVenue()
+                        )
+                      }}>
+                        <Text>{place.name}</Text>
+                      </ListItem>
+                    )
+                  })
+                }
+              </List>
+            </Content>
+
+            <View style={styles.parentView}>
+              <Button onPress={()=>this.setState({'modalStatus':false})} title="cancel"/>
+            </View>
+          </Container>
+        )
+      } else if (!this.state.placeDetailStatus){
+        return (
+          <View style={{flex:1}}>
+            <View style={{flex:1,backgroundColor:'#3399ff',justifyContent:'center',alignItems:'center'}}>
+              <Text style={{color:'white', fontWeight:'bold',fontSize:20}}>
+                Place Selection
+              </Text>
+            </View>
+            <View style={{flex:10}}>
+              <MapView
+                showCallout
+                style={{flex:7}}
+                region={this.state.region}
+                onRegionChange={this.onRegionChange}
+              >
+              {this.state.markers.length != 0 ? this.state.markers.map((marker,index) => (
+                <MapView.Marker
+                  key={index}
+                  pinColor="#3399ff"
+                  coordinate={{latitude:marker.geometry.location.lat,longitude:marker.geometry.location.lng}}
+                  title={marker.name}
+                  description={`Click here to view details`}
+                  onCalloutPress={e => {
+                      this.setState({'placeDetailStatus':true,'placeDetail':marker})
+                    }
+                  }
+                />
+              )) : null}
+              </MapView>
+              {this.state.markers.length==0?(
+                <View style={{flex:1}}>
+                  <Text style={{flex:1,alignSelf:'center', fontWeight:'bold'}}>
+                    No place found, please select other type of place
+                  </Text>
+                  <View style={{flex:1}}>
+                    <Button onPress={()=>this.setState({'modalStatus':true})} title="Change venue type"/>
+                  </View>
+                </View>
+                ):null}
+            </View>
+          </View>
+        )
+      } else {
+        return (
+          <View style={{flex:1}}>
+            <View style={{flex:11,justifyContent:'space-around',alignItems:'center'}}>
+              <Image
+                style={{width: 50, height: 50}}
+                source={{uri: this.state.placeDetail.icon}}
+              />
+              <Text style={{fontWeight:'bold',fontSize:25}}>
+                {this.state.placeDetail.name}
+              </Text>
+              <Text style={{fontWeight:'bold',alignItems:'center'}}>
+                {'Adress: '}
+                <Text>
+                  {this.state.placeDetail.vicinity}
                 </Text>
-                <Text style={{flex:1}}>
-                  places: {this.state.markers.length}
+              </Text>
+              <Text style={{fontWeight:'bold'}}>
+                {'Rating: '}
+                <Text>
+                  {this.state.placeDetail.rating}
                 </Text>
+              </Text>
+            </View>
+            <View style={{flex:1,flexDirection:'row'}}>
+              <View style={{flex:1}}>
+              <Button
+                color="#3399ff"
+                style={{flex:1}}
+                onPress={()=>{
+                  this.setState({'loadingMessage':'finalizing place ...','pageLoadedStatus':false},()=>this.finalizePlace())
+                }}
+                title="Finalize place!"
+              />
               </View>
-              <View style={{flex:1,flexDirection:'row'}}>
-                <Text style={{flex:1}}>
-                  lat: {this.state.region.latitude}
-                </Text>
-                <Text style={{flex:1}}>
-                  lng: {this.state.region.longitude}
-                </Text>
-                <Text style={{flex:1}}>
-                  latD: {this.state.region.latitudeDelta}
-                </Text>
-                <Text style={{flex:1}}>
-                  lngD: {this.state.region.longitudeDelta}
-                </Text>
+              <View style={{flex:1}}>
+              <Button
+                color="red"
+                style={{flex:1}}
+                onPress={()=>{
+                  this.setState({'placeDetailStatus':false,'placeDetail':''})
+                }}
+                title="Back"
+              />
               </View>
             </View>
-          ):null*/}
+          </View>
+        )
+      }
+    } else {
+      return (
+        <View style={styles.container}>
+          <View style={{flex:1,backgroundColor:'#3399ff',justifyContent:'center',alignItems:'center'}}>
+            {this.state.loadingMessage!='Done!'?<Spinner />:null}
+            <Text style={{color:'white', fontWeight:'bold',fontSize:20}}>
+              {this.state.loadingMessage}
+            </Text>
+          </View>
         </View>
-      </View>
-    );
+      )
+    }
   }
 }
 
-export default SetPlace
+const styles = {
+  container:{
+    backgroundColor:'#FFFFFF',
+    flex:1,
+  },
+  parentView:{
+    backgroundColor:'#FFFFFF'
+  },
+  userView:{
+    flex:1,
+    backgroundColor: '#F5F5F5'
+  },
+};

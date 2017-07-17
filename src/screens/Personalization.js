@@ -55,32 +55,6 @@ class Personalization extends React.Component {
       <View style={styles.parentView}>
         <ImagePicker style={styles.imagePickerView} />
         <FormPersonalization style={styles.formPersonalizationView} navigateApp={this.props.navigation}/>
-
-        {
-          /*<Text
-            onPress={() => {this.handleAddressForm('home')}}
-            style={this.state.homeAddressName.length > 0 ? {} : {color: 'lightgray'}}
-          >
-            {this.state.homeAddressName.length > 0 ? this.state.homeAddressName : `Please set your home address`}
-          </Text>
-          <Text
-            onPress={() => {this.handleAddressForm('office')}}
-            style={this.state.officeAddressName.length > 0 ? {} : {color: 'lightgray'}}
-          >
-            {this.state.officeAddressName.length > 0 ? this.state.officeAddressName : `Please set your office address`}
-          </Text>
-          <Modal
-            animationType={"slide"}
-            transparent={false}
-            visible={this.state.isModal}
-            onRequestClose={() => {alert("Modal has been closed.")}}
-            style={styles.container}
-          >
-            <View style={styles.container}>
-              <FindAddress style={styles.container} onCalloutPress={this.onCalloutPress} addressType={this.state.addressType}/>
-            </View>
-          </Modal>*/
-        }
       </View>
     )
   }
