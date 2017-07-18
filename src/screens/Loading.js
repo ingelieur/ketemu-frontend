@@ -6,9 +6,10 @@ import {
   Text,
   TextInput,
   Button,
-  Spinner,
   AsyncStorage
 } from 'react-native'
+
+import { Spinner } from 'native-base';
 
 import { NavigationActions } from 'react-navigation'
 
@@ -19,8 +20,6 @@ class Loading extends React.Component {
 
   componentDidMount () {
     AsyncStorage.getItem('token', (err, result) => {
-      // console.log('hasil!!!!!!!!: ',result);
-      // console.log('navigation loading',this.props);
       if (result === null) {
         const goLogin = NavigationActions.reset({
           index: 0,
@@ -61,6 +60,7 @@ class Loading extends React.Component {
   render () {
     return (
       <View>
+        <Spinner />
         <Text>Loading....</Text>
       </View>
     )

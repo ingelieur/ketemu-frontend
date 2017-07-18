@@ -29,8 +29,6 @@ class AddParticipants extends React.Component {
         this.setState({
           possibleUsers: [],
         })
-        console.log(error)
-        console.log('axios error cuy')
       })
   }
 
@@ -52,7 +50,6 @@ class AddParticipants extends React.Component {
   }
 
   createParticipants(){
-    // console.log('oke');
     const navigasiNext = this.props.navigation.navigate;
     if(this.state.users.length<1){
       alert('wrong participants')

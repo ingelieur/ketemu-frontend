@@ -52,7 +52,7 @@ class AddTitle extends React.Component {
                   <Text>
                     Title
                   </Text>
-                  <Item regular regular style={{marginTop:1, height:30}}>
+                  <Item regular style={{marginTop:1, height:30}}>
                     <Input
                       onChangeText={(text) => this.props.input_Title(text)}
                     />
