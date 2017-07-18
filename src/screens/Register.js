@@ -244,7 +244,7 @@ class Register extends React.Component {
         return (
           <ScrollView style={styles.scroll}>
             <Container>
-                <Button bordered info style={{ alignSelf: 'center', marginTop: 20, marginBottom: 20 }}>
+                <Button bordered info style={{ alignSelf: 'center', marginBottom: 20 }}>
                   <View style={styles.inline}>
                       <Text style={[styles.buttonBlueText, styles.buttonBigText]}>  Connect </Text>
                       <Text style={styles.buttonBlueText}>with Facebook</Text>
@@ -252,7 +252,7 @@ class Register extends React.Component {
                 </Button>
 
                 <Content>
-                  <Card style={{paddingBottom: 20}}>
+                  <Card style={{paddingBottom: 15}}>
                       <Form>
 
                         <View style={{ marginLeft: 20, marginRight: 20, marginBottom: 10, marginTop: 10}}>
@@ -291,6 +291,7 @@ class Register extends React.Component {
                           <Label>Password</Label>
                           <Item regular style={{marginTop:1, height:30}}>
                             <Input
+                              secureTextEntry={true}
                               value={this.state.password}
                               onChangeText={(text) => this.setState({password: text, validationEmail: false, validationFirstname: false, validationLastname: false, validationPasword: true, validationUsername: false})}
                             />
@@ -325,7 +326,6 @@ class Register extends React.Component {
                     <Text style={{fontSize: 16, fontWeight: 'bold'}} onPress={() => this.renderLogin()} tyle={{fontSize: 18, fontWeight: 'bold', marginBottom: 5}}>Click here to go back to Login page...</Text>
                   </View>
                 </Content>
-
             </Container>
           </ScrollView>
         );
