@@ -8,11 +8,11 @@ import { signOut } from '../actions/userAction'
 import { NavigationActions } from 'react-navigation'
 
 class Profile extends Component {
+  constructor(props){
+    super(props)
+  }
 
   logOut(){
-    // console.log('Navigation Logout: ', this.props)
-    // console.log('+++: ', this.props)
-    // alert('Are You Sure')
     this.props.signOutProcess()
     const goLogin = NavigationActions.reset({
       index: 0,
@@ -25,7 +25,7 @@ class Profile extends Component {
   }
 
   render() {
-    // console.log('^^^^^: ', this.props)
+
     return (
       <View style={styles.parentView}>
 
@@ -34,19 +34,21 @@ class Profile extends Component {
               <Card>
                 <CardItem>
                   <Icon active name="contact" />
-                  <Text>{ this.props.users.first_name} {this.props.users.last_name} </Text>
+                  <Text>{ this.props.users.name }</Text>
                 </CardItem>
                 <CardItem style={{paddingTop:-5}}>
                   <Icon active name="mail" />
-                  <Text>{ this.props.users.email }</Text>
+                  <Text>{
+                    this.props.users.email
+                  }</Text>
                 </CardItem>
                 <CardItem style={{paddingTop:-5}}>
                   <Icon active name="home" />
-                  <Text>{ this.props.users.home }</Text>
+                  <Text>{ this.props.users.homeAddressName }</Text>
                 </CardItem>
                 <CardItem style={{paddingTop:-5}}>
                   <Icon active name="desktop" />
-                  <Text>{ this.props.users.office }</Text>
+                  <Text>{ this.props.users.officeAddressName }</Text>
                 </CardItem>
               </Card>
           </Content>
