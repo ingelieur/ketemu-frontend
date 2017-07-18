@@ -244,13 +244,21 @@ class Register extends React.Component {
         return (
           <ScrollView style={styles.scroll}>
             <Container>
-                <Button bordered info style={{ alignSelf: 'center', marginBottom: 20 }}>
-                  <View style={styles.inline}>
-                      <Text style={[styles.buttonBlueText, styles.buttonBigText]}>  Connect </Text>
-                      <Text style={styles.buttonBlueText}>with Facebook</Text>
+                <View style={{height:40}}>
+                  <View style={{flex:1, flexDirection:'row', backgroundColor:'#d9534f'}}>
+                    <View style={{width:40}}>
+                      <Icon active name="logo-googleplus" style={{marginLeft:6, marginTop:6}}/>
+                    </View>
+                    <View style={{width:4, backgroundColor:'#99d6ff'}}>
+                      <Text></Text>
+                    </View>
+                    <View style={{flex:1}}>
+                      <Button full danger onPress={() => alert('oke')} style={{width:'100%'}}>
+                        <Text style={{color:'white'}}>Login with Gmail</Text>
+                      </Button>
+                    </View>
                   </View>
-                </Button>
-
+                </View>  
                 <Content>
                   <Card style={{paddingBottom: 15}}>
                       <Form>

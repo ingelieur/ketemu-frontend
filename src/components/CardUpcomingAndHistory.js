@@ -48,7 +48,7 @@ export default function CardUpcomingAndHistory (props) {
               </View>
             </View>
 
-            <View style={{ borderBottomWidth: 2, borderBottomColor: 'black', width: 370, marginTop:2 }}/>
+            <View style={{ borderBottomWidth: 2, borderBottomColor: 'black', width:'100%', marginTop:2 }}/>
 
             <View style={{flex:1, flexDirection:'row', marginTop:5}}>
               <Text>
