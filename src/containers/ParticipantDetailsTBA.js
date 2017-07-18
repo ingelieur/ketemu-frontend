@@ -6,6 +6,8 @@ import {
 } from 'react-native'
 import Axios from 'axios'
 
+import PieChart from '../components/PieChart'
+
 class ParticipantDetailsTBA extends React.Component {
   constructor(props) {
     super(props)
@@ -28,6 +30,7 @@ class ParticipantDetailsTBA extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+        {/*<PieChart style={{flex: 1}}/>*/}
         <Text>PIEChart</Text>
         <Text>{`\n`}</Text>
         <Text>Time</Text>

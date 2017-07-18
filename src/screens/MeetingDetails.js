@@ -6,28 +6,48 @@ import {
 } from 'react-native'
 import { connect } from 'react-redux'
 
+import PieChart from '../components/PieChart'
+import CreatorDetailsTBA from '../containers/CreatorDetailsTBA'
 import ParticipantDetailsTBA from '../containers/ParticipantDetailsTBA'
+
 
 class MeetingDetails extends React.Component {
   constructor(props) {
     super(props)
-    console.log(this.props.users)
     //let meeting = this.props.meetings.find((meeting) => {
     let meeting = meetings.find((meeting) => {
       return meeting._id === "596b7ca200d456232b86580e"
     })
+    console.log(this.props.users._id)
     this.state = {
       meeting: meeting,
+      //role: meeting.creator == this.props.users._id ? 'creator' : 'participant',
+      role: meeting.creator._id == "596772300a384171ee3d8be6" ? 'creator' : 'participant',
+      //users: this.props.users,
     }
   }
 
   render() {
+    console.log(this.state.meeting.creator)
+    //console.log(this.props.users)
+    console.log(this.state.role)
     return (
       <View style={styles.container}>
-        <ParticipantDetailsTBA meeting={this.state.meeting}/>
-        <Text>
-          The devil is in the details
-        </Text>
+        <PieChart />
+        {this.state.meeting.status === 'TBA' ? (
+          this.state.role === 'creator' ? (
+            <CreatorDetailsTBA />
+          ) : (
+            <ParticipantDetailsTBA />
+          )
+        ) : (
+          this.state.role === 'creator' ? (
+            <Text>CREATOR</Text>
+          ) : (
+            <Text>PARTICIPANT</Text>
+          )
+        )
+        }
       </View>
     )
   }
@@ -40,6 +60,7 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = (state) => {
+  console.log('-------------', state.users)
   return {
     meetings: state.meetings,
     users: state.users,
