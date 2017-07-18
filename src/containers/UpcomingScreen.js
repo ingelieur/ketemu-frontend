@@ -5,6 +5,11 @@ import { ButtonAddMeeting, CardUpcomingAndHistory } from '../components'
 import { connect } from 'react-redux'
 
 class UpcomingScreen extends Component {
+  constructor(props){
+    super(props)
+
+  }
+
   detailMeetUp(id){
     this.props.screenProps.navigateApp.navigate('MeetingDetails', {id})
   }
@@ -25,7 +30,6 @@ class UpcomingScreen extends Component {
             { this.props.meetings.filter((meeting)=> {
                 return new Date(meeting.meetingTime) > new Date() && meeting.status === 'TBA'
               }).map((meeting) => {
-                var a = 'xxx'
                 return(
                   <CardUpcomingAndHistory detailMeetUp={()=>this.detailMeetUp(meeting._id)} meetupData={meeting}/>
                 )
@@ -40,9 +44,7 @@ class UpcomingScreen extends Component {
               })
             }
             </Content>
-
             <ButtonAddMeeting navigateApp={this.props.screenProps.navigateApp}/>
-
           </Container>
         </View>
       );
@@ -67,6 +69,7 @@ const styles = {
 
 const mapStateToProps = (state)=>{
   return{
+    users:state.users,
     meetings:state.meetings
   }
 }

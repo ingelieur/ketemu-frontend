@@ -2,10 +2,11 @@ import React from 'react'
 import { AsyncStorage } from 'react-native'
 import { TabNavigator } from 'react-navigation'
 import {connect} from 'react-redux'
+import axios from 'axios'
 
 import { UpcomingScreen, HistoryScreen, Profile } from '../containers'
+import { fetchDataUser } from '../actions/userAction'
 import { getAllMeetUps } from '../actions'
-import axios from 'axios'
 
 export const Tabs = TabNavigator({
   Upcoming: { screen : UpcomingScreen },
@@ -14,12 +15,19 @@ export const Tabs = TabNavigator({
 })
 
 class LandingPage extends React.Component {
-  componentDidMount(){
-    axios.get(`http://otw-env.cjqaqzzhwf.us-west-2.elasticbeanstalk.com/getmeetingsbyparticipant/${this.props.users.id}`)
-    .then((meetup)=>{
-      this.props.getAllMeetUps(meetup.data)
+
+  componentDidMount() {
+    AsyncStorage.getItem('id', (err, id) => {
+      if (id) {
+        this.props.fetchUser(id)
+        axios.get(`http://otw-env.cjqaqzzhwf.us-west-2.elasticbeanstalk.com/getmeetingsbyparticipant/${id}`)
+          .then((meetup)=>{
+            this.props.getAllMeetUps(meetup.data)
+          })
+      }
     })
   }
+
   render() {
     return (
       <Tabs screenProps={{navigateApp: this.props.navigation}}/>
@@ -27,17 +35,15 @@ class LandingPage extends React.Component {
   }
 }
 
-const mapStateToProps = (state)=>{
-  return{
-    users:state.users
+const mapDispatchToProps = dispatch => {
+  return {
+    getAllMeetUps: data=> {
+      dispatch(getAllMeetUps(data))
+    },
+    fetchUser: data => {
+      dispatch(fetchDataUser(data))
+    },
   }
 }
 
-
-const mapDispatchToProps = (dispatch) =>{
-  return{
-    getAllMeetUps:(data)=>dispatch(getAllMeetUps(data)),
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps) (LandingPage)
+export default connect(null, mapDispatchToProps)(LandingPage)

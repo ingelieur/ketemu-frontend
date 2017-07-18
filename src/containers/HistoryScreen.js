@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Container, Content, Card, CardItem, Text, Body, Button, Icon, Fab } from 'native-base';
-import { ButtonAddMeeting, CardUpcomingAndHistory } from '../components'
 import { connect } from 'react-redux'
+
+import { ButtonAddMeeting, CardUpcomingAndHistory } from '../components'
 
 class HistoryScreen extends Component {
   detailMeetUp(id){
@@ -23,11 +24,8 @@ class HistoryScreen extends Component {
               })
             }
           </Content>
-
           <ButtonAddMeeting navigateApp={this.props.screenProps.navigateApp}/>
-
         </Container>
-
       </View>
     );
   }

@@ -1,12 +1,34 @@
 //import liraries
 import React from 'react';
-import { View, Text, StyleSheet, TextInput, Button, AsyncStorage } from 'react-native';
+import { View, StyleSheet, ScrollView, TextInput, Text, AsyncStorage } from 'react-native';
+import { Container, Content, Form, Item, Input, Label, Card, CardItem, Button, Icon } from 'native-base';
 
 import { connect } from 'react-redux'
 
 import { signUp } from '../actions/userAction'
 
 import { NavigationActions } from 'react-navigation'
+
+import axios from 'axios'
+
+const styles =  StyleSheet.create({
+  scroll: {
+    flex: 1,
+    backgroundColor: '#E1D7D8',
+    padding: 30,
+  },
+  inline: {
+      flexDirection: 'row'
+  },
+  buttonBlueText: {
+      fontSize: 20,
+      color: '#3B5699'
+  },
+  buttonBigText: {
+      fontSize: 20,
+      fontWeight: 'bold'
+  },
+})
 
 // create a component
 class Register extends React.Component {
@@ -20,104 +42,295 @@ class Register extends React.Component {
       lastname: '',
       username: '',
       password: '',
+      email: '',
       re_password: '',
-      email: ''
+      validationFirstname: false,
+      validationLastname: false,
+      validationUsername: false,
+      validationPasword: false,
+      validationEmail: false,
     }
   }
 
   _doSignUp() {
-    console.log('firstname: ', this.state.firstname)
-    console.log('lastname: ', this.state.lastname)
-    console.log('email: ', this.state.email)
-    console.log('username: ', this.state.username)
-    console.log('password: ', this.state.password)
-    console.log('re_password: ', this.state.re_password)
+    let firstname = this.state.firstname
+    let lastname = this.state.lastname
+    let username = this.state.username
+    let pwd = this.state.password
+    let email = this.state.email
 
-    if (this.state.firstname.length === 0 && this.state.lastname.length === 0 && this.state.username.length === 0 && this.state.password.length && this.state.re_password.length && this.state.email.length) {
-      alert('Please input all field!')
-    } else if (this.state.password !== this.state.re_password) {
-      alert('Password and Confirm Password dont match')
-    } else {
-      let dataRegister = {
-        name: this.state.firstname+' '+this.state.lastname,
-        username: this.state.username,
-        password: this.state.password,
-        email: this.state.email,
-      }
+    let uppercase = /[A-Z]/.test(pwd)
+    let lowercase = /[a-z]/.test(pwd)
+    let specialcase = /[^a-zA-Z0-9]/.test(pwd)
+    let numbercase = /[0-9]/.test(pwd)
+    let lengthcase = pwd.length >= 5
+    let isValid = uppercase && lowercase && specialcase && numbercase && lengthcase
 
-      this.props.signUpData(dataRegister)
+    if (isValid) {
 
-      this.props.navigation.navigate('Login')
+      axios.get(`http://otw-env.cjqaqzzhwf.us-west-2.elasticbeanstalk.com/userbyusername/${username}`)
+      .then(response => {
+        console.log('HAIIIIII!')
+        if (response.data.status) {
+          let dataRegister = {
+            name: this.state.firstname+' '+this.state.lastname,
+            username: this.state.username,
+            password: this.state.password,
+            email: this.state.email,
+          }
+
+          console.log('DATA YG MAU DIKIRIM SAAT REGISTER: ', dataRegister)
+
+          this.props.signUpData(dataRegister)
+
+          this.setState = ({
+              firstname: '',
+              lastname: '',
+              username: '',
+              password: '',
+              email: '',
+          })
+
+          this.props.navigation.navigate('Login')
+        } else {
+          alert(response.data.message)
+        }
+      })
     }
   }
 
+  renderValidationFirstname(type, text) {
+    let firstname = this.state.firstname
+    let textcase = type === 1 && /[a-zA-z]/.test(firstname)
+    let lengthcase = type === 2 && firstname.length >= 5
+    let result = textcase || lengthcase
+
+    const style = {
+      textDecorationLine: result ? 'line-through' : 'none',
+      color: 'darkgray'
+    }
+
+    return (
+      <Text style={style}>
+        {text}
+      </Text>
+    )
+  }
+
+  renderValidationLastname(type, text) {
+    let lastname = this.state.lastname
+    let textcase = type === 1 && /[a-zA-z]/.test(lastname)
+    let result = textcase
+
+    const style = {
+      textDecorationLine: result ? 'line-through' : 'none',
+      color: 'darkgray'
+    }
+
+    return (
+      <Text style={style}>
+        {text}
+      </Text>
+    )
+  }
+
+  renderValidationUsername(type, text) {
+    let username = this.state.username
+    let lowercase = type === 1 && /[a-z]/.test(username)
+    let lengthcase = type === 2 && username.length >= 5
+    let result = lowercase || lengthcase
+
+    const style = {
+      textDecorationLine: result ? 'line-through' : 'none',
+      color: 'darkgray'
+    }
+
+    return (
+      <Text style={style}>
+        {text}
+      </Text>
+    )
+  }
+
+  renderValidationPassword(type, text) {
+    let pwd = this.state.password
+    let uppercase = type === 1 && /[A-Z]/.test(pwd)
+    let lowercase = type === 2 && /[a-z]/.test(pwd)
+    let specialcase = type === 3 && /[^a-zA-Z0-9]/.test(pwd)
+    let numbercase = type === 4 && /[0-9]/.test(pwd)
+    let lengthcase = type === 5 && pwd.length >= 5
+    let result = uppercase || lowercase || specialcase || numbercase || lengthcase
+
+    const style = {
+      textDecorationLine: result ? 'line-through' : 'none',
+      color: 'darkgray'
+    }
+
+    return (
+      <Text style={style}>
+        {text}
+      </Text>
+    )
+  }
+
+  renderValidationEmail(type, text) {
+    let email = this.state.email
+    var regexEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    let emailcase = type === 1 && regexEmail.test(email)
+    let result = emailcase
+
+    const style = {
+      textDecorationLine: result ? 'line-through' : 'none',
+      color: 'darkgray'
+    }
+
+    return (
+      <Text style={style}>
+        {text}
+      </Text>
+    )
+  }
+
+  displayValidation() {
+    if (this.state.validationFirstname) {
+      return (
+        <View style={{marginLeft: 20, marginTop: 20}}>
+          <Text>Firstname Strength:</Text>
+          {this.renderValidationFirstname(1, 'Firstname must be string')}
+          {this.renderValidationFirstname(2, 'Minimal Firstname length is 5 characters')}
+        </View>
+      )
+    } else if (this.state.renderValidationLastname) {
+      return (
+        <View style={{marginLeft: 20, marginTop: 20}}>
+          <Text>Lastname Strength:</Text>
+          {this.renderValidationLastname(1, 'Lastname must be string')}
+        </View>
+      )
+    } else if (this.state.validationUsername) {
+      return (
+        <View style={{marginLeft: 20, marginTop: 20}}>
+          <Text>Username Strength:</Text>
+          {this.renderValidationUsername(1, 'Username must lowercase')}
+          {this.renderValidationUsername(2, 'Minimal Username length is 5 characters')}
+        </View>
+      )
+    } else if (this.state.validationPasword) {
+      return (
+        <View style={{marginLeft: 20, marginTop: 20}}>
+          <Text>Password Strength:</Text>
+          {this.renderValidationPassword(1, 'Password min 1 karakter huruf besar')}
+          {this.renderValidationPassword(2, 'Password min 1 karakter huruf kecil')}
+          {this.renderValidationPassword(3, 'Password min 1 spesial karakter')}
+          {this.renderValidationPassword(4, 'Password min 1 setidaknya satu angka')}
+          {this.renderValidationPassword(5, 'Panjang Password min 5 karakter')}
+        </View>
+      )
+    } else if (this.state.validationEmail) {
+      return (
+        <View style={{marginLeft: 20, marginTop: 20}}>
+          <Text>Email Strength:</Text>
+          {this.renderValidationEmail(1, 'Email is not valid')}
+        </View>
+      )
+    }
+  }
+
+  renderLogin() {
+    this.props.navigation.navigate('Login')
+  }
+
     render() {
-      // console.log('Navigasi: ', this.props)
         return (
-            <View style={styles.container}>
-                <Text>Register</Text>
-                <View>
-                  <TextInput
-                    onChangeText={(text) => this.setState({ firstname: text })}
-                    value={ this.state.firstname }
-                    style={{ width: 300 }}
-                    placeholder='input your first name'
-                  />
-                  <TextInput
-                    onChangeText={(text) => this.setState({ lastname: text })}
-                    value={ this.state.lastname }
-                    style={{ width: 300 }}
-                    placeholder='input your last name'
-                  />
-                  <TextInput
-                    onChangeText={(text) => this.setState({ email: text })}
-                    value={ this.state.email }
-                    style={{ width: 300 }}
-                    placeholder='input your email'
-                  />
-                  <TextInput
-                    onChangeText={(text) => this.setState({ username: text })}
-                    value={ this.state.username }
-                    style={{ width: 300 }}
-                    placeholder='input your username'
-                  />
-                  <TextInput
-                    onChangeText={(text) => this.setState({ password: text })}
-                    value={ this.state.password }
-                    style={{ width: 300 }}
-                    secureTextEntry={true}
-                    placeholder='input your password'
-                  />
-                  <TextInput
-                    onChangeText={(text) => this.setState({ re_password: text })}
-                    value={ this.state.re_password }
-                    style={{ width: 300 }}
-                    secureTextEntry={true}
-                    placeholder=' confirm password'
-                  />
-              </View>
-              <View style={{ marginBottom: 50}}>
-                <Button
-                  onPress={() => this._doSignUp() }
-                  title="Register"
-                  color="#841584"
-                  accessibilityLabel="Register"
-                />
-              </View>
-            </View>
+          <ScrollView style={styles.scroll}>
+            <Container>
+                <Button bordered info style={{ alignSelf: 'center', marginTop: 20, marginBottom: 20 }}>
+                  <View style={styles.inline}>
+                      <Text style={[styles.buttonBlueText, styles.buttonBigText]}>  Connect </Text>
+                      <Text style={styles.buttonBlueText}>with Facebook</Text>
+                  </View>
+                </Button>
+
+                <Content>
+                  <View style={{flex: 1}}>
+                    <Text style={{fontSize: 16, fontWeight: 'bold'}} onPress={() => this.renderLogin()} tyle={{fontSize: 18, fontWeight: 'bold', marginBottom: 5}}>Back to Login...</Text>
+                  </View>
+
+                  <Card style={{paddingBottom: 20}}>
+                      <Form>
+
+                        <View style={{ marginLeft: 20, marginRight: 20, marginBottom: 10, marginTop: 10}}>
+                          <Label>Firstname</Label>
+                          <Item rounded style={{ height: 35 }}>
+                            <Input
+                              value={this.state.firstname}
+                              onChangeText={(text) => this.setState({firstname: text, validationEmail: false, validationFirstname: true, validationLastname: false, validationUsername: false, validationPasword: false})}
+                            />
+                          </Item>
+                          {this.state.firstname.length === 0 ? (<Text style={{fontSize: 10, marginBottom: 0, marginLeft: 20, marginRight: 20, color: 'red'}}>* Please input your firstname!</Text>) : (<Text></Text>)}
+                        </View>
+
+                        <View style={{ marginLeft: 20, marginRight: 20, marginBottom: 10}}>
+                          <Label>Lastname</Label>
+                          <Item rounded style={{ height: 35 }}>
+                            <Input
+                              value={this.state.lastname}
+                              onChangeText={(text) => this.setState({lastname: text, validationEmail: false, validationFirstname: false, validationLastname: true, validationUsername: false, validationPasword: false})}
+                            />
+                          </Item>
+                        </View>
+
+                        <View style={{ marginLeft: 20, marginRight: 20, marginBottom: 10}}>
+                          <Label>Username</Label>
+                          <Item rounded style={{ height: 35 }}>
+                            <Input
+                              value={this.state.username}
+                              onChangeText={(text) => this.setState({username: text, validationEmail: false, validationFirstname: false, validationLastname: false, validationUsername: true, validationPasword: false})}
+                            />
+                          </Item>
+                          {this.state.username.length === 0 ? (<Text style={{fontSize: 10, marginBottom: 0, marginLeft: 20, marginRight: 20, color: 'red'}}>* Please input your username!</Text>) : (<Text></Text>)}
+                        </View>
+
+                        <View style={{ marginLeft: 20, marginRight: 20, marginBottom: 10}}>
+                          <Label>Password</Label>
+                          <Item rounded style={{ height: 35 }}>
+                            <Input
+                              value={this.state.password}
+                              onChangeText={(text) => this.setState({password: text, validationEmail: false, validationFirstname: false, validationLastname: false, validationPasword: true, validationUsername: false})}
+                            />
+                          </Item>
+                          {this.state.password.length === 0 ? (<Text style={{fontSize: 10, marginBottom: 0, marginLeft: 20, marginRight: 20, color: 'red'}}>* Please input your password!</Text>) : (<Text></Text>)}
+                        </View>
+
+                        <View style={{ marginLeft: 20, marginRight: 20, marginBottom: 10}}>
+                          <Label>Email</Label>
+                          <Item rounded style={{ height: 35 }}>
+                            <Input
+                              value={this.state.email}
+                              onChangeText={(text) => this.setState({email: text, validationEmail: true, validationFirstname: false, validationLastname: false, validationPasword: false, validationUsername: false})}
+                            />
+                          </Item>
+                          {this.state.email.length === 0 ? (<Text style={{fontSize: 10, marginLeft: 20, marginRight: 20, color: 'red'}}>* Please input your email!</Text>) : (<Text></Text>)}
+                        </View>
+
+                      </Form>
+                      <Button block auto
+                        onPress={() => {this._doSignUp()}}
+                        style={{ marginLeft: 20, marginRight: 20, marginTop: 20 }}
+                      >
+                          <Text style={{fontSize: 20, fontWeight: 'bold'}}>SignUp</Text>
+                      </Button>
+                      {this.displayValidation()}
+
+                  </Card>
+
+                </Content>
+
+            </Container>
+          </ScrollView>
         );
     }
 }
-
-// define your styles
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#2c3e50',
-    },
-});
 
 const mapDispatchToProps = dispatch => {
     return {
