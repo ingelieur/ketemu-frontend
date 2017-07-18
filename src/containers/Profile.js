@@ -28,7 +28,6 @@ class Profile extends Component {
 
     return (
       <View style={styles.parentView}>
-
         <View style={styles.userView}>
           <Content>
               <Card>
@@ -59,7 +58,6 @@ class Profile extends Component {
             <Text>Log Out</Text>
           </Button>
         </View>
-
       </View>
     );
   }
@@ -70,10 +68,11 @@ class Profile extends Component {
 const styles = {
   parentView:{
     flex:1,
+    backgroundColor:'#99d6ff'
   },
   userView:{
     flex:1,
-    backgroundColor: '#F5F5F5'
+    backgroundColor: '#99d6ff'
   },
   logoutView:{
     flex:0.07,

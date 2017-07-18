@@ -3,6 +3,7 @@ import { View, StyleSheet } from 'react-native';
 import { Container, Content, Card, CardItem, Text, Body, Button, Icon, Fab } from 'native-base';
 import { ButtonAddMeeting, CardUpcomingAndHistory } from '../components'
 import { connect } from 'react-redux'
+import { Spinner } from 'native-base';
 
 class UpcomingScreen extends Component {
   constructor(props){
@@ -15,11 +16,15 @@ class UpcomingScreen extends Component {
   }
 
   render() {
-    console.log('UPCOMING SCREEN', this.props)
     if(this.props.meetings.length == 0){
       return(
-        <View>
-          <Text>Kosong </Text>
+        <View style={{flex:1}}>
+          <View style={{flex:1,backgroundColor:'#99d6ff',justifyContent:'center',alignItems:'center'}}>
+            <Spinner />
+            <Text style={{color:'white', fontWeight:'bold',fontSize:20}}>
+              Loading...
+            </Text>
+          </View>
         </View>
       )
     } else {
@@ -31,7 +36,7 @@ class UpcomingScreen extends Component {
                 return new Date(meeting.meetingTime) > new Date() && meeting.status === 'TBA'
               }).map((meeting) => {
                 return(
-                  <CardUpcomingAndHistory detailMeetUp={()=>this.detailMeetUp(meeting._id)} meetupData={meeting}/>
+                  <CardUpcomingAndHistory key={meeting._id} detailMeetUp={()=>this.detailMeetUp(meeting._id)} meetupData={meeting}/>
                 )
               })
             }
@@ -39,7 +44,7 @@ class UpcomingScreen extends Component {
                 return new Date(meeting.meetingTime) > new Date() && meeting.status === 'upcoming'
               }).map((meeting) => {
                 return(
-                  <CardUpcomingAndHistory detailMeetUp={()=>this.detailMeetUp(meeting._id)} meetupData={meeting}/>
+                  <CardUpcomingAndHistory key={meeting._id} detailMeetUp={()=>this.detailMeetUp(meeting._id)} meetupData={meeting}/>
                 )
               })
             }
@@ -60,7 +65,8 @@ class UpcomingScreen extends Component {
 
 const styles = {
   parentView:{
-    flex:1
+    flex:1,
+    backgroundColor:'#99d6ff'
   },
   upcomingData:{
     flex:40

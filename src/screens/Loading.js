@@ -6,9 +6,10 @@ import {
   Text,
   TextInput,
   Button,
-  Spinner,
   AsyncStorage
 } from 'react-native'
+
+import { Spinner } from 'native-base';
 
 import { NavigationActions } from 'react-navigation'
 
@@ -61,6 +62,7 @@ class Loading extends React.Component {
   render () {
     return (
       <View>
+        <Spinner />
         <Text>Loading....</Text>
       </View>
     )

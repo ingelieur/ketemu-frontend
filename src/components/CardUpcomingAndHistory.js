@@ -36,7 +36,7 @@ export default function CardUpcomingAndHistory (props) {
 
                 <View >
                   {
-                    props.meetupData.status === 'TBA' ?
+                    props.meetupData.status === 'TBA' && new Date(props.meetupData.meetingTime) > new Date() ?
                     (
                       <Badge success >
                         <Text>Waiting</Text>
