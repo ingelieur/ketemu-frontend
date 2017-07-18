@@ -1,8 +1,7 @@
 import React from 'react'
 import {
   StyleSheet,
-  View,
-  TouchableHighlight,
+  View
 } from 'react-native'
 import {PieChart} from 'react-native-mp-android-chart'
 
@@ -18,42 +17,23 @@ export default function PieChartComp(props) {
   })
   console.log(participantsYes)
   let state = {
-    legend: {
-      enabled: true,
-      textSize: 10,
-      form: 'CIRCLE',
-      position: 'RIGHT_OF_CHART',
-      fontFamily: 'monospace',
-      wordWrapEnabled: true
-    },
     data: {
       datasets: [{
         yValues: [participantsYes.length, participantsPending.length, participantsNo.length],
-        label: '',
+        label: 'Pie dataset',
         config: {
           colors: ['#C0FF8C', '#FFF78C', '#FF8C9D'],
+
           sliceSpace: 3,
-          selectionShift: 5
+          selectionShift: 13
         }
       }],
       xValues: ['Yes', 'Pending', 'No']
     },
-    description: {
-      text: '',
-      textSize: 15,
-      textColor: 'darkgray',
-      fontFamily: 'monospace',
-      fontStyle: 2
-    }
-  }
-
-  const pressMe = () => {
-    alert('OI')
   }
 
   return (
     <View style={styles.container}>
-      <TouchableHighlight onPress={() => alert('OI')}>
       <PieChart
         style={styles.chart}
         logEnabled={true}
@@ -61,7 +41,8 @@ export default function PieChartComp(props) {
         description={state.description}
         data={state.data}
         legend={state.legend}
-        drawSliceText={false}
+
+        drawSliceText={true}
         usePercentValues={false}
         centerText={'Participants'}
         centerTextRadiusPercent={100}
@@ -72,7 +53,6 @@ export default function PieChartComp(props) {
         transparentCircleAlpha={50}
         maxAngle={360}
       />
-    </TouchableHighlight>
     </View>
   )
 }
@@ -80,6 +60,7 @@ export default function PieChartComp(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#F5FCFF'
   },
   chart: {
     flex: 1

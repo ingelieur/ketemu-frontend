@@ -31,14 +31,15 @@ class MeetingDetails extends React.Component {
 
   render() {
     console.log('ROOOOOLEEEE', this.state.role)
+    console.log(this.state.meeting.participants)
     return (
       <View style={styles.container}>
-        <PieChart />
+        <PieChart participants={this.state.meeting.participants}/>
         {this.state.meeting.status === 'TBA' ? (
           this.state.role === 'creator' ? (
             <CreatorDetailsTBA navigateApp={this.props.navigation} meetupId={this.state.meetingId}/>
           ) : (
-            <ParticipantDetailsTBA />
+            <ParticipantDetailsTBA meeting={this.state.meeting}/>
           )
         ) : (
           this.state.role === 'creator' ? (
