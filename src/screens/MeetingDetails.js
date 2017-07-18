@@ -18,6 +18,8 @@ class MeetingDetails extends React.Component {
     let meeting = this.props.meetings.find((meeting) => {
       return meeting._id == meetingId
     })
+    console.log('creator',meeting.creator);
+    console.log('user',this.props.users.id );
     this.state = {
       meeting: meeting,
       role: meeting.creator == this.props.users.id ? 'creator' : 'participant',

@@ -8,6 +8,7 @@ import { Spinner } from 'native-base';
 class UpcomingScreen extends Component {
   constructor(props){
     super(props)
+    console.log('user',this.props.users.id )
 
   }
 

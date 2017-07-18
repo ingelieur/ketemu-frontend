@@ -53,6 +53,7 @@ class Register extends React.Component {
   }
 
   _doSignUp() {
+    console.log('ini lhooo saat dipencet');
     let firstname = this.state.firstname
     let lastname = this.state.lastname
     let username = this.state.username
