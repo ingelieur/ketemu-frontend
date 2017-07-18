@@ -4,6 +4,7 @@ import { Container, Content, List, ListItem, Spinner } from 'native-base';
 import axios from 'axios'
 import geolib from 'geolib'
 import outliers from 'outliers'
+import timer from 'react-native-timer'
 import moment from 'moment-business-time'
 import { NavigationActions } from 'react-navigation'
 import MapView from 'react-native-maps';
@@ -14,14 +15,17 @@ export default class SetPlace extends Component {
     this.state = {
       meetupId:'596c57d954bed30dcc5ac163',
       region: {
-        latitude: -6.2656832,
-        longitude: 106.7810439,
+        // latitude: -6.2656832,
+        // longitude: 106.7810439,
+        latitude: -0,
+        longitude: 0,
         latitudeDelta: 0.02,
         longitudeDelta: 0.02,
       },
+      originalCoordinates:[],
       markers:[],
       radius:500,
-      loadingMessage: 'Analyzing places recomendation...',
+      loadingMessage: 'Geting all participants location...',
       venueType:'restaurant',
       venueQuery:'restaurant',
       pageLoadedStatus: false,
@@ -70,6 +74,7 @@ export default class SetPlace extends Component {
     this.onRegionChange = this.onRegionChange.bind(this)
     this.getCenter = this.getCenter.bind(this)
     this.getVenue = this.getVenue.bind(this)
+    this.regionAdjustmentDefault = this.regionAdjustmentDefault.bind(this)
     this.regionAdjustment = this.regionAdjustment.bind(this)
     this.finalizePlace = this.finalizePlace.bind(this)
   }
@@ -83,7 +88,7 @@ export default class SetPlace extends Component {
 
     var centerCoordinate = geolib.getCenter(geoArray);
 
-    var distanceArray = coordinates.map(a=> geolib.getDistance({latitude: a[0], longitude: a[1]},centerCoordinate) )
+    var distanceArray = coordinates.map(a=> geolib.getDistance({latitude: a[0], longitude: a[1]},centerCoordinate))
 
     var OutliersDistanceArray=outliers(distanceArray)
 
@@ -105,27 +110,44 @@ export default class SetPlace extends Component {
       })
     })
 
-    if(newGeoArray.length>0){
-      this.setState({
-        region:{
-          latitude: parseFloat(geolib.getCenter(newGeoArray).latitude),
-          longitude: parseFloat(geolib.getCenter(newGeoArray).longitude),
-          latitudeDelta: 0.02,
-          longitudeDelta: 0.02,
-        }
-      })
-      this.getVenue()
-    } else {
-      this.setState({
-        region:{
-          latitude: parseFloat(geolib.getCenter(geoArray).latitude),
-          longitude: parseFloat(geolib.getCenter(geoArray).longitude),
-          latitudeDelta: 0.02,
-          longitudeDelta: 0.02,
-        }
-      })
-      this.getVenue()
+    this.setState({
+      region:{
+        latitude: parseFloat(geolib.getCenter(geoArray).latitude),
+        longitude: parseFloat(geolib.getCenter(geoArray).longitude),
+        latitudeDelta: 0.02,
+        longitudeDelta: 0.02,
+      }
+    })
+
+    if(this.state.originalCoordinates.length!=0){
+      this.regionAdjustmentDefault()
     }
+
+    timer.setTimeout('timer',()=>{
+      if(newGeoArray.length>0){
+        this.setState({
+          'pageLoadedStatus':false,
+          region:{
+            latitude: parseFloat(geolib.getCenter(newGeoArray).latitude),
+            longitude: parseFloat(geolib.getCenter(newGeoArray).longitude),
+            latitudeDelta: 0.02,
+            longitudeDelta: 0.02,
+          }
+        })
+        this.getVenue()
+      } else {
+        this.setState({
+          'pageLoadedStatus':false,
+          region:{
+            latitude: parseFloat(geolib.getCenter(geoArray).latitude),
+            longitude: parseFloat(geolib.getCenter(geoArray).longitude),
+            latitudeDelta: 0.02,
+            longitudeDelta: 0.02,
+          }
+        })
+        this.getVenue()
+      }
+    }, 3000)
   }
 
   getVenue(){
@@ -138,11 +160,23 @@ export default class SetPlace extends Component {
           return this.getVenue()
         }
       }
+      if(this.state.markers.length<5){
+        this.setState({'radius':this.state.radius+=500})
+        if(this.state.radius<5000){
+          return this.getVenue()
+        }
+      }
+      if(this.state.markers.length<2){
+        this.setState({'radius':this.state.radius+=500})
+        if(this.state.radius<10000){
+          return this.getVenue()
+        }
+      }
       if(this.state.markers.length>0){
         this.regionAdjustment()
         this.setState({'pageLoadedStatus':true})
       } else {
-        this.setState({'pageLoadedStatus':true})
+        this.setState({'originalCoordinates':[],'pageLoadedStatus':true})
       }
     })
   }
@@ -155,18 +189,20 @@ export default class SetPlace extends Component {
       if(bussinessHour){
         coordinates = [response.data.creator.officeAddressGeolocation]
         response.data.participants.forEach(participant=>{
-          if(participant.status == 'yes'){
+          if(participant.status == 'pending'){
             coordinates.push(participant.user.officeAddressGeolocation)
           }
         })
       } else {
         coordinates = [response.data.creator.homeAddressGeolocation]
         response.data.participants.forEach(participant=>{
-          if(participant.status == 'yes'){
+          if(participant.status == 'pending'){
             coordinates.push(participant.user.homeAddressGeolocation)
           }
         })
       }
+      coordinates.push([-6.2606187,106.6816])
+      coordinates.push([-6.9174639,107.6191228])
       this.getCenter(coordinates)
     })
     .catch(err=>{
@@ -185,31 +221,66 @@ export default class SetPlace extends Component {
       if(bussinessHour){
         coordinates = [response.data.creator.officeAddressGeolocation]
         response.data.participants.forEach(participant=>{
-          if(participant.status == 'yes'){
+          if(participant.status == 'pending'){
             coordinates.push(participant.user.officeAddressGeolocation)
           }
         })
       } else {
         coordinates = [response.data.creator.homeAddressGeolocation]
         response.data.participants.forEach(participant=>{
-          if(participant.status == 'yes'){
+          if(participant.status == 'pending'){
             coordinates.push(participant.user.homeAddressGeolocation)
           }
         })
       }
+      coordinates.push([-6.2606187,106.6816])
+      coordinates.push([-6.9174639,107.6191228])
       if(response.data.typePlaces == 'coworking_space'){
         this.setState({'venueType':'','venueQuery':response.data.typePlaces.split('_').join('+')})
       } else {
         this.setState({'venueType':response.data.typePlaces,'venueQuery':response.data.typePlaces.split('_').join('+')})
       }
-      this.getCenter(coordinates)
+      this.setState({originalCoordinates:coordinates},()=>{
+        this.setState({pageLoadedStatus:true,loadingMessage:'Analyzing places recomendation...'})
+        this.getCenter(coordinates)
+      })
     })
     .catch(err=>{
       let coordinates = [
         [0,0]
       ]
-      this.getCenter(coordinates)
+      this.setState({originalCoordinates:coordinates},()=>{
+        this.setState({pageLoadedStatus:true,loadingMessage:'Analyzing places recomendation...'})
+        this.getCenter(coordinates)
+      })
     })
+  }
+
+  regionAdjustmentDefault(){
+    var minX = this.state.originalCoordinates[0][0]
+    var maxX = this.state.originalCoordinates[0][0]
+    var minY = this.state.originalCoordinates[0][1]
+    var maxY = this.state.originalCoordinates[0][1]
+    this.state.originalCoordinates.map((coordinate) => {
+      minX = Math.min(minX, coordinate[0]-0.1);
+      maxX = Math.max(maxX, coordinate[0]+0.1);
+      minY = Math.min(minY, coordinate[1]-0.1);
+      maxY = Math.max(maxY, coordinate[1]+0.1);
+    });
+
+    const midX = (minX + maxX) / 2;
+    const midY = (minY + maxY) / 2;
+    const deltaX = (maxX - minX);
+    const deltaY = (maxY - minY);
+
+    this.setState({
+      region:{
+        latitude: midX,
+        longitude: midY,
+        latitudeDelta: deltaX,
+        longitudeDelta: deltaY
+      }
+    });
   }
 
   regionAdjustment(){
@@ -230,6 +301,7 @@ export default class SetPlace extends Component {
     const deltaY = (maxY - minY);
 
     this.setState({
+      originalCoordinates:[],
       region:{
         latitude: midX,
         longitude: midY,
@@ -261,10 +333,12 @@ export default class SetPlace extends Component {
   }
 
   componentWillMount(){
-    // this.setState({"meetupId":this.props.meetupId})
+    if(this.props.meetupId){
+      this.setState({"meetupId":this.props.meetupId})
+    }
     this.retrieveData()
   }
-
+  // timer.setTimeout('alert',()=>alert('boom'), 2000)
   render() {
     if(this.state.pageLoadedStatus){
       if(this.state.modalStatus){
@@ -303,18 +377,35 @@ export default class SetPlace extends Component {
       } else if (!this.state.placeDetailStatus){
         return (
           <View style={{flex:1}}>
-            <View style={{flex:1,backgroundColor:'#3399ff',justifyContent:'center',alignItems:'center'}}>
-              <Text style={{color:'white', fontWeight:'bold',fontSize:20}}>
-                {this.state.venueType?this.state.venueType.split('_').join(' ').toUpperCase():'Coworking Space'}
-              </Text>
-            </View>
+            {this.state.originalCoordinates.length == 0 ? (
+                <View style={{flex:1,backgroundColor:'#3399ff',justifyContent:'center',alignItems:'center'}}>
+                  <Text style={{color:'white', fontWeight:'bold',fontSize:20}}>
+                    {this.state.venueType?`Recomendation: ${this.state.venueType.split('_').join(' ').toLowerCase()}`:'Recomendation: coworking space'}
+                  </Text>
+                </View>
+              ) : (
+                <View style={{flex:1,backgroundColor:'#3399ff',justifyContent:'center',alignItems:'center'}}>
+                  <Text style={{color:'white', fontWeight:'bold',fontSize:20}}>
+                    {'All Participants Location'}
+                  </Text>
+                </View>
+              )
+            }
             <View style={{flex:10}}>
               <MapView
-                showCallout
                 style={{flex:7}}
                 region={this.state.region}
                 onRegionChange={this.onRegionChange}
               >
+              {this.state.originalCoordinates.length != 0 ? this.state.originalCoordinates.map((coordinate,index) => (
+                <MapView.Marker
+                  key={index}
+                  pinColor="green"
+                  coordinate={{latitude:coordinate[0],longitude:coordinate[1]}}
+                  title={coordinate.index}
+                  description={`participant ${coordinate.index}`}
+                />
+              )) : null}
               {this.state.markers.length != 0 ? this.state.markers.map((marker,index) => (
                 <MapView.Marker
                   key={index}
@@ -329,12 +420,31 @@ export default class SetPlace extends Component {
                 />
               )) : null}
               </MapView>
-              {this.state.markers.length == 0 ? (
+              {this.state.originalCoordinates.length != 0 ? (
+                <View style={{flex:1,flexDirection:'row',backgroundColor:'#3399ff'}}>
+                  <View style={{flex:3,justifyContent:'center'}}>
+                    <Text style={{color:'white', fontWeight:'bold',fontSize:15}}>These are all confirmed participants locations</Text>
+                    <Text style={{color:'white', fontWeight:'bold',fontSize:15}}>Please wait a moment</Text>
+                  </View>
+                  <View style={{flex:1}}>
+                    <Spinner />
+                  </View>
+                </View>
+              ) : null }
+              {this.state.markers.length == 0 && this.state.originalCoordinates.length == 0 ? (
                 <Text style={{flex:0.5,alignSelf:'center', fontWeight:'bold'}}>
                   No place found, please select other type of place
                 </Text> ):null
               }
-              <Button style={{flex:1}}onPress={()=>this.setState({'modalStatus':true})} title="Change venue type"/>
+              {this.state.originalCoordinates.length == 0 ? (
+                  <View style={{flex:1}}>
+                    <Text style={{flex:0.5,alignSelf:'center', fontWeight:'bold'}}>
+                      Click on the markers to view venue detail
+                    </Text>
+                    <Button style={{flex:1}}onPress={()=>this.setState({'modalStatus':true})} title="Change venue type"/>
+                  </View>
+                ): null
+              }
             </View>
           </View>
         )
