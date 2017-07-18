@@ -11,6 +11,7 @@ class CreatorDetailsTBA extends React.Component {
     super(props)
   }
   setPlace() {
+    console.log('CREATORDETAILS', this.props.meeting)
     this.props.navigateApp.navigate('SetPlace', {meetupId: this.props.meeting._id})
   }
   render() {
