@@ -44,9 +44,7 @@ class UpcomingScreen extends Component {
               })
             }
             </Content>
-
             <ButtonAddMeeting navigateApp={this.props.screenProps.navigateApp}/>
-
           </Container>
         </View>
       );
