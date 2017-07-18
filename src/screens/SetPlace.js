@@ -10,10 +10,10 @@ import { NavigationActions } from 'react-navigation'
 import MapView from 'react-native-maps';
 
 export default class SetPlace extends Component {
-  constructor(){
-    super()
+  constructor(props){
+    super(props)
     this.state = {
-      meetupId:'596c57d954bed30dcc5ac163',
+      meetupId:'',
       region: {
         // latitude: -6.2656832,
         // longitude: 106.7810439,
@@ -333,13 +333,12 @@ export default class SetPlace extends Component {
   }
 
   componentWillMount(){
-    if(this.props.meetupId){
-      this.setState({"meetupId":this.props.meetupId})
-    }
-    this.retrieveData()
+    this.setState({"meetupId":this.props.navigation.state.params.meetupId},
+      ()=> this.retrieveData())
   }
   // timer.setTimeout('alert',()=>alert('boom'), 2000)
   render() {
+    console.log('SETPLAAAAAAACE', this.props)
     if(this.state.pageLoadedStatus){
       if(this.state.modalStatus){
         return (
