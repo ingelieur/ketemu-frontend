@@ -39,7 +39,7 @@ class MeetingDetails extends React.Component {
           this.state.role === 'creator' ? (
             <CreatorDetailsTBA navigateApp={this.props.navigation} meetupId={this.state.meetingId}/>
           ) : (
-            <ParticipantDetailsTBA />
+            <ParticipantDetailsTBA meeting={this.state.meeting}/>
           )
         ) : (
           this.state.role === 'creator' ? (
