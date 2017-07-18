@@ -47,7 +47,7 @@ class Login extends React.Component {
 
   _doSignIn() {
 
-    let username = this.state.password
+    let username = this.state.username
     let pwd = this.state.password
 
     let lengthcaseusername = username.length > 0
@@ -59,19 +59,11 @@ class Login extends React.Component {
       this.setState({
         renderLogin: true
       })
-
       let dataLogin = {
         username: this.state.username,
         password: this.state.password,
         navigateLogin: this.props.navigation
       }
-      console.log(dataLogin)
-
-      this.setState({
-        username: '',
-        password: ''
-      })
-
       this.props.loginData(dataLogin)
 
     } else {
@@ -107,6 +99,7 @@ class Login extends React.Component {
                     <Label>Password</Label>
                     <Item rounded style={{ height: 35 }}>
                       <Input
+                        secureTextEntry={true}
                         value={this.state.password}
                         onChangeText={(text) => this.setState({password: text})}
                       />
@@ -124,17 +117,16 @@ class Login extends React.Component {
             <View style={{flex: 1, alignItems: 'center'}}>
               <Text></Text>
               <Text></Text>
-              <Text style={{fontSize: 18, fontWeight: 'bold'}} onPress={()=>this.renderRegister()}>Or click here to create a new account...</Text>
+              {this.state.renderLogin ? (
+                  <View style={{flex:1}}>
+                    <Spinner />
+                  </View>
+                ) : null
+              }
+              <Text style={{fontSize: 18, fontWeight: 'bold'}} onPress={()=>this.renderRegister()}>click here to create new account...</Text>
             </View>
           </Content>
         </Container>
-        {this.state.renderLogin ? (
-            <View style={{flex:1}}>
-              <Spinner />
-              <Text style={{fontSize: 25, fontWeight: 'bold'}}>Loading.....</Text>
-            </View>
-          ) : null
-        }
       </ScrollView>
     )
   }
