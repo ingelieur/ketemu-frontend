@@ -12,12 +12,12 @@ class AddTitle extends React.Component {
     super(props)
     this.state = {
       isDateTimePickerVisible: false,
+      placeType: {"coworking_space": "Coworking Space", "library": "Library", "bar": "Bar", "cafe": "Coffee Shop", "shopping_mall": "Shopping Mall", "restaurant": "Restaurant", "park": "Park"}
     };
     this.handleInputChange = this.handleInputChange.bind(this);
   }
   _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
   _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
-
   _handleDatePicked = (date) => {
     if(date.getTime()-Date.now() < 10800000){
       alert('Meeting time should not be less than 3 hours from now')
@@ -39,12 +39,13 @@ class AddTitle extends React.Component {
 
   render() {
     const navigasiNext = this.props.navigation.navigate;
+
     return (
       <Container>
         <Content>
           <Card style={{marginLeft:4, marginRight:4}}>
             <CardItem header>
-              <Text>NativeBase</Text>
+              <Text>Create a Meetup</Text>
             </CardItem>
             <CardItem>
               <Body>
@@ -117,7 +118,9 @@ class AddTitle extends React.Component {
                         { this.props.createMeetUp.placeType == '' ?
                           (<Text></Text>) : (
                             <Text style={{marginLeft:4}}>
-                            {this.props.createMeetUp.placeType}
+                              {
+                                this.state.placeType[this.props.createMeetUp.placeType]
+                              }
                             </Text>
                           )
                         }

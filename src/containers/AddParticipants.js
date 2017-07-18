@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, } from 'react-native';
-import { Container, Content, Card, CardItem, Text, Body, Item, Input, Button, ListItem, } from 'native-base';
+import { Container, Content, Card, CardItem, Text, Body, Item, Input, Button, ListItem, Badge } from 'native-base';
 import { inputParticipantsMeetUp } from '../actions/createMeetUp'
 import { connect } from 'react-redux'
 import Axios from 'axios'
@@ -68,23 +68,25 @@ class AddParticipants extends React.Component {
         <Content>
           <Card style={{marginLeft:4, marginRight:4}}>
             <CardItem header>
-              <Text>Add Ur Friend To Meeting</Text>
+              <Text>Add Participants</Text>
             </CardItem>
             <CardItem>
               <Body>
-                {this.state.users.map((user) => {
+
+                <Item regular regular style={{marginTop:1, height:30}}>
+                  <Input placeholder='Add His/Her Username' value={this.state.searchUser} onChangeText={(text) => this.handleUsernameSearch(text)}/>
+                </Item>
+                <View style={{flex:1, flexDirection:'row', flexWrap:'wrap'}}>
+                {
+                  this.state.users.map((user) => {
                   return (
-                    <ListItem style={{backgroundColor: 'red'}} key={`users.${user.id}`}>
-                      <Text>{user.username}</Text>
-                    </ListItem>
+                      <Badge success key={`users.${user.id}`} style={{marginLeft:2, marginRight:2, marginTop:2  }}>
+                          <Text>{user.username}</Text>
+                      </Badge>
                   )})
                 }
-                <Text>
-                  Add His/Her Username
-                </Text>
-                <Item regular regular style={{marginTop:1, height:30}}>
-                  <Input placeholder='tralala' value={this.state.searchUser} onChangeText={(text) => this.handleUsernameSearch(text)}/>
-                </Item>
+                </View>
+
                 { this.state.possibleUsers.map((user) => {
                   return (
                     <ListItem key={`possUsers.${user._id}`}>
