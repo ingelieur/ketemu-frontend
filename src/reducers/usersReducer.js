@@ -23,14 +23,6 @@ const initialState = {
   name: ''
 }
 
-let idUser = ''
-AsyncStorage.getItem('id', (err, id) => {
-  if (id) {
-    console.log('OOOOOOO: ', id)
-    idUser = id
-  }
-})
-
 const signIn = (state, data) => {
   console.log('DATA USER',data);
 
@@ -52,16 +44,17 @@ const signIn = (state, data) => {
 
 const signOut = state => {
   let newState = {
-    ...state,
+    ...initialState,
     loginStatus: false
   }
+  console.log('aladydydydydyd',newState);
   return newState
 }
 
 const signUp = (state, data) => {
   let newState = {
     ...state,
-    id: idUser,
+    id: data._id,
     name: data.name,
     username: data.username,
     password: data.password,
@@ -73,19 +66,10 @@ const signUp = (state, data) => {
 const updateAvatar = (state, data) => {
   let newState = {
     ...state,
-    id: idUser,
+    id: data._id,
     avatarURL: data.avatarURL
   }
   console.log('AVATAR REDUCER: ', data)
-  return newState
-}
-
-const fetchAsyncstorageId = (state, data) => {
-  console.log('VVVVVVV: ', data)
-  let newState = {
-    ...state,
-    id: idUser
-  }
   return newState
 }
 
@@ -93,7 +77,7 @@ const fetchUser = (state, data) => {
   // console.log('USER DI REDUCERS ***: ', data)
   let newState = {
     ...state,
-    id: idUser,
+    id: data._id,
     name: data.name,
     email: data.email,
     officeAddressName: data.officeAddressName,
@@ -121,8 +105,6 @@ export default(state = initialState, { type, payload }) => {
       return updateAvatar(state, payload)
     case FETCH_USER:
       return fetchUser(state, payload)
-    case FETCH_ASYNCSTORAGE_ID:
-      return fetchAsyncstorageId(state, data)
     default:
       return state
   }
