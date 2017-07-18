@@ -9,15 +9,15 @@ import { AddTitle, AddParticipants, AddConfirmationDeadline } from '../container
 
 
 export const ScreensAddMeeting = StackNavigator({
-  //AddTitle: { screen : AddTitle },
+  AddTitle: { screen : AddTitle },
   AddParticipants: { screen : AddParticipants },
   AddConfirmationDeadline: { screen : AddConfirmationDeadline },
-})
+}, { headerMode: 'none' })
 
 export default class CreateMeeting extends React.Component {
   render() {
     return (
-      <ScreensAddMeeting />
+      <ScreensAddMeeting screenProps={{navigateApp: this.props.navigation}}/>
     )
   }
 }

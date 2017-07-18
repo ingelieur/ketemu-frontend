@@ -90,11 +90,13 @@ export const signIn = data => {
               AsyncStorage.setItem('user', response.data.username, () => {
                 AsyncStorage.setItem('id', response.data.id, () => {
                   AsyncStorage.getItem('id', (err, id) => {
+                    console.log('ID DI ASYNC STORAGE OYYYY: ', id)
                     if (id) {
                       AsyncStorage.getItem('user', (err, user) => {
                         if (user) {
                           axios.get(`http://otw-env.cjqaqzzhwf.us-west-2.elasticbeanstalk.com/detailuser/${id}`)
                           .then(response => {
+                            console.log('DATA YANG DIMASUKKAN KE HASLOGGEDIN: ', response.data)
                               dispatch(hasLoggedIn(response.data))
                               if (response.data.avatarURL == 'https://cdn3.iconfinder.com/data/icons/social-messaging-productivity-6/128/profile-male-circle2-512.png') {
                                 const goPersonalization = NavigationActions.reset({
@@ -143,7 +145,9 @@ export const signOut = () => {
   return dispatch => {
     AsyncStorage.removeItem('token', () => {
       AsyncStorage.removeItem('user', () => {
+        AsyncStorage.removeItem('id', () => {
         dispatch(hasLoggedOut())
+        })
       })
     })
   }

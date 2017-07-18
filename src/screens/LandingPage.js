@@ -1,8 +1,10 @@
 import React from 'react'
 import { AsyncStorage } from 'react-native'
 import { TabNavigator } from 'react-navigation'
+import {connect} from 'react-redux'
 
 import { UpcomingScreen, HistoryScreen, Profile } from '../containers'
+import axios from 'axios'
 
 export const Tabs = TabNavigator({
   Upcoming: { screen : UpcomingScreen },
@@ -26,7 +28,6 @@ class LandingPage extends React.Component {
   }
 
   render() {
-    // console.log('ASSPIIIIIIII: ', this.props)
     return (
       <Tabs screenProps={{navigateApp: this.props.navigation}}/>
     )

@@ -1,14 +1,11 @@
 //import liraries
 import React from 'react';
-
 import { View, StyleSheet, ScrollView, TextInput, Text, } from 'react-native';
 import { Container, Content, Form, Item, Input, Label, Card, CardItem, Button, Icon, Spinner } from 'native-base';
-
 import { connect } from 'react-redux'
+import { NavigationActions } from 'react-navigation'
 
 import { signIn } from '../actions/userAction'
-
-import { NavigationActions } from 'react-navigation'
 
 const styles =  StyleSheet.create({
   scroll: {
@@ -120,7 +117,6 @@ class Login extends React.Component {
                         {this.state.password.length === 0 ? (<Text style={{fontSize: 10, marginBottom: 0, marginLeft: 20, marginRight: 20, color: 'red'}}>* Please input your password!</Text>) : (<Text></Text>)}
                       </View>
                     </Form>
-
                     <Button block auto
                       onPress={() => {this._doSignIn()}}
                       style={{ marginLeft: 20, marginRight: 20, marginTop: 20 }}

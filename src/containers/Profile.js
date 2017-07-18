@@ -2,17 +2,17 @@ import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Container, Content, Card, CardItem, Icon, Right, Button, Text, Image } from 'native-base';
 import { connect } from 'react-redux'
-
+import { deleteMeetingsWhenLogOut } from '../actions'
 import { signOut } from '../actions/userAction'
 
 import { NavigationActions } from 'react-navigation'
 
 class Profile extends Component {
+  constructor(props){
+    super(props)
+  }
 
   logOut(){
-    // console.log('Navigation Logout: ', this.props)
-    // console.log('+++: ', this.props)
-    // alert('Are You Sure')
     this.props.signOutProcess()
     const goLogin = NavigationActions.reset({
       index: 0,
@@ -20,11 +20,12 @@ class Profile extends Component {
         NavigationActions.navigate({ routeName: 'Login'})
       ]
     })
+    this.props.delete_meetings_when_logout()
     this.props.screenProps.navigateApp.dispatch(goLogin)
   }
 
   render() {
-    // console.log('^^^^^: ', this.props)
+
     return (
       <View style={styles.parentView}>
 
@@ -33,19 +34,21 @@ class Profile extends Component {
               <Card>
                 <CardItem>
                   <Icon active name="contact" />
-                  <Text>{ this.props.users.first_name} {this.props.users.last_name} </Text>
+                  <Text>{ this.props.users.name }</Text>
                 </CardItem>
                 <CardItem style={{paddingTop:-5}}>
                   <Icon active name="mail" />
-                  <Text>{ this.props.users.email }</Text>
+                  <Text>{
+                    this.props.users.email
+                  }</Text>
                 </CardItem>
                 <CardItem style={{paddingTop:-5}}>
                   <Icon active name="home" />
-                  <Text>{ this.props.users.home }</Text>
+                  <Text>{ this.props.users.homeAddressName }</Text>
                 </CardItem>
                 <CardItem style={{paddingTop:-5}}>
                   <Icon active name="desktop" />
-                  <Text>{ this.props.users.office }</Text>
+                  <Text>{ this.props.users.officeAddressName }</Text>
                 </CardItem>
               </Card>
           </Content>
@@ -91,9 +94,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    signOutProcess: () => {
-      dispatch(signOut())
-    }
+    signOutProcess: () => { dispatch(signOut()) },
+    delete_meetings_when_logout:()=>dispatch(deleteMeetingsWhenLogOut())
   }
 }
 

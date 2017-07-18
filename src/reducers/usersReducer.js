@@ -32,14 +32,19 @@ AsyncStorage.getItem('id', (err, id) => {
 })
 
 const signIn = (state, data) => {
+  console.log('DATA USER',data);
 
   let newState = {
     ...state,
-    id: idUser,
+    id: data._id,
     loginStatus: true,
     token: data.token,
     username: data.username,
-    message: data.message
+    message: data.message,
+    name:data.name,
+    email:data.email,
+    homeAddressName:data.homeAddressName,
+    officeAddressName:data.officeAddressName,
   }
   // console.log('USER REDUCER: ', data)
   return newState
@@ -48,7 +53,6 @@ const signIn = (state, data) => {
 const signOut = state => {
   let newState = {
     ...state,
-    id: idUser,
     loginStatus: false
   }
   return newState

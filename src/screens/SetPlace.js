@@ -12,7 +12,7 @@ export default class SetPlace extends Component {
   constructor(){
     super()
     this.state = {
-      meetupId:'596b6f8420cfac2781f312a7',
+      meetupId:'596c57d954bed30dcc5ac163',
       region: {
         latitude: -6.2656832,
         longitude: 106.7810439,
@@ -21,7 +21,7 @@ export default class SetPlace extends Component {
       },
       markers:[],
       radius:500,
-      loadingMessage: 'Getting meetup places...',
+      loadingMessage: 'Analyzing places recomendation...',
       venueType:'restaurant',
       venueQuery:'restaurant',
       pageLoadedStatus: false,
@@ -167,6 +167,7 @@ export default class SetPlace extends Component {
           }
         })
       }
+      this.getCenter(coordinates)
     })
     .catch(err=>{
       let coordinates = [
@@ -196,7 +197,6 @@ export default class SetPlace extends Component {
           }
         })
       }
-
       if(response.data.typePlaces == 'coworking_space'){
         this.setState({'venueType':'','venueQuery':response.data.typePlaces.split('_').join('+')})
       } else {
@@ -205,7 +205,6 @@ export default class SetPlace extends Component {
       this.getCenter(coordinates)
     })
     .catch(err=>{
-      console.log('lala');
       let coordinates = [
         [0,0]
       ]
@@ -262,7 +261,7 @@ export default class SetPlace extends Component {
   }
 
   componentWillMount(){
-    this.setState({"meetupId":this.props.meetupId})
+    // this.setState({"meetupId":this.props.meetupId})
     this.retrieveData()
   }
 
@@ -306,7 +305,7 @@ export default class SetPlace extends Component {
           <View style={{flex:1}}>
             <View style={{flex:1,backgroundColor:'#3399ff',justifyContent:'center',alignItems:'center'}}>
               <Text style={{color:'white', fontWeight:'bold',fontSize:20}}>
-                Place Selection
+                {this.state.venueType?this.state.venueType.split('_').join(' ').toUpperCase():'Coworking Space'}
               </Text>
             </View>
             <View style={{flex:10}}>
@@ -330,16 +329,12 @@ export default class SetPlace extends Component {
                 />
               )) : null}
               </MapView>
-              {this.state.markers.length==0?(
-                <View style={{flex:1}}>
-                  <Text style={{flex:1,alignSelf:'center', fontWeight:'bold'}}>
-                    No place found, please select other type of place
-                  </Text>
-                  <View style={{flex:1}}>
-                    <Button onPress={()=>this.setState({'modalStatus':true})} title="Change venue type"/>
-                  </View>
-                </View>
-                ):null}
+              {this.state.markers.length == 0 ? (
+                <Text style={{flex:0.5,alignSelf:'center', fontWeight:'bold'}}>
+                  No place found, please select other type of place
+                </Text> ):null
+              }
+              <Button style={{flex:1}}onPress={()=>this.setState({'modalStatus':true})} title="Change venue type"/>
             </View>
           </View>
         )
