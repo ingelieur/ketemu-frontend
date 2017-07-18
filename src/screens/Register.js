@@ -5,8 +5,6 @@ import { Container, Content, Form, Item, Input, Label, Card, CardItem, Button, I
 
 import { connect } from 'react-redux'
 
-import { signUp } from '../actions/userAction'
-
 import { NavigationActions } from 'react-navigation'
 
 import axios from 'axios'
@@ -61,16 +59,14 @@ class Register extends React.Component {
 
     let uppercase = /[A-Z]/.test(pwd)
     let lowercase = /[a-z]/.test(pwd)
-    let specialcase = /[^a-zA-Z0-9]/.test(pwd)
     let numbercase = /[0-9]/.test(pwd)
     let lengthcase = pwd.length >= 5
-    let isValid = uppercase && lowercase && specialcase && numbercase && lengthcase
+    let isValid = uppercase && lowercase && numbercase && lengthcase
 
     if (isValid) {
 
       axios.get(`http://otw-env.cjqaqzzhwf.us-west-2.elasticbeanstalk.com/userbyusername/${username}`)
       .then(response => {
-        console.log('HAIIIIII!')
         if (response.data.status) {
           let dataRegister = {
             name: this.state.firstname+' '+this.state.lastname,
@@ -79,19 +75,19 @@ class Register extends React.Component {
             email: this.state.email,
           }
 
-          console.log('DATA YG MAU DIKIRIM SAAT REGISTER: ', dataRegister)
-
-          this.props.signUpData(dataRegister)
-
-          this.setState = ({
-              firstname: '',
-              lastname: '',
-              username: '',
-              password: '',
-              email: '',
+          axios.post('http://otw-env.cjqaqzzhwf.us-west-2.elasticbeanstalk.com/signup', dataRegister)
+          .then(response => {
+            console.log('data register: ', response.data)
+            if (!response.data.status) {
+              alert(response.data.message)
+            } else {
+              this.props.navigation.navigate('Login')
+            }
+          })
+          .catch(error => {
+            console.log(`opps, signUp error like this: ${error}`)
           })
 
-          this.props.navigation.navigate('Login')
         } else {
           alert(response.data.message)
         }
@@ -156,10 +152,9 @@ class Register extends React.Component {
     let pwd = this.state.password
     let uppercase = type === 1 && /[A-Z]/.test(pwd)
     let lowercase = type === 2 && /[a-z]/.test(pwd)
-    let specialcase = type === 3 && /[^a-zA-Z0-9]/.test(pwd)
-    let numbercase = type === 4 && /[0-9]/.test(pwd)
-    let lengthcase = type === 5 && pwd.length >= 5
-    let result = uppercase || lowercase || specialcase || numbercase || lengthcase
+    let numbercase = type === 3 && /[0-9]/.test(pwd)
+    let lengthcase = type === 4 && pwd.length >= 5
+    let result = uppercase || lowercase || numbercase || lengthcase
 
     const style = {
       textDecorationLine: result ? 'line-through' : 'none',
@@ -221,9 +216,8 @@ class Register extends React.Component {
           <Text>Password Strength:</Text>
           {this.renderValidationPassword(1, 'Password min 1 karakter huruf besar')}
           {this.renderValidationPassword(2, 'Password min 1 karakter huruf kecil')}
-          {this.renderValidationPassword(3, 'Password min 1 spesial karakter')}
-          {this.renderValidationPassword(4, 'Password min 1 setidaknya satu angka')}
-          {this.renderValidationPassword(5, 'Panjang Password min 5 karakter')}
+          {this.renderValidationPassword(3, 'Password min 1 setidaknya satu angka')}
+          {this.renderValidationPassword(4, 'Panjang Password min 5 karakter')}
         </View>
       )
     } else if (this.state.validationEmail) {
@@ -295,6 +289,7 @@ class Register extends React.Component {
                           <Label>Password</Label>
                           <Item rounded style={{ height: 35 }}>
                             <Input
+                              secureTextEntry={true}
                               value={this.state.password}
                               onChangeText={(text) => this.setState({password: text, validationEmail: false, validationFirstname: false, validationLastname: false, validationPasword: true, validationUsername: false})}
                             />
@@ -332,13 +327,5 @@ class Register extends React.Component {
     }
 }
 
-const mapDispatchToProps = dispatch => {
-    return {
-        signUpData: (data) => {
-            dispatch(signUp(data))
-        }
-    }
-}
-
 //make this component available to the app
-export default connect(null, mapDispatchToProps)(Register);
+export default Register;

@@ -110,6 +110,7 @@ class Login extends React.Component {
                         <Label>Password</Label>
                         <Item rounded style={{ height: 35 }}>
                           <Input
+                            secureTextEntry={true}
                             value={this.state.password}
                             onChangeText={(text) => this.setState({password: text})}
                           />
@@ -144,7 +145,6 @@ class Login extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log('ini state saat login', state)
     return {
       loginStatus: state.users.loginStatus,
       token: state.users.token,
