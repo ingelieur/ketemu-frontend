@@ -16,7 +16,6 @@ class MeetingDetails extends React.Component {
     super(props)
     let meetingId = this.props.navigation.state.params.id
     let meeting = this.props.meetings.find((meeting) => {
-      console.log(meeting._id)
       return meeting._id == meetingId
     })
     this.state = {
