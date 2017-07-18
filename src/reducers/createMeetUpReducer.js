@@ -3,7 +3,7 @@ const initialState = {
   description:'',
   dateMeetUp:'',
   placeType:'',
-  participants:[{"user": "596772300a384171ee3d8be6"}, {"user": "5968dd5d99bb522becfc3957"}, {"user": "59695b5d99bb522becfc3958"}],
+  participants:[],
   dateDeadlineMeetUp:'',
 }
 
@@ -26,6 +26,9 @@ export default(state = initialState, action) =>{
   }
   else if(action.type == 'INPUT_DATE_DEADLINE_MEETUP'){
     return { ...state, dateDeadlineMeetUp:action.payload}
+  }
+  else if(action.type == 'INPUT_SUKSES'){
+    return{ ...initialState }
   }
   return state;
 }

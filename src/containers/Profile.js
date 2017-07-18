@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Container, Content, Card, CardItem, Icon, Right, Button, Text, Image } from 'native-base';
 import { connect } from 'react-redux'
-
+import { deleteMeetingsWhenLogOut } from '../actions'
 import { signOut } from '../actions/userAction'
 
 import { NavigationActions } from 'react-navigation'
@@ -20,6 +20,7 @@ class Profile extends Component {
         NavigationActions.navigate({ routeName: 'Login'})
       ]
     })
+    this.props.delete_meetings_when_logout()
     this.props.screenProps.navigateApp.dispatch(goLogin)
   }
 
@@ -91,9 +92,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    signOutProcess: () => {
-      dispatch(signOut())
-    }
+    signOutProcess: () => { dispatch(signOut()) },
+    delete_meetings_when_logout:()=>dispatch(deleteMeetingsWhenLogOut())
   }
 }
 

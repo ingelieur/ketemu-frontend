@@ -1,7 +1,7 @@
 //import liraries
 import React from 'react';
-import { View, Text, StyleSheet, TextInput, Button, AsyncStorage } from 'react-native';
-
+import { View, StyleSheet, TextInput, Button, AsyncStorage } from 'react-native';
+import { Container, Content, Card, CardItem, Text, Body, Icon, Fab } from 'native-base';
 import { connect } from 'react-redux'
 
 import { signIn } from '../actions/userAction'
@@ -52,48 +52,50 @@ class Login extends React.Component {
     render() {
       // console.log('Navigasi: ', this.props)
         return (
-            <View style={styles.container}>
-                <Text>Login</Text>
+
+              <View style={styles.container}>
+                  <Text>Login</Text>
+                  <View>
+                    <TextInput
+                      onChangeText={(text) => this.setState({ username: text })}
+                      value={ this.state.username }
+                      style={{ width: 300 }}
+                      placeholder='input your username'
+                    />
+                    <TextInput
+                      onChangeText={(text) => this.setState({ password: text })}
+                      value={ this.state.password }
+                      style={{ width: 300 }}
+                      secureTextEntry={true}
+                      placeholder='input your password'
+                    />
+                </View>
+                <View style={{ marginBottom: 50}}>
+                  <Button
+                    onPress={() => this._doSignIn() }
+                    title="Login"
+                    color="#841584"
+                    accessibilityLabel="Login"
+                  />
+                </View>
                 <View>
-                  <TextInput
-                    onChangeText={(text) => this.setState({ username: text })}
-                    value={ this.state.username }
-                    style={{ width: 300 }}
-                    placeholder='input your username'
-                  />
-                  <TextInput
-                    onChangeText={(text) => this.setState({ password: text })}
-                    value={ this.state.password }
-                    style={{ width: 300 }}
-                    secureTextEntry={true}
-                    placeholder='input your password'
-                  />
+                  <Text onPress={() => this.renderRegister()}>Create a new account!</Text>
+                </View>
               </View>
-              <View style={{ marginBottom: 50}}>
-                <Button
-                  onPress={() => this._doSignIn() }
-                  title="Login"
-                  color="#841584"
-                  accessibilityLabel="Login"
-                />
-              </View>
-              <View>
-                <Text onPress={() => this.renderRegister()}>Create a new account!</Text>
-              </View>
-            </View>
+          
         );
     }
 }
 
 // define your styles
-const styles = StyleSheet.create({
+const styles = {
     container: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#2c3e50',
+        backgroundColor: '#FFFFFF',
     },
-});
+}
 
 const mapStateToProps = (state) => {
     console.log('ini state saat login', state)
