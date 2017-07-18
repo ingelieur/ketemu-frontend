@@ -38,8 +38,8 @@ export default function CardUpcomingAndHistory (props) {
                   {
                     props.meetupData.status === 'TBA' ?
                     (
-                      <Badge success >
-                        <Text>Waiting</Text>
+                      <Badge info >
+                        <Text>RSVP</Text>
                       </Badge>
                     ) : (<View></View>)
                   }

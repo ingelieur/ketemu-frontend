@@ -16,7 +16,7 @@ const initialState = [{
 {
   id:4,
   type:'cafe',
-  name:'Coffe Shop',
+  name:'Coffee Shop',
 },
 {
   id:5,

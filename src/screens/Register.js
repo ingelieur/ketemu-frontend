@@ -261,7 +261,7 @@ class Register extends React.Component {
 
                         <View style={{ marginLeft: 20, marginRight: 20, marginBottom: 10, marginTop: 10}}>
                           <Label>Firstname</Label>
-                          <Item rounded style={{ height: 35 }}>
+                          <Item regular style={{marginTop:1, height:30}}>
                             <Input
                               value={this.state.firstname}
                               onChangeText={(text) => this.setState({firstname: text, validationEmail: false, validationFirstname: true, validationLastname: false, validationUsername: false, validationPasword: false})}
@@ -272,7 +272,7 @@ class Register extends React.Component {
 
                         <View style={{ marginLeft: 20, marginRight: 20, marginBottom: 10}}>
                           <Label>Lastname</Label>
-                          <Item rounded style={{ height: 35 }}>
+                          <Item regular style={{marginTop:1, height:30}}>
                             <Input
                               value={this.state.lastname}
                               onChangeText={(text) => this.setState({lastname: text, validationEmail: false, validationFirstname: false, validationLastname: true, validationUsername: false, validationPasword: false})}
@@ -282,7 +282,7 @@ class Register extends React.Component {
 
                         <View style={{ marginLeft: 20, marginRight: 20, marginBottom: 10}}>
                           <Label>Username</Label>
-                          <Item rounded style={{ height: 35 }}>
+                          <Item regular style={{marginTop:1, height:30}}>
                             <Input
                               value={this.state.username}
                               onChangeText={(text) => this.setState({username: text, validationEmail: false, validationFirstname: false, validationLastname: false, validationUsername: true, validationPasword: false})}
@@ -293,7 +293,7 @@ class Register extends React.Component {
 
                         <View style={{ marginLeft: 20, marginRight: 20, marginBottom: 10}}>
                           <Label>Password</Label>
-                          <Item rounded style={{ height: 35 }}>
+                          <Item regular style={{marginTop:1, height:30}}>
                             <Input
                               value={this.state.password}
                               onChangeText={(text) => this.setState({password: text, validationEmail: false, validationFirstname: false, validationLastname: false, validationPasword: true, validationUsername: false})}
@@ -304,7 +304,7 @@ class Register extends React.Component {
 
                         <View style={{ marginLeft: 20, marginRight: 20, marginBottom: 10}}>
                           <Label>Email</Label>
-                          <Item rounded style={{ height: 35 }}>
+                          <Item regular style={{marginTop:1, height:30}}>
                             <Input
                               value={this.state.email}
                               onChangeText={(text) => this.setState({email: text, validationEmail: true, validationFirstname: false, validationLastname: false, validationPasword: false, validationUsername: false})}
@@ -314,7 +314,7 @@ class Register extends React.Component {
                         </View>
 
                       </Form>
-                      <Button block auto
+                      <Button block info
                         onPress={() => {this._doSignUp()}}
                         style={{ marginLeft: 20, marginRight: 20, marginTop: 20 }}
                       >

@@ -1,7 +1,7 @@
 //import liraries
 import React from 'react';
 import { View, StyleSheet, ScrollView, TextInput, Text, } from 'react-native';
-import { Container, Content, Form, Item, Input, Label, Card, CardItem, Button, Icon, Spinner } from 'native-base';
+import { Container, Content, Form, Item, Input, Label, Card, CardItem, Button, Icon, Spinner} from 'native-base';
 import { connect } from 'react-redux'
 import { NavigationActions } from 'react-navigation'
 
@@ -85,19 +85,21 @@ class Login extends React.Component {
 
           {!this.state.renderLogin ? (
             <Container>
-              <Button bordered info style={{ alignSelf: 'center', marginTop: 20, marginBottom: 20 }}>
-                <View style={styles.inline}>
-                    <Text style={[styles.buttonBlueText, styles.buttonBigText]}>  Connect </Text>
-                    <Text style={styles.buttonBlueText}>with Facebook</Text>
+              <View style={{height:30}}>
+                <View style={{flex:1, flexDirection:'row'}}>
+                  <Icon active name="logo-googleplus" />
+                  <Button block info>
+                    <Text style={{fontSize: 20, fontWeight: 'bold'}}>Sign In</Text>
+                  <Button />
                 </View>
-              </Button>
+              </View>
 
               <Content>
                 <Card style={{paddingBottom: 20}}>
                     <Form>
                       <View style={{ marginLeft: 20, marginTop: 10, marginRight: 20, marginBottom: 10}}>
                         <Label>Username</Label>
-                        <Item rounded style={{ height: 35 }}>
+                        <Item regular style={{marginTop:1, height:30}}>
                           <Input
                             value={this.state.username}
                             onChangeText={(text) => this.setState({username: text})}
@@ -108,7 +110,7 @@ class Login extends React.Component {
 
                       <View style={{ marginLeft: 20, marginRight: 20, marginBottom: 10}}>
                         <Label>Password</Label>
-                        <Item rounded style={{ height: 35 }}>
+                        <Item regular style={{marginTop:1, height:30}}>
                           <Input
                             value={this.state.password}
                             onChangeText={(text) => this.setState({password: text})}
@@ -117,7 +119,7 @@ class Login extends React.Component {
                         {this.state.password.length === 0 ? (<Text style={{fontSize: 10, marginBottom: 0, marginLeft: 20, marginRight: 20, color: 'red'}}>* Please input your password!</Text>) : (<Text></Text>)}
                       </View>
                     </Form>
-                    <Button block auto
+                    <Button block info
                       onPress={() => {this._doSignIn()}}
                       style={{ marginLeft: 20, marginRight: 20, marginTop: 20 }}
                     >
