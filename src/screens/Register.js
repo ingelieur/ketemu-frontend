@@ -14,7 +14,7 @@ import axios from 'axios'
 const styles =  StyleSheet.create({
   scroll: {
     flex: 1,
-    backgroundColor: '#E1D7D8',
+    backgroundColor: '#99d6ff',
     padding: 30,
   },
   inline: {
@@ -252,10 +252,6 @@ class Register extends React.Component {
                 </Button>
 
                 <Content>
-                  <View style={{flex: 1}}>
-                    <Text style={{fontSize: 16, fontWeight: 'bold'}} onPress={() => this.renderLogin()} tyle={{fontSize: 18, fontWeight: 'bold', marginBottom: 5}}>Back to Login...</Text>
-                  </View>
-
                   <Card style={{paddingBottom: 20}}>
                       <Form>
 
@@ -318,12 +314,16 @@ class Register extends React.Component {
                         onPress={() => {this._doSignUp()}}
                         style={{ marginLeft: 20, marginRight: 20, marginTop: 20 }}
                       >
-                          <Text style={{fontSize: 20, fontWeight: 'bold'}}>SignUp</Text>
+                          <Text style={{fontSize: 20, fontWeight: 'bold', color:'white'}}>SignUp</Text>
                       </Button>
                       {this.displayValidation()}
 
                   </Card>
 
+                  <View style={{flex: 1,alignItems:'center'}}>
+                    <Text></Text>
+                    <Text style={{fontSize: 16, fontWeight: 'bold'}} onPress={() => this.renderLogin()} tyle={{fontSize: 18, fontWeight: 'bold', marginBottom: 5}}>Click here to go back to Login page...</Text>
+                  </View>
                 </Content>
 
             </Container>

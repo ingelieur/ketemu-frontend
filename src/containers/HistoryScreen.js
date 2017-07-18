@@ -19,7 +19,7 @@ class HistoryScreen extends Component {
                 return new Date(meeting.meetingTime) < new Date()
               }).map((meeting) => {
                 return(
-                  <CardUpcomingAndHistory detailMeetUp={()=>this.detailMeetUp(meeting._id)} meetupData={meeting}/>
+                  <CardUpcomingAndHistory key={meeting._id} detailMeetUp={()=>this.detailMeetUp(meeting._id)} meetupData={meeting}/>
                 )
               })
             }
@@ -34,6 +34,7 @@ class HistoryScreen extends Component {
 const styles = {
   parentView:{
     flex:1,
+    backgroundColor:'#99d6ff'
   },
   historyData:{
     flex:1
