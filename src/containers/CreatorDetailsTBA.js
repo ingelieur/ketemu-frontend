@@ -3,17 +3,27 @@ import {
   StyleSheet,
   View,
   Text,
+  Button,
 } from 'react-native'
 
 class CreatorDetailsTBA extends React.Component {
   constructor(props) {
     super(props)
   }
+  setPlace() {
+    this.props.navigateApp.navigate('SetPlace', {meetupId: this.props.meetupId})
+  }
   render() {
+    console.log('BUTTTOOOON', this.props.navigateApp)
     // if confirmation time has passed and
     return (
       <View style={styles.container}>
         <Text>THIS IS CREATOR DETAILS</Text>
+        <Button
+          onPress={() => this.setPlace()}
+          title="Set Place"
+          color="#841584"
+        />
       </View>
     )
   }
