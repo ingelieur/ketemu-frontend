@@ -38,8 +38,8 @@ export default function CardUpcomingAndHistory (props) {
                   {
                     props.meetupData.status === 'TBA' && new Date(props.meetupData.meetingTime) > new Date() ?
                     (
-                      <Badge success >
-                        <Text>Waiting</Text>
+                      <Badge info >
+                        <Text>RSVP</Text>
                       </Badge>
                     ) : (<View></View>)
                   }
@@ -48,7 +48,7 @@ export default function CardUpcomingAndHistory (props) {
               </View>
             </View>
 
-            <View style={{ borderBottomWidth: 2, borderBottomColor: 'black', width: 370, marginTop:2 }}/>
+            <View style={{ borderBottomWidth: 2, borderBottomColor: 'black', width:'100%', marginTop:2 }}/>
 
             <View style={{flex:1, flexDirection:'row', marginTop:5}}>
               <Text>

@@ -20,8 +20,6 @@ class Loading extends React.Component {
 
   componentDidMount () {
     AsyncStorage.getItem('token', (err, result) => {
-      // console.log('hasil!!!!!!!!: ',result);
-      // console.log('navigation loading',this.props);
       if (result === null) {
         const goLogin = NavigationActions.reset({
           index: 0,
