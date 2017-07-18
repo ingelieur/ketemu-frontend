@@ -4,6 +4,7 @@ import {
   View,
   Text,
   Button,
+  AsyncStorage,
 } from 'react-native'
 import Axios from 'axios'
 
@@ -12,6 +13,7 @@ class CreatorDetailsTBA extends React.Component {
     super(props)
     console.log('iiiiiiiiidddddd', this.props.meeting._id)
     this.state = {
+      idUser: '',
       allConfirmed: false,
     }
   }
