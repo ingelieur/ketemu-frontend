@@ -16,7 +16,6 @@ export default function PieChartComp(props) {
   let participantsPending = props.participants.filter((participant) => {
     if(participant.status === 'pending') return participant
   })
-  console.log(participantsYes)
   let state = {
     legend: {
       enabled: true,

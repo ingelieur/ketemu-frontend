@@ -41,9 +41,10 @@ const signIn = (state, data) => {
 
 const signOut = state => {
   let newState = {
-    ...state,
+    ...initialState,
     loginStatus: false
   }
+  console.log('aladydydydydyd',newState);
   return newState
 }
 
@@ -92,8 +93,6 @@ export default(state = initialState, { type, payload }) => {
       return updateAvatar(state, payload)
     case FETCH_USER:
       return fetchUser(state, payload)
-    case FETCH_ASYNCSTORAGE_ID:
-      return fetchAsyncstorageId(state, data)
     default:
       return state
   }

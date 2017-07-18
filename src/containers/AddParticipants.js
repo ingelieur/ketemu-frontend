@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import { View, StyleSheet, } from 'react-native';
+import React from 'react';
+import { View, } from 'react-native';
 import { Container, Content, Card, CardItem, Text, Body, Item, Input, Button, ListItem, Badge } from 'native-base';
 import { inputParticipantsMeetUp } from '../actions/createMeetUp'
-import { connect } from 'react-redux'
+import { connect } from  'react-redux'
 import Axios from 'axios'
 
 class AddParticipants extends React.Component {
@@ -29,8 +29,6 @@ class AddParticipants extends React.Component {
         this.setState({
           possibleUsers: [],
         })
-        console.log(error)
-        console.log('axios error cuy')
       })
   }
 
@@ -52,7 +50,6 @@ class AddParticipants extends React.Component {
   }
 
   createParticipants(){
-    // console.log('oke');
     const navigasiNext = this.props.navigation.navigate;
     if(this.state.users.length<1){
       alert('wrong participants')
@@ -72,7 +69,6 @@ class AddParticipants extends React.Component {
             </CardItem>
             <CardItem>
               <Body>
-
                 <Item regular regular style={{marginTop:1, height:30}}>
                   <Input placeholder='Add His/Her Username' value={this.state.searchUser} onChangeText={(text) => this.handleUsernameSearch(text)}/>
                 </Item>
@@ -111,6 +107,7 @@ class AddParticipants extends React.Component {
 const mapStateToProps = (state)=>{
   return{
     createMeetUp: state.createMeetUp,
+    users: state.users,
   }
 }
 

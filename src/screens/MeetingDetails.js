@@ -3,6 +3,7 @@ import {
   StyleSheet,
   View,
   Text,
+  AsyncStorage,
 } from 'react-native'
 import { connect } from 'react-redux'
 
@@ -16,7 +17,6 @@ class MeetingDetails extends React.Component {
     super(props)
     let meetingId = this.props.navigation.state.params.id
     let meeting = this.props.meetings.find((meeting) => {
-      console.log(meeting._id)
       return meeting._id == meetingId
     })
     this.state = {
@@ -25,7 +25,18 @@ class MeetingDetails extends React.Component {
     }
   }
 
+  componentDidMount() {
+    AsyncStorage.getItem('id', (err, id) => {
+      if(id) {
+        this.setState({idUser: id})
+        console.log('ASYYYYNC', id)
+        console.log(this.props.users.id)
+      }
+    })
+  }
+
   render() {
+    console.log('ROOOOOLE', this.state.role)
     return (
       <View style={styles.container}>
         <PieChart participants={this.state.meeting.participants}/>
