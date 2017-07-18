@@ -19,25 +19,19 @@ class MeetingDetails extends React.Component {
       console.log(meeting._id)
       return meeting._id == meetingId
     })
-    console.log('meetingId', meetingId)
-    console.log('CREAAATOOOOR', meeting.creator)
-    console.log('IIIIDDD', this.props.users.id)
     this.state = {
-      meetingId: meetingId,
       meeting: meeting,
       role: meeting.creator == this.props.users.id ? 'creator' : 'participant',
     }
   }
 
   render() {
-    console.log('ROOOOOLEEEE', this.state.role)
-    console.log(this.state.meeting.participants)
     return (
       <View style={styles.container}>
         <PieChart participants={this.state.meeting.participants}/>
         {this.state.meeting.status === 'TBA' ? (
           this.state.role === 'creator' ? (
-            <CreatorDetailsTBA navigateApp={this.props.navigation} meetupId={this.state.meetingId}/>
+            <CreatorDetailsTBA navigateApp={this.props.navigation} meeting={this.state.meeting}/>
           ) : (
             <ParticipantDetailsTBA meeting={this.state.meeting}/>
           )

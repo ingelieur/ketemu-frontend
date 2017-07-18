@@ -11,11 +11,10 @@ class CreatorDetailsTBA extends React.Component {
     super(props)
   }
   setPlace() {
-    this.props.navigateApp.navigate('SetPlace', {meetupId: this.props.meetupId})
+    this.props.navigateApp.navigate('SetPlace', {meetupId: this.props.meeting._id})
   }
   render() {
     console.log('BUTTTOOOON', this.props.navigateApp)
-    // if confirmation time has passed and
     return (
       <View style={styles.container}>
         <Text>THIS IS CREATOR DETAILS</Text>

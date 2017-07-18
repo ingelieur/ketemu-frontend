@@ -53,7 +53,6 @@ export default function PieChartComp(props) {
 
   return (
     <View style={styles.container}>
-      <TouchableHighlight onPress={() => alert('OI')}>
       <PieChart
         style={styles.chart}
         logEnabled={true}
@@ -72,7 +71,6 @@ export default function PieChartComp(props) {
         transparentCircleAlpha={50}
         maxAngle={360}
       />
-    </TouchableHighlight>
     </View>
   )
 }
