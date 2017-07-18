@@ -47,6 +47,21 @@ export const inputDateDeadlineMeetUp = (date) =>{
   }
 }
 
+export const getAllMeetUps = (data) =>{
+  return {
+    type: 'GET_ALL_MEETUPS',
+    payload:data,
+  }
+}
+
+export const deleteMeetingsWhenLogOut = () =>{
+  return {
+    type: 'DELETE_MEETINGS_WHEN_LOGOUT',
+  }
+}
+
+
+
 export const getCurrentLocation = () => {
   return (dispatch) => {
     console.log('action/index.js')

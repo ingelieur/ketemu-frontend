@@ -8,10 +8,15 @@ import DateTimePicker from 'react-native-modal-datetime-picker';
 import axios from 'axios'
 
 class AddConfirmationDeadline extends Component {
-  state = {
-    isDateTimePickerVisible: false,
-    idUser:''
-  };
+  constructor(props){
+    super(props)
+    this.state = {
+      navigateApp:this.props.screenProps.navigateApp,
+      isDateTimePickerVisible: false,
+      idUser:''
+    };
+  }
+
 
   _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
   _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
@@ -47,20 +52,23 @@ class AddConfirmationDeadline extends Component {
         typePlaces:this.props.createMeetUp.placeType,
         meetingTime:this.props.createMeetUp.dateMeetUp,
         creator:this.state.idUser,
-        participants:this.props.createMeetUp.participants,
+        participants:this.props.createMeetUp.participants.map((user)=>{
+          return { user:user.id }
+        }),
         confirmationTime:this.props.createMeetUp.dateDeadlineMeetUp,
       },
-      // navigateLandingPage:this.props, ARAH NAVIGASI MASIH BINGUNG
+      navigateApp:this.state.navigateApp,
     }
     if(this.props.createMeetUp.title == '' || this.props.createMeetUp.description=='' || this.props.createMeetUp.dateMeetUp == '' || this.props.createMeetUp.placeType == '' || this.props.createMeetUp.dateDeadlineMeetUp == ''){
       alert('Data is not complete')
     } else {
-      console.log(obj);
+      // console.log(obj);
       this.props.create_MeetUp(obj)
     }
   }
 
   render () {
+
     return (
       <Container>
         <Content>

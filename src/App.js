@@ -10,9 +10,9 @@ import {
   MeetingDetails,
   Loading,
   Register,
+  SetPlace,
 } from './screens'
 import store from './store/configureStore'
-
 export const Screens = StackNavigator({
   //Loading: { screen : Loading },
   //Login: { screen : Login },
@@ -21,6 +21,7 @@ export const Screens = StackNavigator({
   //LandingPage: { screen : LandingPage },
   //CreateMeeting: { screen : CreateMeeting },
   MeetingDetails: { screen : MeetingDetails },
+  SetPlace: { screen : SetPlace },
 }, { headerMode: 'none' })
 
 export default class App extends React.Component {
