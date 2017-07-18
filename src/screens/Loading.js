@@ -6,6 +6,7 @@ import {
   Text,
   TextInput,
   Button,
+  Spinner,
   AsyncStorage
 } from 'react-native'
 
@@ -60,7 +61,7 @@ class Loading extends React.Component {
   render () {
     return (
       <View>
-        <Text>Loading</Text>
+        <Text>Loading....</Text>
       </View>
     )
   }

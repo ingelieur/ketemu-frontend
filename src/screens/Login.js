@@ -1,12 +1,33 @@
 //import liraries
 import React from 'react';
-import { View, Text, StyleSheet, TextInput, Button, AsyncStorage } from 'react-native';
+
+import { View, StyleSheet, ScrollView, TextInput, Text, } from 'react-native';
+import { Container, Content, Form, Item, Input, Label, Card, CardItem, Button, Icon, Spinner } from 'native-base';
 
 import { connect } from 'react-redux'
 
 import { signIn } from '../actions/userAction'
 
 import { NavigationActions } from 'react-navigation'
+
+const styles =  StyleSheet.create({
+  scroll: {
+    flex: 1,
+    backgroundColor: '#E1D7D8',
+    padding: 30,
+  },
+  inline: {
+      flexDirection: 'row'
+  },
+  buttonBlueText: {
+      fontSize: 20,
+      color: '#3B5699'
+  },
+  buttonBigText: {
+      fontSize: 20,
+      fontWeight: 'bold'
+  },
+})
 
 // create a component
 class Login extends React.Component {
@@ -19,29 +40,7 @@ class Login extends React.Component {
     this.state = {
       username: '',
       password: '',
-      token: ''
-    }
-  }
-
-  _doSignIn() {
-    // console.log('username: ', this.state.username)
-    // console.log('password: ', this.state.password)
-    if (this.state.username.length === 0) {
-      alert('Please input field username!')
-    } else if (this.state.password.length === 0) {
-      alert('Please input field password!')
-    } else if (this.state.username.length < 5) {
-      alert('Username Minimal must 5 characters')
-    } else if (this.state.password.length < 5) {
-      alert('Password Minimal must 5 characters')
-    } else {
-      let dataLogin = {
-        username: this.state.username,
-        password: this.state.password,
-        navigateLogin: this.props.navigation
-      }
-
-      this.props.loginData(dataLogin)
+      renderLogin: false
     }
   }
 
@@ -49,51 +48,104 @@ class Login extends React.Component {
     this.props.navigation.navigate('Register')
   }
 
-    render() {
-      // console.log('Navigasi: ', this.props)
-        return (
-            <View style={styles.container}>
-                <Text>Login</Text>
-                <View>
-                  <TextInput
-                    onChangeText={(text) => this.setState({ username: text })}
-                    value={ this.state.username }
-                    style={{ width: 300 }}
-                    placeholder='input your username'
-                  />
-                  <TextInput
-                    onChangeText={(text) => this.setState({ password: text })}
-                    value={ this.state.password }
-                    style={{ width: 300 }}
-                    secureTextEntry={true}
-                    placeholder='input your password'
-                  />
-              </View>
-              <View style={{ marginBottom: 50}}>
-                <Button
-                  onPress={() => this._doSignIn() }
-                  title="Login"
-                  color="#841584"
-                  accessibilityLabel="Login"
-                />
-              </View>
-              <View>
-                <Text onPress={() => this.renderRegister()}>Create a new account!</Text>
-              </View>
-            </View>
-        );
-    }
-}
+  _doSignIn() {
 
-// define your styles
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#2c3e50',
-    },
-});
+    let username = this.state.password
+    let pwd = this.state.password
+
+    let lengthcaseusername = username.length > 0
+    let lengthcasepassword = pwd.length > 0
+
+    let isValid = lengthcaseusername && lengthcasepassword
+
+    if (isValid) {
+      this.setState({
+        renderLogin: true
+      })
+
+      let dataLogin = {
+        username: this.state.username,
+        password: this.state.password,
+        navigateLogin: this.props.navigation
+      }
+      console.log(dataLogin)
+
+      this.setState({
+        username: '',
+        password: ''
+      })
+
+      this.props.loginData(dataLogin)
+
+    } else {
+      alert('Please input your username and password!')
+    }
+  }
+
+  render() {
+      return (
+        <ScrollView style={styles.scroll}>
+
+          {!this.state.renderLogin ? (
+            <Container>
+              <Button bordered info style={{ alignSelf: 'center', marginTop: 20, marginBottom: 20 }}>
+                <View style={styles.inline}>
+                    <Text style={[styles.buttonBlueText, styles.buttonBigText]}>  Connect </Text>
+                    <Text style={styles.buttonBlueText}>with Facebook</Text>
+                </View>
+              </Button>
+
+              <Content>
+                <Card style={{paddingBottom: 20}}>
+                    <Form>
+                      <View style={{ marginLeft: 20, marginTop: 10, marginRight: 20, marginBottom: 10}}>
+                        <Label>Username</Label>
+                        <Item rounded style={{ height: 35 }}>
+                          <Input
+                            value={this.state.username}
+                            onChangeText={(text) => this.setState({username: text})}
+                          />
+                        </Item>
+                        {this.state.username.length === 0 ? (<Text style={{fontSize: 10, marginBottom: 0, marginLeft: 20, marginRight: 20, color: 'red'}}>* Please input your username!</Text>) : (<Text></Text>)}
+                      </View>
+
+                      <View style={{ marginLeft: 20, marginRight: 20, marginBottom: 10}}>
+                        <Label>Password</Label>
+                        <Item rounded style={{ height: 35 }}>
+                          <Input
+                            value={this.state.password}
+                            onChangeText={(text) => this.setState({password: text})}
+                          />
+                        </Item>
+                        {this.state.password.length === 0 ? (<Text style={{fontSize: 10, marginBottom: 0, marginLeft: 20, marginRight: 20, color: 'red'}}>* Please input your password!</Text>) : (<Text></Text>)}
+                      </View>
+                    </Form>
+
+                    <Button block auto
+                      onPress={() => {this._doSignIn()}}
+                      style={{ marginLeft: 20, marginRight: 20, marginTop: 20 }}
+                    >
+                        <Text style={{fontSize: 20, fontWeight: 'bold'}}>Sign In</Text>
+                    </Button>
+
+                </Card>
+                <View style={{flex: 1, alignItems: 'center'}}>
+                  <Text style={{fontSize: 18, fontWeight: 'bold'}} onPress={()=>this.renderRegister()} tyle={{fontSize: 18, fontWeight: 'bold'}}>Create a new account...</Text>
+
+                </View>
+              </Content>
+            </Container>
+          ) : (
+            <View style={{flex:1}}>
+              <Spinner />
+              <Text style={{fontSize: 25, fontWeight: 'bold'}}>Loading.....</Text>
+            </View>
+          )
+      }
+        </ScrollView>
+    )
+  }
+}
 
 const mapStateToProps = (state) => {
     console.log('ini state saat login', state)

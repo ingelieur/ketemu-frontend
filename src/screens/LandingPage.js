@@ -10,11 +10,42 @@ export const Tabs = TabNavigator({
   Profile: { screen : Profile },
 })
 
-export default class LandingPage extends React.Component {
+import { connect } from 'react-redux'
+
+import { fetchDataUser } from '../actions/userAction'
+
+class LandingPage extends React.Component {
+
+  componentDidMount() {
+
+    AsyncStorage.getItem('id', (err, id) => {
+      if (id) {
+        this.props.fetchUser(id)
+      }
+    })
+  }
+
   render() {
-    console.log(this.props)
+    // console.log('ASSPIIIIIIII: ', this.props)
     return (
       <Tabs screenProps={{navigateApp: this.props.navigation}}/>
     )
   }
 }
+
+const mapStateToProps = (state) => {
+    console.log('ini state saat landingpage', state)
+    return {
+      id: state.users.id
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        fetchUser: data => {
+            dispatch(fetchDataUser(data))
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LandingPage)
