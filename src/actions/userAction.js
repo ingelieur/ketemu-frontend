@@ -1,7 +1,7 @@
 import { AsyncStorage } from 'react-native';
 import axios from 'axios'
 
-import { HAS_LOGGED_IN, HAS_LOGGED_OUT, HAS_SIGNED_UP, HAS_UPDATE_AVATAR, FETCH_USER, EDIT_USER, FETCH_ASYNCSTORAGE_ID } from './actionTypes'
+import { HAS_LOGGED_IN, HAS_LOGGED_OUT, HAS_UPDATE_AVATAR, FETCH_USER, EDIT_USER, FETCH_ASYNCSTORAGE_ID } from './actionTypes'
 
 import { NavigationActions } from 'react-navigation'
 
@@ -16,13 +16,6 @@ export const hasLoggedOut = () => {
     return {
         type: HAS_LOGGED_OUT
     }
-}
-
-export const hasSignedUp = data => {
-  return {
-    type: HAS_SIGNED_UP,
-    payload: data
-  }
 }
 
 export const hasUpdateAvatar = data => {
@@ -57,7 +50,6 @@ export const fetchAsyncstorageId = () => {
   let idUser = ''
   AsyncStorage.getItem('id', (err, id) => {
     if (id) {
-      console.log('OOOOOOO: ', id)
       return dispatch => {
         dispatch(setAsyncstorage(id))
       }
@@ -69,7 +61,6 @@ export const fetchDataUser = data => {
   return dispatch => {
     axios.get(`http://otw-env.cjqaqzzhwf.us-west-2.elasticbeanstalk.com/detailuser/${data}`)
     .then(response => {
-        // console.log('data user: ', response.data)
         dispatch(fetchUser(response.data))
     })
     .catch(error => {
@@ -79,7 +70,6 @@ export const fetchDataUser = data => {
 }
 
 export const signIn = data => {
-  // console.log('data login di action??? ', data)
     return dispatch => {
         axios.post('http://otw-env.cjqaqzzhwf.us-west-2.elasticbeanstalk.com/signin', {
           username: data.username,
@@ -153,21 +143,7 @@ export const signOut = () => {
   }
 }
 
-export const signUp = data => {
-  return dispatch => {
-    axios.post('http://otw-env.cjqaqzzhwf.us-west-2.elasticbeanstalk.com/signup', data)
-      .then(response => {
-        // console.log('data register: ', response.data)
-        dispatch(hasSignedUp(response.data))
-      })
-      .catch(error => {
-        console.log(`opps, signUp error like this: ${error}`)
-      })
-  }
-}
-
 export const updateAvatarUrl = data => {
-  // console.log('UPDATE AVATAR:!!!! ', data)
   return dispatch => {
     AsyncStorage.getItem('id', (err, id) => {
 
@@ -191,13 +167,11 @@ export const updateAvatarUrl = data => {
 }
 
 export const editDataUser = data => {
-  // console.log('EDIT USER: ', data.dataEdit)
   return dispatch => {
     AsyncStorage.getItem('id', (err, id) => {
       if (id) {
         axios.put(`http://otw-env.cjqaqzzhwf.us-west-2.elasticbeanstalk.com/edituser/${id}`, data.dataEdit)
         .then(response => {
-          // console.log('RESPONSE SUKSES EDIT USER: ', response.data);
           dispatch(editUser(response.data))
           data.navigateToLandingPage.navigate('LandingPage')
 
