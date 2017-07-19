@@ -11,10 +11,29 @@ class HistoryScreen extends Component {
   }
 
   render() {
+    let historyMeetings = this.props.meetings.filter((meeting)=> {
+      return new Date(meeting.meetingTime) < new Date()
+    })
     return (
       <View style={styles.parentView}>
+      { historyMeetings.length == 0 ? (
+        <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
+          <Text style={{color:'white', fontWeight:'bold',fontSize:20}}>
+            You currently have no schedules
+          </Text>
+          <ButtonAddMeeting navigateApp={this.props.screenProps.navigateApp}/>
+        </View>
+      ) : (
         <Container style={styles.historyData}>
           <Content>
+            { historyMeetings.length == 0 ? (
+              <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
+                <Text style={{color:'white', fontWeight:'bold',fontSize:20}}>
+                  You currently have no schedules
+                </Text>
+              </View>
+              ) : null
+            }
             { this.props.meetings.filter((meeting)=> {
                 return new Date(meeting.meetingTime) < new Date()
               }).map((meeting) => {
@@ -26,6 +45,8 @@ class HistoryScreen extends Component {
           </Content>
           <ButtonAddMeeting navigateApp={this.props.screenProps.navigateApp}/>
         </Container>
+        )
+      }
       </View>
     );
   }
