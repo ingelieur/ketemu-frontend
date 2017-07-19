@@ -20,11 +20,12 @@ class ParticipantDetailsTBA extends React.Component {
         this.setState({
           RSVP: decision,
         })
-        this.props.navigateApp.navigate('LandingPage')
+
       })
       .catch((error) => {
         console.log(error)
       })
+    this.props.navigateApp.navigate('LandingPage')
   }
 
   render() {
@@ -38,8 +39,8 @@ class ParticipantDetailsTBA extends React.Component {
             <CardItem>
               <Left>
                 <Thumbnail source={{uri: 'http://www.leanport.com/wp-content/uploads/2017/04/plushero.jpg'}} />
-                <Body>
-                  <Text>{this.props.meeting.title}</Text>
+                <Body style={{flex:1, flexWrap: 'wrap'}}>
+                  <Text style={{fontWeight: 'bold'}}>{this.props.meeting.title}</Text>
                   <Text>
                     {`${new Date(this.props.meeting.meetingTime).getDate()}/${new Date(this.props.meeting.meetingTime).getMonth()+1}/${new Date(this.props.meeting.meetingTime).getFullYear()} ${hours}:${minutes}`}
                   </Text>
@@ -50,38 +51,50 @@ class ParticipantDetailsTBA extends React.Component {
             <CardItem style={{marginTop:-10}}>
               <Body style={{marginTop:-5}}>
                 <View style={styles.container}>
-                  <View style={{flex:1, flexDirection:'row', justifyContent:'center'}}>
-                    <Button info style={{marginRight:3}}>
-                      <Text onPress={() => this.handleRSVP('yes')} style={this.state.RSVP === 'yes' ? {fontWeight: 'bold'} : {}}>
-                        IM GOING
-                      </Text>
-                    </Button>
+                    { this.state.RSVP==='pending'?(
+                      <View style={{flex:1, flexDirection:'row'}}>
+                        <Button info style={{marginRight:3}}>
+                          <Text onPress={() =>
+                            this.handleRSVP('yes')}>
+                            IM GOING
+                          </Text>
+                        </Button>
 
-                    <Button danger style={{marginLeft:3}}>
-                      <Text onPress={() => Alert.alert(
-                          'Not Going',
-                          'Are you sure?',
-                          [
-                            {text: 'NO', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-                            {text: 'YES', onPress: () => this.handleRSVP('no')},
-                          ],
-                          { cancelable: false }
-                        )}>
-                        NOT GOING
-                      </Text>
-                    </Button>
-                  </View>
+                        <Button danger style={{marginLeft:3}}>
+                          <Text onPress={() => Alert.alert(
+                              'Not Going',
+                              'Are you sure?',
+                              [
+                                {text: 'NO', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                                {text: 'YES', onPress: () => this.handleRSVP('no')},
+                              ],
+                              { cancelable: false }
+                            )}>
+                            NOT GOING
+                          </Text>
+                        </Button>
+                      </View>
+                    ):(
+                      <View style={{flex:1, flexDirection:'row'}}>
+                        <Button success style={{marginRight:3}}>
+                          <Text>
+                            You RSVP to this Event
+                          </Text>
+                        </Button>
+                      </View>
+                    )}
+
+
+
                   <View style={{flex:1, flexDirection:'row', marginTop:8}}>
                     <Text style={{fontWeight: 'bold'}}>Place : </Text>
                     <Text>TBA</Text>
                   </View>
 
-                  <View style={{flex:1, flexDirection:'row', flexWrap: 'wrap'}}>
+                  <View style={{flex:1, flexDirection:'row', flexWrap: 'wrap', marginBottom:5}}>
                     <Text style={{fontWeight: 'bold'}}>Description : </Text>
                     <Text>{this.props.meeting.description}</Text>
                   </View>
-
-
                 </View>
               </Body>
             </CardItem>
