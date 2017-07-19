@@ -23,6 +23,7 @@ class ParticipantDetailsTBA extends React.Component {
         this.setState({
           RSVP: decision,
         })
+        this.props.navigateApp.navigate('LandingPage')
       })
       .catch((error) => {
         console.log(error)
