@@ -7,10 +7,15 @@ import Axios from 'axios'
 class AddParticipants extends React.Component {
   constructor(props) {
     super(props)
+    console.log('PROPS ADD PARTICIPANT', this.props)
+    let participants = this.props.meetup.participants.map(user => {
+      return user.user
+    })
+    console.log('PARTICIPANTS', participants)
     this.state =  {
       searchUser: '',
       possibleUsers: [],
-      users: this.meetup.participants,
+      users: [...participants],
     }
   }
 
@@ -18,16 +23,21 @@ class AddParticipants extends React.Component {
     this.setState({
       searchUser: text,
     })
+    console.log('YANG DICARI', text)
     Axios.get(`http://otw-env.cjqaqzzhwf.us-west-2.elasticbeanstalk.com/searchuser/${text}`)
       .then ((response) => {
         let filteredData = response.data.filter((possible) => {
           if (possible._id !== this.props.users.id) {
             let findUsers = this.state.users.find((participant) => {
-              return participant.id === possible._id
+              return participant._id === possible._id
             })
-            if (findUsers == undefined) return true
+            //if (findUsers == undefined) return true
+            console.log('PARTICIPANTS AWAL', this.props.meetup.participants)
+            console.log('PART user', this.state.users)
+            return findUsers == undefined
           }
         })
+        console.log(filteredData)
         this.setState({
           possibleUsers: filteredData,
         })
@@ -40,22 +50,14 @@ class AddParticipants extends React.Component {
   }
 
   handleUsernameSelect = (user) => {
-    let stateUser = {id: user._id, username: user.username}
+    let stateUser = {...user}
+    console.log('USER YANG DISELECT', stateUser)
+    console.log('STATE USER', this.state.users)
     this.setState({
       users: [...this.state.users, stateUser],
       searchUser:'',
       possibleUsers: [],
     })
-  }
-
-  createParticipants(){
-    const navigasiNext = this.props.navigation.navigate;
-    if(this.state.users.length<1){
-      alert('wrong participants')
-    } else {
-      this.props.create_Participants(this.state.users)
-      navigasiNext('AddConfirmationDeadline')
-    }
   }
 
   render() {
@@ -74,8 +76,9 @@ class AddParticipants extends React.Component {
                 <View style={{flex:1, flexDirection:'row', flexWrap:'wrap'}}>
                   {
                     this.state.users.map((user) => {
+                      console.log('user', user)
                       return (
-                        <Badge success key={`users.${user.id}`} style={{marginLeft:2, marginRight:2, marginTop:2  }}>
+                        <Badge success key={`users.${user._id}`} style={{marginLeft:2, marginRight:2, marginTop:2  }}>
                           <Text>{user.username}</Text>
                         </Badge>
                       )})
@@ -95,8 +98,8 @@ class AddParticipants extends React.Component {
           </Card>
         </Content>
 
-        <Button full onPress={()=> this.createParticipants()}>
-          <Text>Next</Text>
+        <Button full onPress={()=> this.props.addParticipants(this.props.meetup._id,this.state.users)}>
+          <Text>Add Participants</Text>
         </Button>
       </Container>
     )
@@ -105,7 +108,6 @@ class AddParticipants extends React.Component {
 
 const mapStateToProps = (state)=>{
   return{
-    createMeetUp: state.createMeetUp,
     users: state.users,
   }
 }

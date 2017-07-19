@@ -8,7 +8,7 @@ import {
 } from 'react-native'
 import Axios from 'axios'
 
-import AddParticipants from './AddParticipantsInDetails'
+import AddParticipants from '../components/AddParticipantsInDetails'
 
 class CreatorDetailsTBA extends React.Component {
   constructor(props) {
@@ -32,10 +32,41 @@ class CreatorDetailsTBA extends React.Component {
     this.props.navigateApp.navigate('SetPlace', {meetupId: this.props.meeting._id})
   }
 
-  addParticipant = () => {
+  openAddParticipants() {
     this.setState({
       isModal: true,
     })
+  }
+
+  closeAddParticipants() {
+    this.setState({
+      isModal: false,
+    })
+  }
+
+  addParticipants = (id, users) => {
+    let participantsId = users.map(user => {
+      return {user: user._id}
+    })
+    console.log('LASLSALSALSDJAKSDJA', participantsId)
+    console.log('IIIISSSDDD', id)
+    Axios.put(`http://otw-env.cjqaqzzhwf.us-west-2.elasticbeanstalk.com/editmeetup/${id}`, {
+      participants: [...participantsId]
+    })
+      .then((response) => {
+        console.log('RESPONSESSSS', response.data)
+        console.log('participants added!')
+        this.setState({
+          isModal: false,
+        })
+        this.props.screenProps.navigateApp.navigate('LandingPage')
+      })
+      .catch((error) => {
+        console.log('error cuy!', error)
+        this.setState({
+          isModal: false
+        })
+      })
   }
 
   cancelMeeting(id) {
@@ -72,11 +103,25 @@ class CreatorDetailsTBA extends React.Component {
           <Text>TBA {`\n`} Waiting for participants' confirmations. {`\n`}Please be patient...</Text>
         )}
         <Button
+          onPress={() => this.openAddParticipants()}
+          title="Add Participant(s)"
+        />
+        <Button
           onPress={() => this.cancelMeeting(this.props.meeting._id)}
           title="Cancel Meeting"
         />
-
-      </View>
+        <Modal
+          animationType={"slide"}
+          transparent={false}
+          visible={this.state.isModal}
+          onRequestClose={() => {this.closeAddParticipants()}}
+          style={styles.container}
+        >
+          <View style={styles.container}>
+            <AddParticipants style={styles.container} meetup={this.props.meeting} addParticipants={this.addParticipants}></AddParticipants>
+          </View>
+        </Modal>
+    </View>
     )
   }
 }

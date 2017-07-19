@@ -15,13 +15,14 @@ import ParticipantDetailsTBA from '../containers/ParticipantDetailsTBA'
 class MeetingDetails extends React.Component {
   constructor(props) {
     super(props)
+      console.log('MEETING YANG DIKASIH UNTUK PROPS', this.props.meetings)
     let meetingId = this.props.navigation.state.params.id
     let meeting = this.props.meetings.find((meeting) => {
       return meeting._id == meetingId
     })
     this.state = {
       meeting: meeting,
-      role: meeting.creator == this.props.users.id ? 'creator' : 'participant',
+      role: meeting.creator._id == this.props.users.id ? 'creator' : 'participant',
     }
   }
 
@@ -42,13 +43,13 @@ class MeetingDetails extends React.Component {
         <PieChart participants={this.state.meeting.participants}/>
         {this.state.meeting.status === 'TBA' ? (
           this.state.role === 'creator' ? (
-            <CreatorDetailsTBA navigateApp={this.props.navigation} meeting={this.state.meeting}/>
+            <CreatorDetailsTBA screenProps={{navigateApp: this.props.navigation}} navigateApp={this.props.navigation} meeting={this.state.meeting}/>
           ) : (
             <ParticipantDetailsTBA meeting={this.state.meeting}/>
           )
         ) : (
           this.state.role === 'creator' ? (
-            <Text>CREATOR</Text>
+            <CreatorDetailsTBA screenProps={{navigateApp: this.props.navigation}} navigateApp={this.props.navigation} meeting={this.state.meeting}/>
           ) : (
             <Text>PARTICIPANT</Text>
           )

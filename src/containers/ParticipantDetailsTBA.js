@@ -12,7 +12,7 @@ class ParticipantDetailsTBA extends React.Component {
     super(props)
     this.state = {
       RSVP: this.props.meeting.participants.find(participant => {
-        return participant.user == this.props.users.id
+        return participant.user._id == this.props.users.id
       }).status
     }
   }
