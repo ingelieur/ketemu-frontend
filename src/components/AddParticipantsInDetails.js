@@ -16,6 +16,7 @@ class AddParticipants extends React.Component {
       searchUser: '',
       possibleUsers: [],
       users: [...participants],
+      updatedUsers: [...this.props.meetup.participants],
     }
   }
 
@@ -55,6 +56,7 @@ class AddParticipants extends React.Component {
     console.log('STATE USER', this.state.users)
     this.setState({
       users: [...this.state.users, stateUser],
+      updatedUsers: [...this.state.updatedUsers, {user: {_id: user._id}, status:'pending'}],
       searchUser:'',
       possibleUsers: [],
     })
@@ -98,7 +100,7 @@ class AddParticipants extends React.Component {
           </Card>
         </Content>
 
-        <Button full onPress={()=> this.props.addParticipants(this.props.meetup._id,this.state.users)}>
+        <Button full onPress={()=> this.props.addParticipants(this.props.meetup._id,this.state.updatedUsers)}>
           <Text>Add Participants</Text>
         </Button>
       </Container>

@@ -43,9 +43,9 @@ class MeetingDetails extends React.Component {
         <PieChart participants={this.state.meeting.participants}/>
         {this.state.meeting.status === 'TBA' ? (
           this.state.role === 'creator' ? (
-            <CreatorDetailsTBA screenProps={{navigateApp: this.props.navigation}} navigateApp={this.props.navigation} meeting={this.state.meeting}/>
+            <CreatorDetailsTBA navigateApp={this.props.navigation} meeting={this.state.meeting}/>
           ) : (
-            <ParticipantDetailsTBA meeting={this.state.meeting}/>
+            <ParticipantDetailsTBA navigateApp={this.props.navigation} meeting={this.state.meeting}/>
           )
         ) : (
           this.state.role === 'creator' ? (
