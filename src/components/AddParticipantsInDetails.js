@@ -7,11 +7,9 @@ import Axios from 'axios'
 class AddParticipants extends React.Component {
   constructor(props) {
     super(props)
-    console.log('PROPS ADD PARTICIPANT', this.props)
     let participants = this.props.meetup.participants.map(user => {
       return user.user
     })
-    console.log('PARTICIPANTS', participants)
     this.state =  {
       searchUser: '',
       possibleUsers: [],
@@ -24,7 +22,6 @@ class AddParticipants extends React.Component {
     this.setState({
       searchUser: text,
     })
-    console.log('YANG DICARI', text)
     Axios.get(`http://otw-env.cjqaqzzhwf.us-west-2.elasticbeanstalk.com/searchuser/${text}`)
       .then ((response) => {
         let filteredData = response.data.filter((possible) => {
@@ -32,13 +29,9 @@ class AddParticipants extends React.Component {
             let findUsers = this.state.users.find((participant) => {
               return participant._id === possible._id
             })
-            //if (findUsers == undefined) return true
-            console.log('PARTICIPANTS AWAL', this.props.meetup.participants)
-            console.log('PART user', this.state.users)
             return findUsers == undefined
           }
         })
-        console.log(filteredData)
         this.setState({
           possibleUsers: filteredData,
         })
@@ -52,8 +45,6 @@ class AddParticipants extends React.Component {
 
   handleUsernameSelect = (user) => {
     let stateUser = {...user}
-    console.log('USER YANG DISELECT', stateUser)
-    console.log('STATE USER', this.state.users)
     this.setState({
       users: [...this.state.users, stateUser],
       updatedUsers: [...this.state.updatedUsers, {user: {_id: user._id}, status:'pending'}],
@@ -78,7 +69,6 @@ class AddParticipants extends React.Component {
                 <View style={{flex:1, flexDirection:'row', flexWrap:'wrap'}}>
                   {
                     this.state.users.map((user) => {
-                      console.log('user', user)
                       return (
                         <Badge success key={`users.${user._id}`} style={{marginLeft:2, marginRight:2, marginTop:2  }}>
                           <Text>{user.username}</Text>

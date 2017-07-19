@@ -3,6 +3,8 @@ import { View, StyleSheet, TouchableHighlight } from 'react-native';
 import { Container, Content, Card, CardItem, Text, Body, Button, Icon, Fab, Badge } from 'native-base';
 
 export default function CardUpcomingAndHistory (props) {
+  let user = props.userId ? props.meetupData.participants.find((participant) => {
+    return participant.user._id == props.userId }) : undefined
   {
     if(new Date(props.meetupData.meetingTime).getHours()<10){
       hours = `0${new Date(props.meetupData.meetingTime).getHours()}`
@@ -36,12 +38,14 @@ export default function CardUpcomingAndHistory (props) {
 
                 <View >
                   {
-                    props.meetupData.status === 'TBA' && new Date(props.meetupData.meetingTime) > new Date() ?
-                    (
-                      <Badge info >
-                        <Text>RSVP</Text>
-                      </Badge>
-                    ) : (<View></View>)
+                    //props.meetupData.status === 'TBA' && new Date(props.meetupData.meetingTime) > new Date() ?
+                    user ? ( user.status === 'pending' && new Date(props.meetupData.meetingTime) > new Date() ?
+                      (
+                        <Badge info >
+                          <Text>RSVP</Text>
+                        </Badge>
+                      ) : (<View></View>)
+                    ): null
                   }
                 </View>
 

@@ -30,7 +30,6 @@ class ParticipantDetails extends React.Component {
         this.props.navigateApp.dispatch(goToUpcomingScreen)
       })
       .catch((error) => {
-        console.log(error)
       })
     this.props.navigateApp.navigate('LandingPage')
   }

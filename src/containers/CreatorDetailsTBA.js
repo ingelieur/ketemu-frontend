@@ -124,7 +124,7 @@ class CreatorDetailsTBA extends React.Component {
                           'Cancel Meeting',
                           'Are you sure?',
                           [
-                            {text: 'NO', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                            {text: 'NO', onPress: () => {}, style: 'cancel'},
                             {text: 'YES', onPress: () => this.cancelMeeting(this.props.meeting._id)},
                           ],
                           { cancelable: false }

@@ -56,16 +56,11 @@ export default class SetPlace extends Component {
         },
         {
           id:5,
-          type:'shopping_mall',
-          name:'Shopping Mall',
-        },
-        {
-          id:6,
           type:'restaurant',
           name:'Restaurant',
         },
         {
-          id:7,
+          id:6,
           type:'park',
           name:'Park',
         }
@@ -147,7 +142,7 @@ export default class SetPlace extends Component {
         })
         this.getVenue()
       }
-    }, 3000)
+    }, 5000)
   }
 
   getVenue(){
@@ -329,7 +324,6 @@ export default class SetPlace extends Component {
   }
 
   componentDidMount(){
-    console.log('CWM SET PLACE: ', this.props.navigation.state.params.meetupId)
     this.setState({"meetupId":this.props.navigation.state.params.meetupId},
       ()=> this.retrieveData())
   }

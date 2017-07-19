@@ -24,7 +24,6 @@ export const createMeetUp = (obj) =>{
       obj.navigateApp.dispatch(goLandingPage)
     })
     .catch((error) => {
-      console.log(`opps, create Meet Up: ${error}`);
     })
   }
 }

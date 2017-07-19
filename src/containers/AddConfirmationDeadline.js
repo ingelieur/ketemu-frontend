@@ -68,7 +68,6 @@ class AddConfirmationDeadline extends Component {
     if(this.props.createMeetUp.title == '' || this.props.createMeetUp.description=='' || this.props.createMeetUp.dateMeetUp == '' || this.props.createMeetUp.placeType == '' || this.props.createMeetUp.dateDeadlineMeetUp == ''){
       alert('Data is not complete')
     } else {
-      // console.log(obj);
       this.props.create_MeetUp(obj)
     }
   }
