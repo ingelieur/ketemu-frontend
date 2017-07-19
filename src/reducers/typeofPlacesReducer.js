@@ -20,16 +20,11 @@ const initialState = [{
 },
 {
   id:5,
-  type:'shopping_mall',
-  name:'Shopping Mall',
-},
-{
-  id:6,
   type:'restaurant',
   name:'Restaurant',
 },
 {
-  id:7,
+  id:6,
   type:'park',
   name:'Park',
 },]

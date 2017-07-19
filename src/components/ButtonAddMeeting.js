@@ -8,7 +8,7 @@ class ButtonAddMeeting extends Component {
     return (
       <Fab
         containerStyle={{ }}
-        style={{ backgroundColor: 'deepskyblue' }}
+        style={{ backgroundColor: '#1aa3ff' }}
         position="bottomRight"
         onPress={() => navigate('CreateMeeting')}>
         <Icon name="add" />
