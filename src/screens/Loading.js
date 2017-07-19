@@ -6,7 +6,8 @@ import {
   Text,
   TextInput,
   Button,
-  AsyncStorage
+  AsyncStorage,
+  Image
 } from 'react-native'
 
 import { Spinner } from 'native-base';
@@ -19,6 +20,7 @@ class Loading extends React.Component {
   }
 
   componentDidMount () {
+    
     AsyncStorage.getItem('token', (err, result) => {
       if (result === null) {
         const goLogin = NavigationActions.reset({
@@ -59,9 +61,11 @@ class Loading extends React.Component {
 
   render () {
     return (
-      <View>
-        <Spinner />
-        <Text>Loading....</Text>
+      <View style={{flex: 1, alignItems: 'center',backgroundColor: '#99d6ff',justifyContent:'center'}}>
+        <Image
+          style={{width: 200,height:200,alignSelf:'center'}}
+          source={require('../assets/Quedaricon.png')}
+        />
       </View>
     )
   }

@@ -1,7 +1,7 @@
 //import liraries
 import React from 'react';
 import { View, StyleSheet, ScrollView, TextInput, Text, AsyncStorage } from 'react-native';
-import { Container, Content, Form, Item, Input, Label, Card, CardItem, Button, Icon } from 'native-base';
+import { Container, Content, Form, Item, Input, Label, Card, CardItem, Button, Icon, Spinner } from 'native-base';
 
 import { connect } from 'react-redux'
 
@@ -47,11 +47,11 @@ class Register extends React.Component {
       validationUsername: false,
       validationPasword: false,
       validationEmail: false,
+      renderRegister:false
     }
   }
 
   _doSignUp() {
-    console.log('ini lhooo saat dipencet');
     let firstname = this.state.firstname
     let lastname = this.state.lastname
     let username = this.state.username
@@ -81,17 +81,31 @@ class Register extends React.Component {
             console.log('data register: ', response.data)
             if (!response.data.status) {
               alert(response.data.message)
+              this.setState({
+                renderRegister:false
+              })
             } else {
               this.props.navigation.navigate('Login')
             }
           })
           .catch(error => {
             console.log(`opps, signUp error like this: ${error}`)
+            this.setState({
+              renderRegister:false
+            })
           })
 
         } else {
           alert(response.data.message)
+          this.setState({
+            renderRegister:false
+          })
         }
+      })
+    } else {
+      alert('Please input your information!')
+      this.setState({
+        renderRegister:false
       })
     }
   }
@@ -253,7 +267,7 @@ class Register extends React.Component {
                       </Button>
                     </View>
                   </View>
-                </View>  
+                </View>
                 <Content>
                   <Card style={{paddingBottom: 15}}>
                       <Form>
@@ -315,15 +329,25 @@ class Register extends React.Component {
 
                       </Form>
                       <Button block info
-                        onPress={() => {this._doSignUp()}}
+                        onPress={() => {
+                          this.setState({
+                            renderRegister:true
+                          })
+                          this._doSignUp()
+                        }}
                         style={{ marginLeft: 20, marginRight: 20, marginTop: 20 }}
                       >
                           <Text style={{fontSize: 20, fontWeight: 'bold', color:'white'}}>SignUp</Text>
                       </Button>
+                      {this.state.renderRegister ? (
+                        <View style={{flex:1}}>
+                          <Spinner />
+                        </View>
+                        ) : null
+                      }
                       {this.displayValidation()}
 
                   </Card>
-
                   <View style={{flex: 1,alignItems:'center'}}>
                     <Text></Text>
                     <Text style={{fontSize: 16, fontWeight: 'bold'}} onPress={() => this.renderLogin()} tyle={{fontSize: 18, fontWeight: 'bold', marginBottom: 5}}>Click here to go back to Login page...</Text>
