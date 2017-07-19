@@ -1,11 +1,8 @@
 import React from 'react'
-import {
-  StyleSheet,
-  View,
-  Text,
-} from 'react-native'
+import { StyleSheet, View, Alert} from 'react-native'
 import Axios from 'axios'
 import { connect } from 'react-redux'
+import { Container, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body } from 'native-base';
 
 class ParticipantDetailsTBA extends React.Component {
   constructor(props) {
@@ -33,28 +30,63 @@ class ParticipantDetailsTBA extends React.Component {
     let hours = new Date(this.props.meeting.meetingTime).getHours() < 10 ? `0${new Date(this.props.meeting.meetingTime).getHours()}` : `${new Date(this.props.meeting.meetingTime).getHours()}`
     let minutes = new Date(this.props.meeting.meetingTime).getMinutes() <10 ? `0${new Date(this.props.meeting.meetingTime).getMinutes()}` : `${new Date(this.props.meeting.meetingTime).getMinutes()}`
     return (
-      <View style={styles.container}>
-        <Text style={{fontWeight: 'bold'}}>Name: </Text>
-        <Text>{this.props.meeting.title}</Text>
-        <Text style={{fontWeight: 'bold'}}>Time: </Text>
-        <Text>
-          {`${new Date(this.props.meeting.meetingTime).getDate()}/${new Date(this.props.meeting.meetingTime).getMonth()+1}/${new Date(this.props.meeting.meetingTime).getFullYear()} ${hours}:${minutes}`}
-        </Text>
-        <Text style={{fontWeight: 'bold'}}>Place: </Text>
-        <Text>TBA</Text>
-        <Text>So, are you coming? </Text>
-        <Text
-          onPress={() => this.handleRSVP('yes')}
-          style={this.state.RSVP === 'yes' ? {fontWeight: 'bold'} : {}}
-        >
-          Yes
-        </Text>
-        <Text
-          onPress={() => this.handleRSVP('no')}
-        >
-          No
-        </Text>
-      </View>
+
+      <Container>
+        <Content>
+          <Card style={{flex: 0, marginLeft:4, marginRight:4}}>
+            <CardItem>
+              <Left>
+                <Thumbnail source={{uri: 'http://www.leanport.com/wp-content/uploads/2017/04/plushero.jpg'}} />
+                <Body>
+                  <Text>{this.props.meeting.title}</Text>
+                  <Text>
+                    {`${new Date(this.props.meeting.meetingTime).getDate()}/${new Date(this.props.meeting.meetingTime).getMonth()+1}/${new Date(this.props.meeting.meetingTime).getFullYear()} ${hours}:${minutes}`}
+                  </Text>
+                </Body>
+              </Left>
+            </CardItem>
+
+            <CardItem style={{marginTop:-10}}>
+              <Body style={{marginTop:-5}}>
+                <View style={styles.container}>
+                  <View style={{flex:1, flexDirection:'row', justifyContent:'center'}}>
+                    <Button info style={{marginRight:3}}>
+                      <Text onPress={() => this.handleRSVP('yes')} style={this.state.RSVP === 'yes' ? {fontWeight: 'bold'} : {}}>
+                        IM GOING
+                      </Text>
+                    </Button>
+
+                    <Button danger style={{marginLeft:3}}>
+                      <Text onPress={() => Alert.alert(
+                          'Not Going',
+                          'Are you sure?',
+                          [
+                            {text: 'NO', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                            {text: 'YES', onPress: () => this.handleRSVP('no')},
+                          ],
+                          { cancelable: false }
+                        )}>
+                        NOT GOING
+                      </Text>
+                    </Button>
+                  </View>
+                  <View style={{flex:1, flexDirection:'row', marginTop:8}}>
+                    <Text style={{fontWeight: 'bold'}}>Place : </Text>
+                    <Text>TBA</Text>
+                  </View>
+
+                  <View style={{flex:1, flexDirection:'row', flexWrap: 'wrap'}}>
+                    <Text style={{fontWeight: 'bold'}}>Description : </Text>
+                    <Text>{this.props.meeting.description}</Text>
+                  </View>
+
+
+                </View>
+              </Body>
+            </CardItem>
+          </Card>
+        </Content>
+      </Container>
     )
   }
 }
