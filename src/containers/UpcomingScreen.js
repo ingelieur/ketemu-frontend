@@ -14,7 +14,6 @@ class UpcomingScreen extends Component {
     this.state = {
       refreshing:false
     }
-
   }
 
   detailMeetUp(id){
@@ -56,7 +55,7 @@ class UpcomingScreen extends Component {
                 return new Date(meeting.meetingTime) > new Date() && meeting.status === 'TBA'
               }).map((meeting) => {
                 return(
-                  <CardUpcomingAndHistory key={meeting._id} detailMeetUp={()=>this.detailMeetUp(meeting._id)} meetupData={meeting}/>
+                  <CardUpcomingAndHistory key={meeting._id} detailMeetUp={()=>this.detailMeetUp(meeting._id)} meetupData={meeting} userId={this.props.users.id}/>
                 )
               })
             }
@@ -64,7 +63,7 @@ class UpcomingScreen extends Component {
                 return new Date(meeting.meetingTime) > new Date() && meeting.status === 'upcoming'
               }).map((meeting) => {
                 return(
-                  <CardUpcomingAndHistory key={meeting._id} detailMeetUp={()=>this.detailMeetUp(meeting._id)} meetupData={meeting}/>
+                  <CardUpcomingAndHistory key={meeting._id} detailMeetUp={()=>this.detailMeetUp(meeting._id)} meetupData={meeting} userId={this.props.users.id}/>
                 )
               })
             }

@@ -26,7 +26,6 @@ export default function Maps(props) {
       style={styles.container}
       region={region}
       onRegionChangeComplete={() => {
-        console.log('myMarker: ', myMarker)
         props.markerDesc.length > 0 ? myMarker.showCallout() : myMarker.hideCallout()}
       }
       onCalloutPress={ props.onCalloutPress && props.markerDesc.length > 0 ? () => {props.onCalloutPress()} : () => {}}

@@ -324,7 +324,6 @@ export default class SetPlace extends Component {
   }
 
   componentDidMount(){
-    console.log('CWM SET PLACE: ', this.props.navigation.state.params.meetupId)
     this.setState({"meetupId":this.props.navigation.state.params.meetupId},
       ()=> this.retrieveData())
   }

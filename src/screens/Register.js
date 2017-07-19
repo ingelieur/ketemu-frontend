@@ -78,7 +78,6 @@ class Register extends React.Component {
 
           axios.post('http://otw-env.cjqaqzzhwf.us-west-2.elasticbeanstalk.com/signup', dataRegister)
           .then(response => {
-            console.log('data register: ', response.data)
             if (!response.data.status) {
               alert(response.data.message)
               this.setState({
@@ -89,7 +88,6 @@ class Register extends React.Component {
             }
           })
           .catch(error => {
-            console.log(`opps, signUp error like this: ${error}`)
             this.setState({
               renderRegister:false
             })

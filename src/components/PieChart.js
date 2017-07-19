@@ -35,7 +35,7 @@ export default function PieChartComp(props) {
           selectionShift: 5
         }
       }],
-      xValues: ['Yes', 'Pending', 'No']
+      xValues: ['Yes', 'Pending', '']
     },
     description: {
       text: '',

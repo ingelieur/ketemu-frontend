@@ -64,7 +64,6 @@ export const fetchDataUser = data => {
         dispatch(fetchUser(response.data))
     })
     .catch(error => {
-        console.log(`opps, fetchDataUser error like this: ${error}`)
     })
   }
 }
@@ -80,13 +79,11 @@ export const signIn = data => {
               AsyncStorage.setItem('user', response.data.username, () => {
                 AsyncStorage.setItem('id', response.data.id, () => {
                   AsyncStorage.getItem('id', (err, id) => {
-                    console.log('ID DI ASYNC STORAGE OYYYY: ', id)
                     if (id) {
                       AsyncStorage.getItem('user', (err, user) => {
                         if (user) {
                           axios.get(`http://otw-env.cjqaqzzhwf.us-west-2.elasticbeanstalk.com/detailuser/${id}`)
                           .then(response => {
-                            console.log('DATA YANG DIMASUKKAN KE HASLOGGEDIN: ', response.data)
                               dispatch(hasLoggedIn(response.data))
                               if (response.data.avatarURL == 'https://cdn3.iconfinder.com/data/icons/social-messaging-productivity-6/128/profile-male-circle2-512.png') {
                                 const goPersonalization = NavigationActions.reset({
@@ -115,7 +112,6 @@ export const signIn = data => {
                               }
                           })
                           .catch(error => {
-                              console.log(`opps, fetchDataUser error like this: ${error}`)
                           })
                         }
                       })
@@ -126,7 +122,6 @@ export const signIn = data => {
             })
         })
         .catch(error => {
-            console.log(`opps, signin error like this: ${error}`)
         })
     }
 }
@@ -159,7 +154,6 @@ export const updateAvatarUrl = data => {
 
         })
         .catch(error => {
-          console.log(`opps, update avatar url error like this: ${error}`);
         })
       }
     })
@@ -177,7 +171,6 @@ export const editDataUser = data => {
 
         })
         .catch(error => {
-          console.log(`opps, update user error like this: ${error}`);
         })
       }
     })

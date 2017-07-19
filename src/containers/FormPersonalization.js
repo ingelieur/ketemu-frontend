@@ -34,14 +34,10 @@ class FormPersonalization extends React.Component {
     }
   }
 
-  componentWillMount() {
-    this.props.getCurrentLocation()
-  }
-
   componentDidMount() {
-
     AsyncStorage.getItem('id', (err, id) => {
       if (id) {
+        this.props.getCurrentLocation()
         this.props.fetchUser(id)
       }
     })
