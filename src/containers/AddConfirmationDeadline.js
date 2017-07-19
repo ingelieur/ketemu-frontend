@@ -36,6 +36,12 @@ class AddConfirmationDeadline extends Component {
     }
   };
 
+  convertDate(waktu){
+    waktu.getHours() < 10 ? jam=`0${waktu.getHours()}` : jam=`${waktu.getHours}`
+    waktu.getMinutes() < 10 ? menit=`0${waktu.getMinutes()}` : menit=`${waktu.getMinutes}`
+    return `${jam}:${menit}`
+  }
+
   componentDidMount(){
     AsyncStorage.getItem('id',  (err, id) => {
       if(id){
@@ -95,7 +101,7 @@ class AddConfirmationDeadline extends Component {
                         (<Text></Text>) : (
                           <Text style={{marginLeft:4}}>
                             {
-                              `${this.props.createMeetUp.dateDeadlineMeetUp.getHours()}:${this.props.createMeetUp.dateDeadlineMeetUp.getMinutes()}`
+                              this.convertDate(this.props.createMeetUp.dateDeadlineMeetUp)
                             }
                           </Text>
                         )

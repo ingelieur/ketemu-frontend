@@ -70,7 +70,7 @@ class CreatorDetails extends React.Component {
           <Card style={{flex: 0, marginLeft:4, marginRight:4}}>
             <CardItem>
               <Left>
-                <Thumbnail source={{uri: 'http://www.leanport.com/wp-content/uploads/2017/04/plushero.jpg'}} />
+                <Thumbnail square size={80} source={require('../assets/Quedaricon.png')} />
                 <Body style={{flex:1, flexWrap: 'wrap'}}>
                   <Text style={{fontWeight: 'bold'}}>{this.props.meeting.title}</Text>
                   <Text>
