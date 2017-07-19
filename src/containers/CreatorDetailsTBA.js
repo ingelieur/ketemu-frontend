@@ -22,10 +22,10 @@ class CreatorDetailsTBA extends React.Component {
 
   componentDidMount() {
     let rsvpArray = this.props.meeting.participants.filter((participant) => {
-      return participant.status === 'no' || 'pending'
+      return participant.status === 'no' || participant.status === 'pending'
     }) || []
     console.log('creator details', rsvpArray)
-    rsvpArray.length > 0 ? this.setState({...this.state, allConfirmed: true}) : null
+    rsvpArray.length > 0 ? null : this.setState({allConfirmed: true})
   }
 
   setPlace() {

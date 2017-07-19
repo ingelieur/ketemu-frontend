@@ -189,14 +189,14 @@ export default class SetPlace extends Component {
       if(bussinessHour){
         coordinates = [response.data.creator.officeAddressGeolocation]
         response.data.participants.forEach(participant=>{
-          if(participant.status == 'pending'){
+          if(participant.status == 'yes'){
             coordinates.push(participant.user.officeAddressGeolocation)
           }
         })
       } else {
         coordinates = [response.data.creator.homeAddressGeolocation]
         response.data.participants.forEach(participant=>{
-          if(participant.status == 'pending'){
+          if(participant.status == 'yes'){
             coordinates.push(participant.user.homeAddressGeolocation)
           }
         })
@@ -219,14 +219,14 @@ export default class SetPlace extends Component {
       if(bussinessHour){
         coordinates = [response.data.creator.officeAddressGeolocation]
         response.data.participants.forEach(participant=>{
-          if(participant.status == 'pending'){
+          if(participant.status == 'yes'){
             coordinates.push(participant.user.officeAddressGeolocation)
           }
         })
       } else {
         coordinates = [response.data.creator.homeAddressGeolocation]
         response.data.participants.forEach(participant=>{
-          if(participant.status == 'pending'){
+          if(participant.status == 'yes'){
             coordinates.push(participant.user.homeAddressGeolocation)
           }
         })
