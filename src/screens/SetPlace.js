@@ -201,8 +201,6 @@ export default class SetPlace extends Component {
           }
         })
       }
-      coordinates.push([-6.2606187,106.6816])
-      coordinates.push([-6.9174639,107.6191228])
       this.getCenter(coordinates)
     })
     .catch(err=>{
@@ -233,8 +231,6 @@ export default class SetPlace extends Component {
           }
         })
       }
-      coordinates.push([-6.2606187,106.6816])
-      coordinates.push([-6.9174639,107.6191228])
       if(response.data.typePlaces == 'coworking_space'){
         this.setState({'venueType':'','venueQuery':response.data.typePlaces.split('_').join('+')})
       } else {
