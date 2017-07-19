@@ -21,7 +21,7 @@ class CreatorDetailsTBA extends React.Component {
   }
 
   componentDidMount() {
-    let rsvpArray = this.props.meeting.participants.find((participant) => {
+    let rsvpArray = this.props.meeting.participants.filter((participant) => {
       return participant.status === 'no' || 'pending'
     }) || []
     console.log('creator details', rsvpArray)
