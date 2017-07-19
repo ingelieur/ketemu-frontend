@@ -253,6 +253,7 @@ class Register extends React.Component {
         return (
           <ScrollView style={styles.scroll}>
             <Container>
+            {/*
                 <View style={{height:40}}>
                   <View style={{flex:1, flexDirection:'row', backgroundColor:'#d9534f'}}>
                     <View style={{width:40}}>
@@ -262,12 +263,15 @@ class Register extends React.Component {
                       <Text></Text>
                     </View>
                     <View style={{flex:1}}>
+
                       <Button full danger onPress={() => alert('oke')} style={{width:'100%'}}>
                         <Text style={{color:'white'}}>Login with Gmail</Text>
                       </Button>
+
                     </View>
                   </View>
                 </View>
+                */}
                 <Content>
                   <Card style={{paddingBottom: 15}}>
                       <Form>

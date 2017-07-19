@@ -104,6 +104,7 @@ class Login extends React.Component {
           source={require('../assets/Quedar.png')}
         />
         <Container>
+        {/*
           <View style={{height:40}}>
             <View style={{flex:1, flexDirection:'row', backgroundColor:'#d9534f'}}>
               <View style={{width:40}}>
@@ -119,6 +120,7 @@ class Login extends React.Component {
               </View>
             </View>
           </View>
+          */}
           <Content>
             <Card style={{paddingBottom: 20}}>
               <Form>
