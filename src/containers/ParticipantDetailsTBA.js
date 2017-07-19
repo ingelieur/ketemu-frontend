@@ -5,16 +5,20 @@ import {
   Text,
 } from 'react-native'
 import Axios from 'axios'
+import { connect } from 'react-redux'
 
 class ParticipantDetailsTBA extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      RSVP: this.props.meeting.participants.find(participant => {
+        return participant.user == this.props.users.id
+      }).status
     }
   }
 
   handleRSVP = (decision) => {
-    Axios.put(`http://otw-env.cjqaqzzhwf.us-west-2.elasticbeanstalk.com/confirmattendance/${this.props.meetingId}`, {id: this.props.users.id, status: decision})
+    Axios.put(`http://otw-env.cjqaqzzhwf.us-west-2.elasticbeanstalk.com/confirmattendance/${this.props.meeting._id}`, {id: this.props.users.id, status: decision})
       .then ((response) => {
         this.setState({
           RSVP: decision,
@@ -39,7 +43,6 @@ class ParticipantDetailsTBA extends React.Component {
         <Text style={{fontWeight: 'bold'}}>Place: </Text>
         <Text>TBA</Text>
         <Text>So, are you coming? </Text>
-        <Text>{JSON.stringify(this.props.meeting)}</Text>
         <Text
           onPress={() => this.handleRSVP('yes')}
           style={this.state.RSVP === 'yes' ? {fontWeight: 'bold'} : {}}
@@ -64,4 +67,10 @@ const styles = StyleSheet.create({
   },
 })
 
-export default ParticipantDetailsTBA
+const mapStateToProps = (state) => {
+  return {
+    users: state.users,
+  }
+}
+
+export default connect(mapStateToProps, null)(ParticipantDetailsTBA)

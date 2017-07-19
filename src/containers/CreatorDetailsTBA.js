@@ -4,17 +4,19 @@ import {
   View,
   Text,
   Button,
-  AsyncStorage,
+  Modal,
 } from 'react-native'
 import Axios from 'axios'
+
+import AddParticipants from './AddParticipantsInDetails'
 
 class CreatorDetailsTBA extends React.Component {
   constructor(props) {
     super(props)
     console.log('iiiiiiiiidddddd', this.props.meeting._id)
     this.state = {
-      idUser: '',
       allConfirmed: false,
+      isModal: false,
     }
   }
 
@@ -30,10 +32,18 @@ class CreatorDetailsTBA extends React.Component {
     this.props.navigateApp.navigate('SetPlace', {meetupId: this.props.meeting._id})
   }
 
+  addParticipant = () => {
+    this.setState({
+      isModal: true,
+    })
+  }
+
   cancelMeeting(id) {
     console.log('axioooos looo')
+    console.log(id)
     Axios.delete(`http://otw-env.cjqaqzzhwf.us-west-2.elasticbeanstalk.com/deletemeetup/${id}`)
       .then(() => {
+        console.log('success')
         this.props.navigateApp.navigate('LandingPage')
       })
       .catch((error) => {
@@ -65,6 +75,7 @@ class CreatorDetailsTBA extends React.Component {
           onPress={() => this.cancelMeeting(this.props.meeting._id)}
           title="Cancel Meeting"
         />
+
       </View>
     )
   }

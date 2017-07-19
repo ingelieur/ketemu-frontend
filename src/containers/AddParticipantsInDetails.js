@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, } from 'react-native';
 import { Container, Content, Card, CardItem, Text, Body, Item, Input, Button, ListItem, Badge } from 'native-base';
-import { inputParticipantsMeetUp } from '../actions/createMeetUp'
 import { connect } from  'react-redux'
 import Axios from 'axios'
 
@@ -11,7 +10,7 @@ class AddParticipants extends React.Component {
     this.state =  {
       searchUser: '',
       possibleUsers: [],
-      users: this.props.createMeetUp.participants,
+      users: this.meetup.participants,
     }
   }
 
@@ -111,10 +110,4 @@ const mapStateToProps = (state)=>{
   }
 }
 
-const mapDispatchToProps = (dispatch) =>{
-  return{
-    create_Participants:(users)=>dispatch(inputParticipantsMeetUp(users)),
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps) (AddParticipants)
+export default connect(mapStateToProps, null) (AddParticipants)

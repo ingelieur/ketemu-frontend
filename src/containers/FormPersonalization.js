@@ -195,7 +195,7 @@ class FormPersonalization extends React.Component {
                     animationType={"slide"}
                     transparent={false}
                     visible={this.state.isModal}
-                    onRequestClose={() => {alert("Modal has been closed.")}}
+                    onRequestClose={() => {}}
                     style={styles.parentView}
                   >
                     <View style={styles.parentView}>
@@ -207,7 +207,7 @@ class FormPersonalization extends React.Component {
                     animationType={"slide"}
                     transparent={false}
                     visible={this.state.visiblePopUpPassword}
-                    onRequestClose={() => {alert("Modal has been closed.")}}
+                    onRequestClose={() => {}}
                     style={styles.parentView}
                   >
                     <View style={styles.parentView}>
