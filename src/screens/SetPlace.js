@@ -189,20 +189,18 @@ export default class SetPlace extends Component {
       if(bussinessHour){
         coordinates = [response.data.creator.officeAddressGeolocation]
         response.data.participants.forEach(participant=>{
-          if(participant.status == 'pending'){
+          if(participant.status == 'yes'){
             coordinates.push(participant.user.officeAddressGeolocation)
           }
         })
       } else {
         coordinates = [response.data.creator.homeAddressGeolocation]
         response.data.participants.forEach(participant=>{
-          if(participant.status == 'pending'){
+          if(participant.status == 'yes'){
             coordinates.push(participant.user.homeAddressGeolocation)
           }
         })
       }
-      coordinates.push([-6.2606187,106.6816])
-      coordinates.push([-6.9174639,107.6191228])
       this.getCenter(coordinates)
     })
     .catch(err=>{
@@ -221,20 +219,18 @@ export default class SetPlace extends Component {
       if(bussinessHour){
         coordinates = [response.data.creator.officeAddressGeolocation]
         response.data.participants.forEach(participant=>{
-          if(participant.status == 'pending'){
+          if(participant.status == 'yes'){
             coordinates.push(participant.user.officeAddressGeolocation)
           }
         })
       } else {
         coordinates = [response.data.creator.homeAddressGeolocation]
         response.data.participants.forEach(participant=>{
-          if(participant.status == 'pending'){
+          if(participant.status == 'yes'){
             coordinates.push(participant.user.homeAddressGeolocation)
           }
         })
       }
-      coordinates.push([-6.2606187,106.6816])
-      coordinates.push([-6.9174639,107.6191228])
       if(response.data.typePlaces == 'coworking_space'){
         this.setState({'venueType':'','venueQuery':response.data.typePlaces.split('_').join('+')})
       } else {
@@ -332,13 +328,13 @@ export default class SetPlace extends Component {
     })
   }
 
-  componentWillMount(){
+  componentDidMount(){
+    console.log('CWM SET PLACE: ', this.props.navigation.state.params.meetupId)
     this.setState({"meetupId":this.props.navigation.state.params.meetupId},
       ()=> this.retrieveData())
   }
   // timer.setTimeout('alert',()=>alert('boom'), 2000)
   render() {
-    console.log('SETPLAAAAAAACE', this.props)
     if(this.state.pageLoadedStatus){
       if(this.state.modalStatus){
         return (
