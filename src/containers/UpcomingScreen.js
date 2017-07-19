@@ -17,7 +17,8 @@ class UpcomingScreen extends Component {
   }
 
   render() {
-    if(this.props.meetings.length == 0){
+    console.log('cek meeting di store',this.props.meetings);
+    if(this.props.meetings == undefined ){
       return(
         <View style={{flex:1}}>
           <View style={{flex:1,backgroundColor:'#99d6ff',justifyContent:'center',alignItems:'center'}}>
@@ -25,6 +26,17 @@ class UpcomingScreen extends Component {
             <Text style={{color:'white', fontWeight:'bold',fontSize:20}}>
               Loading...
             </Text>
+          </View>
+        </View>
+      )
+    } else if (this.props.meetings.length == 0){
+      return(
+        <View style={{flex:1}}>
+          <View style={{flex:1,backgroundColor:'#99d6ff',justifyContent:'center',alignItems:'center'}}>
+            <Text style={{color:'white', fontWeight:'bold',fontSize:20}}>
+              You currently have no schedules
+            </Text>
+            <ButtonAddMeeting navigateApp={this.props.screenProps.navigateApp}/>
           </View>
         </View>
       )
