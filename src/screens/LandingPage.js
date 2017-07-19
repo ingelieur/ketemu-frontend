@@ -28,6 +28,8 @@ class LandingPage extends React.Component {
         this.props.fetchUser(id)
         axios.get(`http://otw-env.cjqaqzzhwf.us-west-2.elasticbeanstalk.com/getmeetingsbyparticipant/${id}`)
           .then((meetup)=>{
+            console.log('ambil meeting baru niiih')
+            console.log(meetup.data)
             this.props.getAllMeetUps(meetup.data)
           })
       }
