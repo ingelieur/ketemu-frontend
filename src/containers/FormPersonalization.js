@@ -206,8 +206,6 @@ class FormPersonalization extends React.Component {
                                 secureTextEntry={true}
                                 placeholder='Input your password here'
                               />
-
-
                             </View>
                             <View style={{flex: 1, justifyContent:'center'}}>
                               <Text style={{flex:1}}></Text>

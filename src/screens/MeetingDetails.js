@@ -9,7 +9,9 @@ import { connect } from 'react-redux'
 
 import PieChart from '../components/PieChart'
 import CreatorDetailsTBA from '../containers/CreatorDetailsTBA'
+import CreatorDetails from '../containers/CreatorDetails'
 import ParticipantDetailsTBA from '../containers/ParticipantDetailsTBA'
+import ParticipantDetails from '../containers/ParticipantDetails'
 
 
 class MeetingDetails extends React.Component {
@@ -49,9 +51,9 @@ class MeetingDetails extends React.Component {
           )
         ) : (
           this.state.role === 'creator' ? (
-            <CreatorDetailsTBA screenProps={{navigateApp: this.props.navigation}} navigateApp={this.props.navigation} meeting={this.state.meeting}/>
+            <CreatorDetails navigateApp={this.props.navigation} meeting={this.state.meeting}/>
           ) : (
-            <Text>PARTICIPANT</Text>
+            <ParticipantDetails meeting={this.state.meeting} />
           )
         )
         }
