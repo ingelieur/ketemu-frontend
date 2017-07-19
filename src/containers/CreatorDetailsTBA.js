@@ -13,7 +13,6 @@ import AddParticipants from '../components/AddParticipantsInDetails'
 class CreatorDetailsTBA extends React.Component {
   constructor(props) {
     super(props)
-    console.log('iiiiiiiiidddddd', this.props.meeting._id)
     this.state = {
       allConfirmed: false,
       isModal: false,
@@ -24,7 +23,6 @@ class CreatorDetailsTBA extends React.Component {
     let rsvpArray = this.props.meeting.participants.filter((participant) => {
       return participant.status === 'no' || participant.status === 'pending'
     }) || []
-    console.log('creator details', rsvpArray)
     rsvpArray.length > 0 ? null : this.setState({allConfirmed: true})
   }
 
@@ -45,24 +43,19 @@ class CreatorDetailsTBA extends React.Component {
   }
 
   addParticipants = (id, users) => {
-    let participantsId = users.map(user => {
-      return {user: user._id}
+    let participants = users.map(user => {
+      return {user: user.user._id, status: user.status}
     })
-    console.log('LASLSALSALSDJAKSDJA', participantsId)
-    console.log('IIIISSSDDD', id)
     Axios.put(`http://otw-env.cjqaqzzhwf.us-west-2.elasticbeanstalk.com/editmeetup/${id}`, {
-      participants: [...participantsId]
+      participants: [...participants]
     })
       .then((response) => {
-        console.log('RESPONSESSSS', response.data)
-        console.log('participants added!')
         this.setState({
           isModal: false,
         })
-        this.props.screenProps.navigateApp.navigate('LandingPage')
+        this.props.navigateApp.navigate('LandingPage')
       })
       .catch((error) => {
-        console.log('error cuy!', error)
         this.setState({
           isModal: false
         })
@@ -70,15 +63,11 @@ class CreatorDetailsTBA extends React.Component {
   }
 
   cancelMeeting(id) {
-    console.log('axioooos looo')
-    console.log(id)
     Axios.delete(`http://otw-env.cjqaqzzhwf.us-west-2.elasticbeanstalk.com/deletemeetup/${id}`)
       .then(() => {
-        console.log('success')
         this.props.navigateApp.navigate('LandingPage')
       })
       .catch((error) => {
-        console.log(error)
       })
   }
 
