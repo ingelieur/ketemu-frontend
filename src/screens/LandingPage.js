@@ -16,20 +16,12 @@ export const Tabs = TabNavigator({
 
 class LandingPage extends React.Component {
 
-  componentWillMount() {
-    console.log('aldy will mount',this.props.users)
-  }
-
   componentDidMount() {
-    console.log('aldy DID mount',this.props.users)
     AsyncStorage.getItem('id', (err, id) => {
-      console.log('dari saat abis kill',id);
       if (id) {
         this.props.fetchUser(id)
         axios.get(`http://otw-env.cjqaqzzhwf.us-west-2.elasticbeanstalk.com/getmeetingsbyparticipant/${id}`)
           .then((meetup)=>{
-            console.log('ambil meeting baru niiih')
-            console.log(meetup.data)
             this.props.getAllMeetUps(meetup.data)
           })
       }
@@ -44,7 +36,6 @@ class LandingPage extends React.Component {
 }
 
 const mapStateToProps = state => {
-  console.log('aldy state',state);
   return {
     users:state.users
   }

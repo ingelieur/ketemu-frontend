@@ -59,7 +59,6 @@ class FindAddress extends React.Component {
               types: [ "address", "geocode", "establishment" ],
             }}
             onPress={(data, details = null) => {
-              console.log('placeName: ', details.name)
               const markerPosition = {
                 latitude: details.geometry.location.lat || this.state.latitude,
                 longitude: details.geometry.location.lng || this.state.longitude,

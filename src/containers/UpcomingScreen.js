@@ -8,7 +8,6 @@ import { Spinner } from 'native-base';
 class UpcomingScreen extends Component {
   constructor(props){
     super(props)
-    console.log('user',this.props.users.id )
 
   }
 
@@ -17,7 +16,6 @@ class UpcomingScreen extends Component {
   }
 
   render() {
-    console.log('cek meeting di store',this.props.meetings);
     if(this.props.meetings == undefined ){
       return(
         <View style={{flex:1}}>

@@ -30,7 +30,6 @@ class ParticipantDetailsTBA extends React.Component {
         this.props.navigateApp.dispatch(goToUpcomingScreen)
       })
       .catch((error) => {
-        console.log(error)
       })
     this.props.navigateApp.navigate('LandingPage')
   }
@@ -72,7 +71,7 @@ class ParticipantDetailsTBA extends React.Component {
                               'Not Going',
                               'Are you sure?',
                               [
-                                {text: 'NO', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                                {text: 'NO', onPress: () => {}, style: 'cancel'},
                                 {text: 'YES', onPress: () => this.handleRSVP('no')},
                               ],
                               { cancelable: false }

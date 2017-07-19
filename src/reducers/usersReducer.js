@@ -44,7 +44,6 @@ const signOut = state => {
     ...initialState,
     loginStatus: false
   }
-  console.log('aladydydydydyd',newState);
   return newState
 }
 
