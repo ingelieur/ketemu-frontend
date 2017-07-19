@@ -1,9 +1,10 @@
 //import liraries
 import React from 'react';
-import { View, StyleSheet, ScrollView, TextInput, Text, TouchableHighlight } from 'react-native';
+import { View, StyleSheet, ScrollView, TextInput, Text, TouchableHighlight, Image } from 'react-native';
 import { Container, Content, Form, Item, Input, Label, Card, CardItem, Button, Icon, Spinner} from 'native-base';
 import { connect } from 'react-redux'
 import { NavigationActions } from 'react-navigation'
+import axios from 'axios';
 
 import { signIn } from '../actions/userAction'
 
@@ -59,13 +60,36 @@ class Login extends React.Component {
       this.setState({
         renderLogin: true
       })
-      let dataLogin = {
+      axios.post('http://otw-env.cjqaqzzhwf.us-west-2.elasticbeanstalk.com/signin', {
         username: this.state.username,
         password: this.state.password,
-        navigateLogin: this.props.navigation
-      }
-      this.props.loginData(dataLogin)
-
+      })
+      .then(response => {
+        if(response.data.message=='SignIn success'){
+          let dataLogin = {
+            username: this.state.username,
+            password: this.state.password,
+            navigateLogin: this.props.navigation
+          }
+          this.props.loginData(dataLogin)
+        } else if(response.data.message=='Please input the correct username!'){
+          alert('Please input the correct username!')
+          this.setState({
+            renderLogin: false
+          })
+        } else if(response.data.message=='Please input the correct password!'){
+          alert('Please input the correct password!')
+          this.setState({
+            renderLogin: false
+          })
+        }
+      })
+      .catch(err=>{
+        alert('Something\'s error with your connection')
+        this.setState({
+          renderLogin: false
+        })
+      })
     } else {
       alert('Please input your username and password!')
     }
@@ -75,6 +99,10 @@ class Login extends React.Component {
   render() {
     return (
       <ScrollView style={styles.scroll}>
+        <Image
+          style={{width: 200,height:200,alignSelf:'center'}}
+          source={require('../assets/Quedar.png')}
+        />
         <Container>
           <View style={{height:40}}>
             <View style={{flex:1, flexDirection:'row', backgroundColor:'#d9534f'}}>
@@ -141,7 +169,6 @@ class Login extends React.Component {
                 </View>
               ) : null
               }
-
             </View>
           </Content>
         </Container>

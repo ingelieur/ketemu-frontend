@@ -3,6 +3,8 @@ import { StyleSheet, View, Modal, Alert} from 'react-native'
 import { Container, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body } from 'native-base';
 
 import Axios from 'axios'
+import { NavigationActions } from 'react-navigation'
+
 
 import AddParticipants from '../components/AddParticipantsInDetails'
 
@@ -39,6 +41,12 @@ class CreatorDetailsTBA extends React.Component {
   }
 
   addParticipants = (id, users) => {
+    const goToUpcomingScreen = NavigationActions.reset({
+      index: 0,
+      actions: [
+        NavigationActions.navigate({ routeName: 'LandingPage' })
+      ]
+    })
     let participants = users.map(user => {
       return {user: user.user._id, status: user.status}
     })
@@ -49,7 +57,7 @@ class CreatorDetailsTBA extends React.Component {
         this.setState({
           isModal: false,
         })
-        this.props.navigateApp.navigate('LandingPage')
+        this.props.navigateApp.dispatch(goToUpcomingScreen)
       })
       .catch((error) => {
         this.setState({

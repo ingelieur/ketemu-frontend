@@ -1,84 +1,92 @@
-import React from 'react'
-import {
-  StyleSheet,
-  View,
-  TouchableHighlight,
-} from 'react-native'
-import {PieChart} from 'react-native-mp-android-chart'
-
-export default function PieChartComp(props) {
-  let participantsYes = props.participants.filter((participant) => {
-    if(participant.status === 'yes') return participant
-  })
-  let participantsNo = props.participants.filter((participant) => {
-    if(participant.status === 'no') return participant
-  })
-  let participantsPending = props.participants.filter((participant) => {
-    if(participant.status === 'pending') return participant
-  })
-  let state = {
-    legend: {
-      enabled: true,
-      textSize: 10,
-      form: 'CIRCLE',
-      position: 'RIGHT_OF_CHART',
-      fontFamily: 'monospace',
-      wordWrapEnabled: true
-    },
-    data: {
-      datasets: [{
-        yValues: [participantsYes.length, participantsPending.length, participantsNo.length],
-        label: '',
-        config: {
-          colors: ['#C0FF8C', '#FFF78C', '#FF8C9D'],
-          sliceSpace: 3,
-          selectionShift: 5
-        }
-      }],
-      xValues: ['Yes', 'Pending', 'No']
-    },
-    description: {
-      text: '',
-      textSize: 15,
-      textColor: 'darkgray',
-      fontFamily: 'monospace',
-      fontStyle: 2
-    }
-  }
-
-  const pressMe = () => {
-    alert('OI')
-  }
-
-  return (
-    <View style={styles.container}>
-      <PieChart
-        style={styles.chart}
-        logEnabled={true}
-        backgroundColor={'#f0f0f0'}
-        description={state.description}
-        data={state.data}
-        legend={state.legend}
-        drawSliceText={false}
-        usePercentValues={false}
-        centerText={'Participants'}
-        centerTextRadiusPercent={100}
-        holeRadius={40}
-        holeColor={'#f0f0f0'}
-        transparentCircleRadius={45}
-        transparentCircleColor={'#f0f0f0'}
-        transparentCircleAlpha={50}
-        maxAngle={360}
-      />
-    </View>
-  )
-}
+import React, { Component } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+import { Pie } from 'react-native-pathjs-charts'
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#f7f7f7',
   },
-  chart: {
-    flex: 1
+});
+
+class PieChartBasic extends Component {
+  static navigationOptions = ({ navigation }) => ({
+    title: `Pie - Basic`,
+  });
+  render() {
+    let data = [{
+      "name": "Washington",
+      "population": 7694980
+    }, {
+      "name": "Oregon",
+      "population": 2584160
+    }, {
+      "name": "Minnesota",
+      "population": 6590667,
+      "color": {'r':223,'g':154,'b':20}
+    }, {
+      "name": "Alaska",
+      "population": 7284698
+    }]
+
+    let options = {
+      margin: {
+        top: 20,
+        left: 20,
+        right: 20,
+        bottom: 20
+      },
+      width: 350,
+      height: 350,
+      color: '#2980B9',
+      r: 50,
+      R: 150,
+      legendPosition: 'topLeft',
+      animate: {
+        type: 'oneByOne',
+        duration: 200,
+        fillTransition: 3
+      },
+      label: {
+        fontFamily: 'Arial',
+        fontSize: 8,
+        fontWeight: true,
+        color: '#ECF0F1'
+      }
+    }
+
+    return (
+      <View style={styles.container}>
+        <Pie data={data}
+          options={options}
+          accessorKey="population"
+          margin={{top: 20, left: 20, right: 20, bottom: 20}}
+          color="#2980B9"
+          pallete={
+            [
+              {'r':25,'g':99,'b':201},
+              {'r':24,'g':175,'b':35},
+              {'r':190,'g':31,'b':69},
+              {'r':100,'g':36,'b':199},
+              {'r':214,'g':207,'b':32},
+              {'r':198,'g':84,'b':45}
+            ]
+          }
+          r={25}
+          R={100}
+          legendPosition="topLeft"
+          label={{
+            fontFamily: 'Arial',
+            fontSize: 6,
+            fontWeight: true,
+            color: '#ECF0F1'
+          }}
+        />
+      </View>
+    )
   }
-})
+}
+
+export default PieChartBasic;

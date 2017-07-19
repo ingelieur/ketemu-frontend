@@ -36,23 +36,9 @@ class FormPersonalization extends React.Component {
 
   componentWillMount() {
     this.props.getCurrentLocation()
-
-    // this.setState({
-    //   homeAddressName: this.props.homeAddressName,
-    //   homeAddressGeolocation: this.props.homeAddressGeolocation,
-    //   officeAddressName: this.props.officeAddressName,
-    //   officeAddressGeolocation: this.props.officeAddressGeolocation
-    // })
   }
 
   componentDidMount() {
-    // this.props.fetchAsyncstorageId()
-    // console.log('CIHUUUUIII: ', this.props.navigateApp)
-
-    console.log('INI APA??: ', typeof this.state.homeAddressName)
-    console.log('INI APA??: ', typeof this.state.homeAddressGeolocation)
-    console.log('INI APA??: ', typeof this.state.officeAddressName)
-    console.log('INI APA??: ', typeof this.state.officeAddressGeolocation)
 
     AsyncStorage.getItem('id', (err, id) => {
       if (id) {
@@ -81,7 +67,6 @@ class FormPersonalization extends React.Component {
         homeAddressName: this.state.homeAddressName.length == 0 ? this.props.homeAddressName : this.state.homeAddressName
       }
     }
-    // console.log('DATA YANG MAU DIKIRIM WAKTU EDIT: ', obj)
     this.props.editUser(obj)
     this.disablePopUpPassword()
   }
@@ -100,17 +85,15 @@ class FormPersonalization extends React.Component {
       isModal: true,
       addressType,
     })
-    // console.log('ADDRESS TYPE: ', this.state.addressType)
   }
 
   render() {
-    // console.log('DATA DETAIL USER: ', this.props)
     return (
       <View style={styles.parentView}>
         <Container>
-          <Content>
+          <Content style={{backgroundColor:'#FFFFD7'}}>
             <Card style={{backgroundColor:'gainsboro'}}>
-              <CardItem style={{backgroundColor:'gainsboro'}}>
+              <CardItem style={{backgroundColor:'#FFFEEE'}}>
                 <Body>
                   <View style={{flex: 1, flexDirection: 'row'}}>
                     <View style={{flex: 1, alignItems: 'flex-start'}}>
@@ -211,35 +194,30 @@ class FormPersonalization extends React.Component {
                     style={styles.parentView}
                   >
                     <View style={styles.parentView}>
-                      <Container style={{marginTop: 22}}>
-                        <Content>
-                          <View style={{flex: 1, flexDirection: 'column'}}>
-                            <View>
-                              {this.state.password.length === 0 ? (<Text style={{color: 'red'}}>Please input your password!</Text>) : null}
-                              {/*<Item rounded>
-                                <Input
-                                  onChangeText={(text) => this.setState({password: text})}
-                                  placeholder={this.state.password.length > 0 ? this.state.password : `Your password`}
-                                  style={this.state.password.length > 0 ? {} : {color: 'lightgray'}}
-                                />
-                              </Item>*/}
+
+                          <View style={{flex: 1, flexDirection: 'column',backgroundColor:'#99d6ff'}}>
+                            <View style={{flex: 1,alignItems:'center',justifyContent:'flex-end'}}>
+                              <Text style={{color: 'navy',fontWeight:'bold',fontSize:20}}>Input your password to continue</Text>
+                              <Text />
                               <TextInput
                                 onChangeText={(text) => this.setState({ password: text })}
                                 value={ this.state.password }
-                                style={{ width: 300 }}
+                                style={{ width: 300, borderColor: 'gray', borderWidth: 1, backgroundColor:'white' }}
                                 secureTextEntry={true}
-                                placeholder='Your password'
+                                placeholder='Input your password here'
                               />
 
 
                             </View>
-                            <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-around'}}>
-                              <Button warning onPress={() => this.disablePopUpPassword()}><Text> Back </Text></Button>
-                              <Button warning onPress={() => this.successEditUser()}><Text> Save </Text></Button>
+                            <View style={{flex: 1, justifyContent:'center'}}>
+                              <Text style={{flex:1}}></Text>
+                              <View style={{flex: 4, flexDirection: 'row', justifyContent: 'space-around'}}>
+                                <Button warning onPress={() => this.disablePopUpPassword()}><Text> Back </Text></Button>
+                                <Button warning onPress={() => this.successEditUser()}><Text> Save </Text></Button>
+                              </View>
                             </View>
                           </View>
-                        </Content>
-                      </Container>
+
                     </View>
                   </Modal>
 
@@ -255,7 +233,7 @@ class FormPersonalization extends React.Component {
 
 const styles = StyleSheet.create({
   parentView:{
-    flex:1
+    flex:1.5
   },
   upcomingData:{
     flex:4
@@ -272,7 +250,6 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = state => {
-  console.log('FORMPERSONALIZATION: ', state.users)
   return {
     name: state.users.name,
     username: state.users.username,
