@@ -108,7 +108,7 @@ class AvatarPicker extends React.Component {
             <View style={styles.container}>
               <TouchableOpacity
                 onPress={this.onPickImage}
-                style={{width:150, height:150, backgroundColor: 'red'}}
+                style={{width:150, height:150, backgroundColor: '#FFFEEE'}}
               >
                 { this.state.avatar ? (
                   <Image
@@ -123,7 +123,7 @@ class AvatarPicker extends React.Component {
                 )}
               </TouchableOpacity>
 
-              <Text>You must change the profile photo.</Text>
+              {this.state.avatar?null:<Text>You must change the profile photo.</Text>}
 
             </View>
         )
@@ -134,8 +134,9 @@ class AvatarPicker extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'space-around',
-        backgroundColor: 'white',
+        justifyContent: 'center',
+        backgroundColor: '#FFFEEE',
+        alignItems:'center'
     },
     image: {
         flex:1

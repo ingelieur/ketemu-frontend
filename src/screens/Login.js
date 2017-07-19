@@ -1,6 +1,6 @@
 //import liraries
 import React from 'react';
-import { View, StyleSheet, ScrollView, TextInput, Text, TouchableHighlight } from 'react-native';
+import { View, StyleSheet, ScrollView, TextInput, Text, TouchableHighlight, Image } from 'react-native';
 import { Container, Content, Form, Item, Input, Label, Card, CardItem, Button, Icon, Spinner} from 'native-base';
 import { connect } from 'react-redux'
 import { NavigationActions } from 'react-navigation'
@@ -99,6 +99,10 @@ class Login extends React.Component {
   render() {
     return (
       <ScrollView style={styles.scroll}>
+        <Image
+          style={{width: 200,height:200,alignSelf:'center'}}
+          source={require('../assets/Quedar.png')}
+        />
         <Container>
           <View style={{height:40}}>
             <View style={{flex:1, flexDirection:'row', backgroundColor:'#d9534f'}}>
@@ -165,7 +169,6 @@ class Login extends React.Component {
                 </View>
               ) : null
               }
-
             </View>
           </Content>
         </Container>
