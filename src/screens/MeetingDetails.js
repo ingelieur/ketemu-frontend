@@ -17,7 +17,6 @@ import ParticipantDetails from '../containers/ParticipantDetails'
 class MeetingDetails extends React.Component {
   constructor(props) {
     super(props)
-      console.log('MEETING YANG DIKASIH UNTUK PROPS', this.props.meetings)
     let meetingId = this.props.navigation.state.params.id
     let meeting = this.props.meetings.find((meeting) => {
       return meeting._id == meetingId
@@ -32,14 +31,11 @@ class MeetingDetails extends React.Component {
     AsyncStorage.getItem('id', (err, id) => {
       if(id) {
         this.setState({idUser: id})
-        console.log('ASYYYYNC', id)
-        console.log(this.props.users.id)
       }
     })
   }
 
   render() {
-    console.log('ROOOOOLE', this.state.role)
     return (
       <View style={styles.container}>
         <PieChart participants={this.state.meeting.participants}/>
