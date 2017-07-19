@@ -8,7 +8,6 @@ import { Spinner } from 'native-base';
 class UpcomingScreen extends Component {
   constructor(props){
     super(props)
-
   }
 
   detailMeetUp(id){
@@ -16,6 +15,7 @@ class UpcomingScreen extends Component {
   }
 
   render() {
+    console.log('usEEEERRR', this.props.users)
     if(this.props.meetings == undefined ){
       return(
         <View style={{flex:1}}>
@@ -47,7 +47,7 @@ class UpcomingScreen extends Component {
                 return new Date(meeting.meetingTime) > new Date() && meeting.status === 'TBA'
               }).map((meeting) => {
                 return(
-                  <CardUpcomingAndHistory key={meeting._id} detailMeetUp={()=>this.detailMeetUp(meeting._id)} meetupData={meeting}/>
+                  <CardUpcomingAndHistory key={meeting._id} detailMeetUp={()=>this.detailMeetUp(meeting._id)} meetupData={meeting} userId={this.props.users.id}/>
                 )
               })
             }
@@ -55,7 +55,7 @@ class UpcomingScreen extends Component {
                 return new Date(meeting.meetingTime) > new Date() && meeting.status === 'upcoming'
               }).map((meeting) => {
                 return(
-                  <CardUpcomingAndHistory key={meeting._id} detailMeetUp={()=>this.detailMeetUp(meeting._id)} meetupData={meeting}/>
+                  <CardUpcomingAndHistory key={meeting._id} detailMeetUp={()=>this.detailMeetUp(meeting._id)} meetupData={meeting} userId={this.props.users.id}/>
                 )
               })
             }
