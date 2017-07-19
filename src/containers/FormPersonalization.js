@@ -36,23 +36,9 @@ class FormPersonalization extends React.Component {
 
   componentWillMount() {
     this.props.getCurrentLocation()
-
-    // this.setState({
-    //   homeAddressName: this.props.homeAddressName,
-    //   homeAddressGeolocation: this.props.homeAddressGeolocation,
-    //   officeAddressName: this.props.officeAddressName,
-    //   officeAddressGeolocation: this.props.officeAddressGeolocation
-    // })
   }
 
   componentDidMount() {
-    // this.props.fetchAsyncstorageId()
-    // console.log('CIHUUUUIII: ', this.props.navigateApp)
-
-    console.log('INI APA??: ', typeof this.state.homeAddressName)
-    console.log('INI APA??: ', typeof this.state.homeAddressGeolocation)
-    console.log('INI APA??: ', typeof this.state.officeAddressName)
-    console.log('INI APA??: ', typeof this.state.officeAddressGeolocation)
 
     AsyncStorage.getItem('id', (err, id) => {
       if (id) {
@@ -81,7 +67,6 @@ class FormPersonalization extends React.Component {
         homeAddressName: this.state.homeAddressName.length == 0 ? this.props.homeAddressName : this.state.homeAddressName
       }
     }
-    // console.log('DATA YANG MAU DIKIRIM WAKTU EDIT: ', obj)
     this.props.editUser(obj)
     this.disablePopUpPassword()
   }
@@ -100,11 +85,9 @@ class FormPersonalization extends React.Component {
       isModal: true,
       addressType,
     })
-    // console.log('ADDRESS TYPE: ', this.state.addressType)
   }
 
   render() {
-    // console.log('DATA DETAIL USER: ', this.props)
     return (
       <View style={styles.parentView}>
         <Container>
@@ -272,7 +255,6 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = state => {
-  console.log('FORMPERSONALIZATION: ', state.users)
   return {
     name: state.users.name,
     username: state.users.username,

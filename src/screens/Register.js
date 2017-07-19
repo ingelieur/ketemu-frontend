@@ -93,6 +93,8 @@ class Register extends React.Component {
           alert(response.data.message)
         }
       })
+    } else {
+      alert('Please input your information!')
     }
   }
 
@@ -253,7 +255,7 @@ class Register extends React.Component {
                       </Button>
                     </View>
                   </View>
-                </View>  
+                </View>
                 <Content>
                   <Card style={{paddingBottom: 15}}>
                       <Form>
