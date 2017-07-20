@@ -2,7 +2,6 @@ import React from 'react'
 import {
   StyleSheet,
   View,
-  TouchableHighlight,
 } from 'react-native'
 import {PieChart} from 'react-native-mp-android-chart'
 
@@ -35,7 +34,7 @@ export default function PieChartComp(props) {
           selectionShift: 5
         }
       }],
-      xValues: ['Yes', 'Pending', '']
+      xValues: ['Yes', 'Pending', 'No']
     },
     description: {
       text: '',
@@ -44,10 +43,6 @@ export default function PieChartComp(props) {
       fontFamily: 'monospace',
       fontStyle: 2
     }
-  }
-
-  const pressMe = () => {
-    alert('OI')
   }
 
   return (
@@ -60,7 +55,7 @@ export default function PieChartComp(props) {
         data={state.data}
         legend={state.legend}
         drawSliceText={false}
-        usePercentValues={false}
+        usePercentValues={true}
         centerText={'Participants'}
         centerTextRadiusPercent={100}
         holeRadius={40}
@@ -79,6 +74,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   chart: {
-    flex: 1
-  }
+    flex: 10
+  },
 })

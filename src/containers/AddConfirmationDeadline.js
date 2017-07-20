@@ -50,58 +50,54 @@ class AddConfirmationDeadline extends Component {
   }
 
   componentDidMount(){
-    console.log('ADD CONFIRMATION DEADLINE IS MOUNTING')
     AsyncStorage.getItem('id',  (err, id) => {
       if(id){
         this.setState({idUser:id})
       }
-      console.log('PROPSADA APA AJA SIH? ',this.props.createMeetUp.dateMeetUp)
-      this.homeOrOffice(this.props.createMeetUp.dateMeetUp)
+      //this.homeOrOffice(this.props.createMeetUp.dateMeetUp)
     })
   }
 
-  homeOrOffice = (meetingTime) => {
-    console.log('HOMEOROFFICE', meetingTime)
-    let bussinessHour = moment(meetingTime).isWorkingTime()
-    if(bussinessHour){
-      this.setState({
-        defaultAddress: 'office',
-        addressType: 'Office',
-      })
-    } else {
-      this.setState({
-        defaultAddress: 'home',
-        addressType: 'Home'
-      })
-    }
-  }
+  //homeOrOffice = (meetingTime) => {
+  //  let bussinessHour = moment(meetingTime).isWorkingTime()
+  //  if(bussinessHour){
+  //    this.setState({
+  //      defaultAddress: 'office',
+  //      addressType: 'Office',
+  //    })
+  //  } else {
+  //    this.setState({
+  //      defaultAddress: 'home',
+  //      addressType: 'Home'
+  //    })
+  //  }
+  //}
 
-  changeLocation = ((itemValue, itemIndex) => {
-    console.log('change locaton loh')
-    let isOtherLocationModal = itemValue === 'other' ? true : false
-    this.setState({
-      addressType: itemValue,
-      isOtherLocationModal: isOtherLocationModal,
-    }, (() => {
-      if (this.state.addressType !== 'others') {
-        axios.get(`http://otw-env.cjqaqzzhwf.us-west-2.elasticbeanstalk.com/detailuser/${this.state.idUser}`)
-          .then((response) => {
-            this.setState({
-              locationName: response.data[`${itemValue}AddressName`],
-              locationGeolocation: response.data[`${itemValue}AddressGeolocation`]
-            })
-          })
-      }
-    }))
-  })
+  //changeLocation = ((itemValue, itemIndex) => {
+  //  let isOtherLocationModal = itemValue === 'other' ? true : false
+  //  this.setState({
+  //    addressType: itemValue,
+  //    isOtherLocationModal: isOtherLocationModal,
+  //  }, (() => {
+  //    if (this.state.addressType !== 'others') {
+  //      axios.get(`http://otw-env.cjqaqzzhwf.us-west-2.elasticbeanstalk.com/detailuser/${this.state.idUser}`)
+  //        .then((response) => {
+  //          this.setState({
+  //            locationName: response.data[`${itemValue}AddressName`],
+  //            locationGeolocation: response.data[`${itemValue}AddressGeolocation`]
+  //          })
+  //        })
+  //    }
+  //  }))
+  //})
 
-  onCalloutPress = (results) => {
-    this.setState({
-      isOtherLocationModal: false,
-      locationName: results.placeName,
-      locationGeolocation: [results.latitude, results.longitude],
-    })
-  }
+  //onCalloutPress = (results) => {
+  //  this.setState({
+  //    isOtherLocationModal: false,
+  //    locationName: results.placeName,
+  //    locationGeolocation: [results.latitude, results.longitude],
+  //  })
+  //}
 
   createMeetUp(){
     const obj = {
@@ -111,8 +107,8 @@ class AddConfirmationDeadline extends Component {
         typePlaces:this.props.createMeetUp.placeType,
         meetingTime:this.props.createMeetUp.dateMeetUp,
         creator:this.state.idUser,
-        creatorLocationName: this.state.locationName,
-        creatorLocationGeolocation: this.state.locationGeolocation,
+        //creatorLocationName: this.state.locationName,
+        //creatorLocationGeolocation: this.state.locationGeolocation,
         participants:this.props.createMeetUp.participants.map((user)=>{
           return { user:user.id }
         }),
@@ -120,7 +116,6 @@ class AddConfirmationDeadline extends Component {
       },
       navigateApp:this.state.navigateApp,
     }
-    console.log('OOOBBBJJJJJ', obj)
     if(this.props.createMeetUp.title == '' || this.props.createMeetUp.description=='' || this.props.createMeetUp.dateMeetUp == '' || this.props.createMeetUp.placeType == '' || this.props.createMeetUp.dateDeadlineMeetUp == ''){
       alert('Data is not complete')
     } else {
@@ -129,8 +124,6 @@ class AddConfirmationDeadline extends Component {
   }
 
   render () {
-    console.log('RENDEEEER', this.state.addressType)
-    console.log('RENDEEEER', this.state.defaultAddress)
     return (
       <Container>
         <Content>
@@ -205,6 +198,7 @@ class AddConfirmationDeadline extends Component {
           onCancel={this._hideDateTimePicker}
         />
 
+      {/*
       <Modal
         animationType={"slide"}
         transparent={false}
@@ -216,7 +210,7 @@ class AddConfirmationDeadline extends Component {
           <FindAddress style={styles.container} onCalloutPress={this.onCalloutPress} addressType={this.state.addressType}></FindAddress>
         </View>
       </Modal>
-
+      */}
 
     </Container>
     );
