@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, ScrollView, RefreshControl, AsyncStorage } from 'react-native';
-import { Container, Content, Card, CardItem, Text, Body, Button, Icon, Fab, Spinner } from 'native-base';
+import { View, ScrollView, RefreshControl, AsyncStorage } from 'react-native';
+import { Container, Content, Text, } from 'native-base';
 import { ButtonAddMeeting, CardUpcomingAndHistory } from '../components'
 import { connect } from 'react-redux';
 import axios from 'axios';
@@ -26,9 +26,9 @@ class UpcomingScreen extends Component {
       if (id) {
         this.props.fetchUser(id)
         axios.get(`http://otw-env.cjqaqzzhwf.us-west-2.elasticbeanstalk.com/getmeetingsbyparticipant/${id}`)
-        .then((meetup)=>{
-          this.props.getAllMeetUps(meetup.data)
-        })
+          .then((meetup)=>{
+            this.props.getAllMeetUps(meetup.data)
+          })
       }
     })
     this.setState({refreshing: false})
@@ -38,37 +38,45 @@ class UpcomingScreen extends Component {
     if (this.props.meetings.length !== 0){
       return (
         <View style={{flex:1}}>
-        <ScrollView
-        style={styles.parentView}
-        refreshControl={
-          <RefreshControl
-            refreshing={this.state.refreshing}
-            onRefresh={this._onRefresh.bind(this)}
-          />
-        }
-        >
-          <Container style={styles.upcomingData}>
-            <Content>
-            { this.props.meetings.filter((meeting)=> {
-                return new Date(meeting.meetingTime) > new Date() && meeting.status === 'TBA'
-              }).map((meeting) => {
-                return(
-                  <CardUpcomingAndHistory key={meeting._id} detailMeetUp={()=>this.detailMeetUp(meeting._id)} meetupData={meeting} userId={this.props.users.id}/>
-                )
-              })
+          <ScrollView
+            style={styles.parentView}
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.refreshing}
+                onRefresh={this._onRefresh.bind(this)}
+              />
             }
-            { this.props.meetings.filter((meeting)=> {
-                return new Date(meeting.meetingTime) > new Date() && meeting.status === 'upcoming'
-              }).map((meeting) => {
-                return(
-                  <CardUpcomingAndHistory key={meeting._id} detailMeetUp={()=>this.detailMeetUp(meeting._id)} meetupData={meeting} userId={this.props.users.id}/>
-                )
-              })
-            }
-            </Content>
-          </Container>
-        </ScrollView>
-        <ButtonAddMeeting navigateApp={this.props.screenProps.navigateApp}/>
+          >
+            <Container style={styles.upcomingData}>
+              <Content>
+                { this.props.meetings.filter((meeting)=> {
+                  return new Date(meeting.meetingTime) > new Date() && meeting.status === 'TBA'
+                })
+                    .sort((a,b) => {
+                      return new Date(a.meetingTime) -  new Date(b.meetingTime)
+                    })
+                    .map((meeting) => {
+                      return(
+                        <CardUpcomingAndHistory key={meeting._id} detailMeetUp={()=>this.detailMeetUp(meeting._id)} meetupData={meeting} userId={this.props.users.id}/>
+                      )
+                    })
+                }
+                { this.props.meetings.filter((meeting)=> {
+                  return new Date(meeting.meetingTime) > new Date() && meeting.status === 'upcoming'
+                })
+                    .sort((a,b) => {
+                      return new Date(a.meetingTime) -  new Date(b.meetingTime)
+                    })
+                    .map((meeting) => {
+                      return(
+                        <CardUpcomingAndHistory key={meeting._id} detailMeetUp={()=>this.detailMeetUp(meeting._id)} meetupData={meeting} userId={this.props.users.id}/>
+                      )
+                    })
+                }
+              </Content>
+            </Container>
+          </ScrollView>
+          <ButtonAddMeeting navigateApp={this.props.screenProps.navigateApp}/>
         </View>
       );
     } else {
