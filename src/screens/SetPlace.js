@@ -491,6 +491,10 @@ export default class SetPlace extends Component {
       return (
         <View style={styles.container}>
           <View style={{flex:1,backgroundColor:'#3399ff',justifyContent:'center',alignItems:'center'}}>
+            <Image
+              style={{width: 200,height:200,alignSelf:'center'}}
+              source={require('../assets/Quedaricon.png')}
+            />
             {this.state.loadingMessage!='Done!'?<Spinner />:null}
             <Text style={{color:'white', fontWeight:'bold',fontSize:20}}>
               {this.state.loadingMessage}
