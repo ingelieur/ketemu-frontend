@@ -63,7 +63,6 @@ class ParticipantDetailsTBA extends React.Component {
     //})
     Axios.put(`http://otw-env.cjqaqzzhwf.us-west-2.elasticbeanstalk.com/confirmattendance/${this.props.meeting._id}`, {id: this.props.users.id, status: decision})
       .then ((response) => {
-        console.log('Axios pertama ', response)
         //this.setState({
         //  RSVP: decision,
         //})
@@ -74,22 +73,18 @@ class ParticipantDetailsTBA extends React.Component {
               let locationName = response.data[`${this.state.defaultAddress}AddressName`]
               let locationGeolocation = response.data[`${this.state.defaultAddress}AddressGeolocation`]
               let bodyChangeLocation = {id: this.props.users.id, locationName: locationName, locationGeolocation: locationGeolocation}
-              console.log('YANG MAU DIUBAH: ', bodyChangeLocation)
               Axios.put(`http://otw-env.cjqaqzzhwf.us-west-2.elasticbeanstalk.com/participantlocation/${this.props.meeting._id}`, bodyChangeLocation)
                 .then((response) => {
-                  console.log('RESPONSE GEOLOCATION', response)
                 })
             })
         }
         else {
           Axios.put(`http://otw-env.cjqaqzzhwf.us-west-2.elasticbeanstalk.com/confirmattendance/${this.props.meeting._id}`, {id: this.props.users.id, locationName: this.state.locationName, locationGeolocation: this.state.locationGeolocation})
             .then ((response) => {
-              console.log('change location : ', response)
             })
         }
       })
       .catch((error) => {
-        console.log(error)
       })
     this.props.navigateApp.navigate('LandingPage')
   }
@@ -99,7 +94,7 @@ class ParticipantDetailsTBA extends React.Component {
     this.setState({
       addressType: itemValue,
       isOtherLocationModal: isOtherLocationModal,
-    }, () => console.log('DIPENCET LOH!!!', this.state.locationName))
+    })
   })
 
   render() {

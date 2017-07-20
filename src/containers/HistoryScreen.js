@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
-import { Container, Content, Card, CardItem, Text, Body, Button, Icon, Fab } from 'native-base';
+import { View, } from 'react-native';
+import { Container, Content, Text, } from 'native-base';
 import { connect } from 'react-redux'
 
 import { ButtonAddMeeting, CardUpcomingAndHistory } from '../components'
@@ -16,37 +16,41 @@ class HistoryScreen extends Component {
     })
     return (
       <View style={styles.parentView}>
-      { historyMeetings.length == 0 ? (
-        <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
-          <Text style={{color:'white', fontWeight:'bold',fontSize:20}}>
-            You currently have no schedules
-          </Text>
-          <ButtonAddMeeting navigateApp={this.props.screenProps.navigateApp}/>
-        </View>
-      ) : (
-        <Container style={styles.historyData}>
-          <Content>
-            { historyMeetings.length == 0 ? (
-              <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
-                <Text style={{color:'white', fontWeight:'bold',fontSize:20}}>
-                  You currently have no schedules
-                </Text>
-              </View>
+        { historyMeetings.length == 0 ? (
+          <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
+            <Text style={{color:'white', fontWeight:'bold',fontSize:20}}>
+              You currently have no schedules
+            </Text>
+            <ButtonAddMeeting navigateApp={this.props.screenProps.navigateApp}/>
+          </View>
+        ) : (
+          <Container style={styles.historyData}>
+            <Content>
+              { historyMeetings.length == 0 ? (
+                <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
+                  <Text style={{color:'white', fontWeight:'bold',fontSize:20}}>
+                    You currently have no schedules
+                  </Text>
+                </View>
               ) : null
-            }
-            { this.props.meetings.filter((meeting)=> {
+              }
+              { this.props.meetings.filter((meeting)=> {
                 return new Date(meeting.meetingTime) < new Date()
-              }).map((meeting) => {
-                return(
-                  <CardUpcomingAndHistory key={meeting._id} detailMeetUp={()=>this.detailMeetUp(meeting._id)} meetupData={meeting}/>
-                )
               })
-            }
-          </Content>
-          <ButtonAddMeeting navigateApp={this.props.screenProps.navigateApp}/>
-        </Container>
+                  .sort((a,b) => {
+                    return new Date(a.meetingTime) - new Date(b.meetingTime)
+                  })
+                  .map((meeting) => {
+                    return(
+                      <CardUpcomingAndHistory key={meeting._id} detailMeetUp={()=>this.detailMeetUp(meeting._id)} meetupData={meeting}/>
+                    )
+                  })
+              }
+            </Content>
+            <ButtonAddMeeting navigateApp={this.props.screenProps.navigateApp}/>
+          </Container>
         )
-      }
+        }
       </View>
     );
   }
