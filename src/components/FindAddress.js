@@ -42,7 +42,7 @@ class FindAddress extends React.Component {
           latitude={this.state.latitude}
           longitude={this.state.longitude}
           zoom='0.1'
-          markerTitle={this.props.addressType}
+          markerTitle={`Set as your ${this.props.addressType} address`}
           markerDesc={this.state.placeName}
           onCalloutPress={() => {this.props.onCalloutPress(this.state.placeName.length > 0 ? {...this.state, type: this.props.addressType} : null)}}/>
         <View style={styles.search}>
