@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
-import { TouchableOpacity, View, AsyncStorage, } from 'react-native';
+import { StyleSheet, TouchableOpacity, View, AsyncStorage, Picker, Modal,} from 'react-native';
 import { Container, Content, Card, CardItem, Text, Body, Item, Input, Button, Icon } from 'native-base';
-import { inputDateDeadlineMeetUp } from '../actions'
 import { createMeetUp } from '../actions/createMeetUp'
 import { connect } from 'react-redux'
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import axios from 'axios'
+import moment from 'moment-business-time'
+
+import { inputDateDeadlineMeetUp } from '../actions'
+import { FindAddress } from '../components'
 
 class AddConfirmationDeadline extends Component {
   constructor(props){
@@ -13,10 +16,14 @@ class AddConfirmationDeadline extends Component {
     this.state = {
       navigateApp:this.props.screenProps.navigateApp,
       isDateTimePickerVisible: false,
-      idUser:''
+      idUser:'',
+      locationName: '',
+      locationGeolocation: '',
+      defaultAddresss: '',
+      isOtherLocationModal: false,
+      addressType:'',
     };
   }
-
 
   _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
   _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
@@ -43,10 +50,56 @@ class AddConfirmationDeadline extends Component {
   }
 
   componentDidMount(){
+    console.log('ADD CONFIRMATION DEADLINE IS MOUNTING')
     AsyncStorage.getItem('id',  (err, id) => {
       if(id){
         this.setState({idUser:id})
       }
+      console.log('PROPSADA APA AJA SIH? ',this.props.createMeetUp.dateMeetUp)
+      this.homeOrOffice(this.props.createMeetUp.dateMeetUp)
+    })
+  }
+
+  homeOrOffice = (meetingTime) => {
+    console.log('HOMEOROFFICE', meetingTime)
+    let bussinessHour = moment(meetingTime).isWorkingTime()
+    if(bussinessHour){
+      this.setState({
+        defaultAddress: 'office',
+        addressType: 'Office',
+      })
+    } else {
+      this.setState({
+        defaultAddress: 'home',
+        addressType: 'Home'
+      })
+    }
+  }
+
+  changeLocation = ((itemValue, itemIndex) => {
+    console.log('change locaton loh')
+    let isOtherLocationModal = itemValue === 'other' ? true : false
+    this.setState({
+      addressType: itemValue,
+      isOtherLocationModal: isOtherLocationModal,
+    }, (() => {
+      if (this.state.addressType !== 'others') {
+        axios.get(`http://otw-env.cjqaqzzhwf.us-west-2.elasticbeanstalk.com/detailuser/${this.state.idUser}`)
+          .then((response) => {
+            this.setState({
+              locationName: response.data[`${itemValue}AddressName`],
+              locationGeolocation: response.data[`${itemValue}AddressGeolocation`]
+            })
+          })
+      }
+    }))
+  })
+
+  onCalloutPress = (results) => {
+    this.setState({
+      isOtherLocationModal: false,
+      locationName: results.placeName,
+      locationGeolocation: [results.latitude, results.longitude],
     })
   }
 
@@ -58,6 +111,8 @@ class AddConfirmationDeadline extends Component {
         typePlaces:this.props.createMeetUp.placeType,
         meetingTime:this.props.createMeetUp.dateMeetUp,
         creator:this.state.idUser,
+        creatorLocationName: this.state.locationName,
+        creatorLocationGeolocation: this.state.locationGeolocation,
         participants:this.props.createMeetUp.participants.map((user)=>{
           return { user:user.id }
         }),
@@ -65,6 +120,7 @@ class AddConfirmationDeadline extends Component {
       },
       navigateApp:this.state.navigateApp,
     }
+    console.log('OOOBBBJJJJJ', obj)
     if(this.props.createMeetUp.title == '' || this.props.createMeetUp.description=='' || this.props.createMeetUp.dateMeetUp == '' || this.props.createMeetUp.placeType == '' || this.props.createMeetUp.dateDeadlineMeetUp == ''){
       alert('Data is not complete')
     } else {
@@ -73,11 +129,20 @@ class AddConfirmationDeadline extends Component {
   }
 
   render () {
-
+    console.log('RENDEEEER', this.state.addressType)
+    console.log('RENDEEEER', this.state.defaultAddress)
     return (
       <Container>
         <Content>
-          <Text>TARO SELECTOR SINI YAAAA...</Text>
+          <Text>Where will you be around the meeting time?</Text>
+          <Picker
+            selectedValue={this.state.addressType}
+            onValueChange={(itemValue, itemIndex) => this.changeLocation(itemValue, itemIndex)}
+          >
+            <Picker.Item label="Home" value="home" />
+            <Picker.Item label="Office" value="office" />
+            <Picker.Item label="Other location" value="other" />
+          </Picker>
           <Card style={{marginLeft:4, marginRight:4}}>
             <CardItem header>
               <Text>Set confirmation deadline</Text>
@@ -111,22 +176,22 @@ class AddConfirmationDeadline extends Component {
                   </View>
 
                   <View style={{flex:1, flexDirection:'row'}}>
-                  <Item regular style={{flex:12, height:30, marginLeft:3}}>
-                    { this.props.createMeetUp.dateDeadlineMeetUp == '' ?
-                      (<Text></Text>) : (
-                        <Text style={{marginLeft:4}}>
-                          {
-                            `${this.props.createMeetUp.dateDeadlineMeetUp.getDate()}/${this.props.createMeetUp.dateDeadlineMeetUp.getMonth()+1}/${this.props.createMeetUp.dateDeadlineMeetUp.getFullYear()}`
-                          }
-                        </Text>
-                      )
-                    }
-                  </Item>
+                    <Item regular style={{flex:12, height:30, marginLeft:3}}>
+                      { this.props.createMeetUp.dateDeadlineMeetUp == '' ?
+                        (<Text></Text>) : (
+                          <Text style={{marginLeft:4}}>
+                            {
+                              `${this.props.createMeetUp.dateDeadlineMeetUp.getDate()}/${this.props.createMeetUp.dateDeadlineMeetUp.getMonth()+1}/${this.props.createMeetUp.dateDeadlineMeetUp.getFullYear()}`
+                            }
+                          </Text>
+                        )
+                      }
+                    </Item>
                   </View>
                 </View>
               </Body>
             </CardItem>
-         </Card>
+          </Card>
         </Content>
 
         <Button full onPress={()=> this.createMeetUp() }>
@@ -140,8 +205,20 @@ class AddConfirmationDeadline extends Component {
           onCancel={this._hideDateTimePicker}
         />
 
+      <Modal
+        animationType={"slide"}
+        transparent={false}
+        visible={this.state.isOtherLocationModal}
+        onRequestClose={() => {}}
+        style={styles.container}
+      >
+        <View style={styles.container}>
+          <FindAddress style={styles.container} onCalloutPress={this.onCalloutPress} addressType={this.state.addressType}></FindAddress>
+        </View>
+      </Modal>
 
-      </Container>
+
+    </Container>
     );
   }
 }
@@ -160,3 +237,9 @@ const mapDispatchToProps = (dispatch) =>{
 }
 
 export default connect(mapStateToProps, mapDispatchToProps) (AddConfirmationDeadline)
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  }
+})
