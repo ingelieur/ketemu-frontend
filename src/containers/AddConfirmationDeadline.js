@@ -134,7 +134,7 @@ class AddConfirmationDeadline extends Component {
     return (
       <Container>
         <Content>
-          <Text>Where will you be around the meeting time?</Text>
+          {/*<Text>Where will you be around the meeting time?</Text>
           <Picker
             selectedValue={this.state.addressType}
             onValueChange={(itemValue, itemIndex) => this.changeLocation(itemValue, itemIndex)}
@@ -142,7 +142,7 @@ class AddConfirmationDeadline extends Component {
             <Picker.Item label="Home" value="home" />
             <Picker.Item label="Office" value="office" />
             <Picker.Item label="Other location" value="other" />
-          </Picker>
+          </Picker>*/}
           <Card style={{marginLeft:4, marginRight:4}}>
             <CardItem header>
               <Text>Set confirmation deadline</Text>
