@@ -44,8 +44,8 @@ class AddConfirmationDeadline extends Component {
   };
 
   convertDate(waktu){
-    waktu.getHours() < 10 ? jam=`0${waktu.getHours()}` : jam=`${waktu.getHours}`
-    waktu.getMinutes() < 10 ? menit=`0${waktu.getMinutes()}` : menit=`${waktu.getMinutes}`
+    waktu.getHours() < 10 ? jam=`0${waktu.getHours()}` : jam=`${waktu.getHours()}`
+    waktu.getMinutes() < 10 ? menit=`0${waktu.getMinutes()}` : menit=`${waktu.getMinutes()}`
     return `${jam}:${menit}`
   }
 
