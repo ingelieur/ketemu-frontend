@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TouchableOpacity, View, AsyncStorage } from 'react-native';
+import { TouchableOpacity, View, AsyncStorage, } from 'react-native';
 import { Container, Content, Card, CardItem, Text, Body, Item, Input, Button, Icon } from 'native-base';
 import { inputDateDeadlineMeetUp } from '../actions'
 import { createMeetUp } from '../actions/createMeetUp'
@@ -77,6 +77,7 @@ class AddConfirmationDeadline extends Component {
     return (
       <Container>
         <Content>
+          <Text>TARO SELECTOR SINI YAAAA...</Text>
           <Card style={{marginLeft:4, marginRight:4}}>
             <CardItem header>
               <Text>Set confirmation deadline</Text>
@@ -123,7 +124,6 @@ class AddConfirmationDeadline extends Component {
                   </Item>
                   </View>
                 </View>
-
               </Body>
             </CardItem>
          </Card>

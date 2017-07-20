@@ -1,9 +1,12 @@
 import React from 'react'
-import { StyleSheet, View, Alert, Image} from 'react-native'
+import { StyleSheet, View, Alert, Picker, Modal, } from 'react-native'
 import Axios from 'axios'
 import { connect } from 'react-redux'
 import { Container, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body } from 'native-base';
 import { NavigationActions } from 'react-navigation'
+import moment from 'moment-business-time'
+
+import { FindAddress } from '../components'
 
 class ParticipantDetailsTBA extends React.Component {
   constructor(props) {
@@ -11,28 +14,93 @@ class ParticipantDetailsTBA extends React.Component {
     this.state = {
       RSVP: this.props.meeting.participants.find(participant => {
         return participant.user._id == this.props.users.id
-      }).status
+      }).status,
+      locationName: this.props.meeting.participants.find(participant => {
+        return participant.user._id == this.props.users.id
+      }).locationName,
+      locationGeolocation: '',
+      defaultAddresss: '',
+      isOtherLocationModal: false,
+      addressType:'',
     }
   }
 
-  handleRSVP = (decision) => {
-    const goToUpcomingScreen = NavigationActions.reset({
-      index: 0,
-      action: [
-        NavigationActions.navigate({ routeName: 'LandingPage' })
-      ]
+  componentDidMount() {
+    if(this.state.locationName == '') {
+      this.homeOrOffice(this.props.meeting.meetingTime)
+    }
+  }
+
+  homeOrOffice = (meetingTime) => {
+    let bussinessHour = moment(meetingTime).isWorkingTime()
+    if(bussinessHour){
+      this.setState({
+        defaultAddress: 'office',
+        addressType: 'Office',
+      })
+    } else {
+      this.setState({
+        defaultAddress: 'home',
+        addressType: 'Home'
+      })
+    }
+  }
+
+  onCalloutPress = (results) => {
+    this.setState({
+      isOtherLocationModal: false,
+      locationName: results.placeName,
+      locationGeolocation: [results.latitude, results.longitude],
     })
+  }
+
+  handleRSVP = (decision) => {
+    //const goToUpcomingScreen = NavigationActions.reset({
+    //  index: 0,
+    //  action: [
+    //    NavigationActions.navigate({ routeName: 'LandingPage' })
+    //  ]
+    //})
     Axios.put(`http://otw-env.cjqaqzzhwf.us-west-2.elasticbeanstalk.com/confirmattendance/${this.props.meeting._id}`, {id: this.props.users.id, status: decision})
       .then ((response) => {
-        this.setState({
-          RSVP: decision,
-        })
-        this.props.navigateApp.dispatch(goToUpcomingScreen)
+        console.log('Axios pertama ', response)
+        //this.setState({
+        //  RSVP: decision,
+        //})
+        //this.props.navigateApp.dispatch(goToUpcomingScreen)
+        if (this.state.addressType !== 'others') {
+          Axios.get(`http://otw-env.cjqaqzzhwf.us-west-2.elasticbeanstalk.com/detailuser/${this.props.users.id}`)
+            .then((response) => {
+              let locationName = response.data[`${this.state.defaultAddress}AddressName`]
+              let locationGeolocation = response.data[`${this.state.defaultAddress}AddressGeolocation`]
+              let bodyChangeLocation = {id: this.props.users.id, locationName: locationName, locationGeolocation: locationGeolocation}
+              console.log('YANG MAU DIUBAH: ', bodyChangeLocation)
+              Axios.put(`http://otw-env.cjqaqzzhwf.us-west-2.elasticbeanstalk.com/participantlocation/${this.props.meeting._id}`, bodyChangeLocation)
+                .then((response) => {
+                  console.log('RESPONSE GEOLOCATION', response)
+                })
+            })
+        }
+        else {
+          Axios.put(`http://otw-env.cjqaqzzhwf.us-west-2.elasticbeanstalk.com/confirmattendance/${this.props.meeting._id}`, {id: this.props.users.id, locationName: this.state.locationName, locationGeolocation: this.state.locationGeolocation})
+            .then ((response) => {
+              console.log('change location : ', response)
+            })
+        }
       })
       .catch((error) => {
+        console.log(error)
       })
     this.props.navigateApp.navigate('LandingPage')
   }
+
+  changeLocation = ((itemValue, itemIndex) => {
+    let isOtherLocationModal = itemValue === 'other' ? true : false
+    this.setState({
+      addressType: itemValue,
+      isOtherLocationModal: isOtherLocationModal,
+    }, () => console.log('DIPENCET LOH!!!', this.state.locationName))
+  })
 
   render() {
     let hours = new Date(this.props.meeting.meetingTime).getHours() < 10 ? `0${new Date(this.props.meeting.meetingTime).getHours()}` : `${new Date(this.props.meeting.meetingTime).getHours()}`
@@ -57,17 +125,28 @@ class ParticipantDetailsTBA extends React.Component {
             <CardItem style={{marginTop:-10}}>
               <Body style={{marginTop:-5}}>
                 <View style={styles.container}>
-                    { this.state.RSVP==='pending'?(
+                  {/*{ this.state.locationName == '' ? (
+                    <Text>Where will you be around the meeting time?</Text> ) : null
+                  }*/}
+                  { this.state.RSVP==='pending'?(
+                    <View style={{flex:1, flexDirection: 'column'}}>
+                      <Text>Where will you be around the meeting time?</Text>
+                      <Picker
+                        selectedValue={this.state.addressType}
+                        onValueChange={(itemValue, itemIndex) => this.changeLocation(itemValue, itemIndex)}>
+                        <Picker.Item label={this.state.defaultAddress} value={this.state.defaultAddress} />
+                        <Picker.Item label="Other location" value="other" />
+                      </Picker>
                       <View style={{flex:1, flexDirection:'row'}}>
                         <Button info style={{marginRight:3}}>
                           <Text onPress={() =>
-                            this.handleRSVP('yes')}>
-                            IM GOING
-                          </Text>
-                        </Button>
+                              this.handleRSVP('yes')}>
+                              IM GOING
+                            </Text>
+                          </Button>
 
-                        <Button danger style={{marginLeft:3}}>
-                          <Text onPress={() => Alert.alert(
+                          <Button danger style={{marginLeft:3}}>
+                            <Text onPress={() => Alert.alert(
                               'Not Going',
                               'Are you sure?',
                               [
@@ -80,15 +159,16 @@ class ParticipantDetailsTBA extends React.Component {
                           </Text>
                         </Button>
                       </View>
-                    ):(
-                      <View style={{flex:1, flexDirection:'row'}}>
-                        <Button success style={{marginRight:3}}>
-                          <Text>
-                            You RSVP to this Event
-                          </Text>
-                        </Button>
-                      </View>
-                    )}
+                    </View>
+                  ):(
+                    <View style={{flex:1, flexDirection:'row'}}>
+                      <Button success style={{marginRight:3}}>
+                        <Text>
+                          You RSVP to this Event
+                        </Text>
+                      </Button>
+                    </View>
+                  )}
 
 
 
@@ -106,6 +186,17 @@ class ParticipantDetailsTBA extends React.Component {
             </CardItem>
           </Card>
         </Content>
+        <Modal
+          animationType={"slide"}
+          transparent={false}
+          visible={this.state.isOtherLocationModal}
+          onRequestClose={() => {}}
+          style={styles.container}
+        >
+          <View style={styles.container}>
+            <FindAddress style={styles.container} onCalloutPress={this.onCalloutPress} addressType={this.state.addressType}></FindAddress>
+          </View>
+        </Modal>
       </Container>
     )
   }
