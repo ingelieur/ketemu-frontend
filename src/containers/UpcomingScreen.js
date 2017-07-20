@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, ListView, RefreshControl, AsyncStorage } from 'react-native';
+import { View, StyleSheet, ScrollView, RefreshControl, AsyncStorage } from 'react-native';
 import { Container, Content, Card, CardItem, Text, Body, Button, Icon, Fab, Spinner } from 'native-base';
 import { ButtonAddMeeting, CardUpcomingAndHistory } from '../components'
 import { connect } from 'react-redux';
@@ -40,7 +40,7 @@ class UpcomingScreen extends Component {
     if (this.props.meetings.length !== 0){
       return (
         <View style={{flex:1}}>
-        <ListView
+        <ScrollView
         style={styles.parentView}
         refreshControl={
           <RefreshControl
@@ -69,7 +69,7 @@ class UpcomingScreen extends Component {
             }
             </Content>
           </Container>
-        </ListView>
+        </ScrollView>
         <ButtonAddMeeting navigateApp={this.props.screenProps.navigateApp}/>
         </View>
       );
