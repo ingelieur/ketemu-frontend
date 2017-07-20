@@ -47,10 +47,8 @@ class AvatarPicker extends React.Component {
                 this.setState({
                     avatar: source
                 })
-                // console.log('URL IMAGE: ', this.state.avatar)
                 AsyncStorage.getItem('user', (err, user) => {
                   AsyncStorage.getItem('id', (err, id) => {
-                    // console.log(`USER IMAGE PICKER: ${id}_${user}`)
                     const fileName = `${id}_${user}.png`
                     const file = {
                       uri: this.state.avatar.uri,
@@ -68,11 +66,9 @@ class AvatarPicker extends React.Component {
                     };
 
                     RNS3.put(file, options).then(response => {
-                      // console.log('|||||||||||: ', response)
                       if (response.status !== 201) {
                         throw new Error('Failed to upload image to S3', response);
                       }
-                      // console.log('*** BODY ***', response.body);
                       this.props.updateAvatar(response.body.postResponse.location)
                     });
                   })
@@ -143,13 +139,6 @@ const styles = StyleSheet.create({
     }
 });
 
-const mapStateToProps = state => {
-  console.log('ImagePicker: ***', state)
-  return {
-
-  }
-}
-
 const mapDispatchToProps = dispatch => {
   return {
     updateAvatar: data => {
@@ -159,4 +148,4 @@ const mapDispatchToProps = dispatch => {
 }
 
 //make this component available to the app
-export default connect(mapStateToProps, mapDispatchToProps)(AvatarPicker);
+export default connect(null, mapDispatchToProps)(AvatarPicker);

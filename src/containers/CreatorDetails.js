@@ -15,13 +15,11 @@ class CreatorDetails extends React.Component {
   }
 
   cancelMeeting(id) {
-    console.log('axioooos looo')
     Axios.delete(`http://otw-env.cjqaqzzhwf.us-west-2.elasticbeanstalk.com/deletemeetup/${id}`)
       .then(() => {
         this.props.navigateApp.navigate('LandingPage')
       })
       .catch((error) => {
-        console.log(error)
       })
   }
 
@@ -72,7 +70,7 @@ class CreatorDetails extends React.Component {
           <Card style={{flex: 0, marginLeft:4, marginRight:4}}>
             <CardItem>
               <Left>
-                <Thumbnail source={{uri: 'http://www.leanport.com/wp-content/uploads/2017/04/plushero.jpg'}} />
+                <Thumbnail square size={80} source={require('../assets/Quedaricon.png')} />
                 <Body style={{flex:1, flexWrap: 'wrap'}}>
                   <Text style={{fontWeight: 'bold'}}>{this.props.meeting.title}</Text>
                   <Text>
@@ -106,7 +104,7 @@ class CreatorDetails extends React.Component {
                             'Cancel Meeting',
                             'Are you sure?',
                             [
-                              {text: 'NO', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                              {text: 'NO', onPress: () => {}, style: 'cancel'},
                               {text: 'YES', onPress: () => this.cancelMeeting(this.props.meeting._id)},
                             ],
                             { cancelable: false }

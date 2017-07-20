@@ -23,10 +23,8 @@ class LandingPage extends React.Component {
     }
   }
 
-
   componentDidMount() {
     AsyncStorage.getItem('id', (err, id) => {
-      console.log('dari saat abis kill',id);
       if (id) {
         this.props.fetchUser(id)
         axios.get(`http://otw-env.cjqaqzzhwf.us-west-2.elasticbeanstalk.com/getmeetingsbyparticipant/${id}`)
@@ -64,7 +62,6 @@ class LandingPage extends React.Component {
 }
 
 const mapStateToProps = state => {
-  console.log('aldy state',state);
   return {
     users:state.users
   }

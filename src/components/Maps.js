@@ -26,7 +26,6 @@ export default function Maps(props) {
       style={styles.container}
       region={region}
       onRegionChangeComplete={() => {
-        console.log('myMarker: ', myMarker)
         props.markerDesc.length > 0 ? myMarker.showCallout() : myMarker.hideCallout()}
       }
       onCalloutPress={ props.onCalloutPress && props.markerDesc.length > 0 ? () => {props.onCalloutPress()} : () => {}}
@@ -34,7 +33,7 @@ export default function Maps(props) {
       <MapView.Marker
         coordinate={markerPosition}
         ref={ref => {myMarker = ref}}
-        title={props.markerTitle ? `Set as ${props.markerTitle}` : `You are here`}
+        title={props.markerTitle ? props.markerTitle : `You are here`}
         description={props.markerDesc || ''}
       />
     </MapView>
