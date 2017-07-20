@@ -27,8 +27,6 @@ class UpcomingScreen extends Component {
         this.props.fetchUser(id)
         axios.get(`http://otw-env.cjqaqzzhwf.us-west-2.elasticbeanstalk.com/getmeetingsbyparticipant/${id}`)
         .then((meetup)=>{
-          console.log('ambil meeting baru niiih')
-          console.log(meetup.data)
           this.props.getAllMeetUps(meetup.data)
         })
       }
@@ -76,12 +74,22 @@ class UpcomingScreen extends Component {
     } else {
       return(
         <View style={{flex:1}}>
+        <ScrollView
+        style={styles.parentView}
+        refreshControl={
+          <RefreshControl
+            refreshing={this.state.refreshing}
+            onRefresh={this._onRefresh.bind(this)}
+          />
+        }
+        >
           <View style={{flex:1,backgroundColor:'#b3e0ff',justifyContent:'center',alignItems:'center'}}>
             <Text style={{color:'white', fontWeight:'bold',fontSize:20}}>
               You currently have no schedules
             </Text>
             <ButtonAddMeeting navigateApp={this.props.screenProps.navigateApp}/>
           </View>
+        </ScrollView>  
         </View>
       )
     }
