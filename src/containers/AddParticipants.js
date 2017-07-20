@@ -52,7 +52,7 @@ class AddParticipants extends React.Component {
   createParticipants(){
     const navigasiNext = this.props.navigation.navigate;
     if(this.state.users.length<1){
-      alert('wrong participants')
+      alert('You should select at least 1 participant')
     } else {
       this.props.create_Participants(this.state.users)
       navigasiNext('AddConfirmationDeadline')
