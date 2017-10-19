@@ -4,12 +4,13 @@ import {
     View,
     Button,
     Image,
-    ActivityIndicator,
     StyleSheet,
     AsyncStorage,
     TouchableOpacity,
     Text,
 } from 'react-native';
+
+import Config from 'react-native-config'
 
 import ImagePicker from 'react-native-image-picker'
 
@@ -58,10 +59,10 @@ class AvatarPicker extends React.Component {
 
                     const options = {
                       keyPrefix: 'profile_pictures/',
-                      bucket: 'elasticbeanstalk-us-west-2-183031211456',
-                      region: 'us-west-2',
-                      accessKey: 'AKIAJI7F5NUCEVR4MCDA',
-                      secretKey: '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',
+                      bucket: Config.BUCKET,
+                      region: Config.REGION,
+                      accessKey: Config.ACCESS_KEY,
+                      secretKey: Config.SECRET_KEY,
                       successActionStatus: 201
                     };
 
